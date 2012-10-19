@@ -1,22 +1,22 @@
 /*
  * Node libs
  */
-var express = require('express')
- , app = express()
- , server = require('http').createServer(app)
- , io = require('socket.io').listen(server)
- , mongoose = require('mongoose');
+var express = require('express'),
+	app = express(),
+	server = require('http').createServer(app),
+	io = require('socket.io').listen(server),
+	mongoose = require('mongoose');
  
 
 /*
  * Server libs
  */
-var settings = require('./libs/Settings') 
-, arrays = require('./libs/misc')
-, DBManager = require('./libs/DBManager')
-, User = require('./libs/User')
-, Debug = require('./libs/Debug')
-, Server = this;
+var settings = require('./libs/Settings') ,
+	arrays = require('./libs/misc'),
+	DBManager = require('./libs/DBManager'),
+	User = require('./libs/User'),
+	Debug = require('./libs/Debug'),
+	Server = this;
 
 /*
  * This is a example of how you would include a js file from the client.

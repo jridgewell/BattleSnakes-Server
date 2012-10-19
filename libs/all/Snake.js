@@ -1,9 +1,8 @@
 var GameObject = require('./GameObject');
+var Teams = require('./Teams');
 
 Snake.prototype = new GameObject();
 Snake.prototype.constructor = Snake;
-
-var Teams = {"Red":0, "Blue":1}; 
 
 function Snake(id)
 {
@@ -38,4 +37,3 @@ function Snake(id)
 }
 
 module.exports = Snake;
-module.exports = Teams;

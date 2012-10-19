@@ -1,6 +1,6 @@
-var HOST = "localhost",
-	PORT = "80",
-	MONGO = "mongodb://127.0.0.1/data/db";
+var HOST = 'localhost',
+	PORT = '8000',
+	MONGO = 'mongodb://127.0.0.1/data/db';
 
 /*
  * 0 = No Debug
