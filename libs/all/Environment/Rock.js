@@ -1,24 +1,16 @@
-var GameObject = require('./Environment');
+var Environment = require('./Environment');
 
-Rock.prototype = new Environment();
-Rock.prototype.constructor = Rock;
+var Rock = Environment.extend({
+	init: function() {
+		// put initlize code here
+	},
 
-
-function Rock()
-{
-	
-    __construct = function() 
-    {
-    	
-    	// put initlize code here
-    }();
-	
-	this.Collision = function(data)
-	{
-		// Collision override 
-	};
-	
-
-}
+	collision: function(data) {
+		// _super() can ONLY be called inside
+		// inside of the extend function.
+		// DON'T USE IT ANYWHERE ELSE
+		this._super();
+	}
+});
 
 module.exports = Rock;

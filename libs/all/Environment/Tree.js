@@ -1,24 +1,13 @@
-var GameObject = require('./Environment');
+var Environment = require('./Environment');
 
-Tree.prototype = new Environment();
-Tree.prototype.constructor = Tree;
+var Tree = Environment.extend({
+	init: function() {
+		// put initlize code here
+	},
 
-
-function Tree()
-{
-	
-    __construct = function() 
-    {
-    	
-    	// put initlize code here
-    }();
-	
-	this.Collision = function(data)
-	{
-		// Collision override 
-	};
-	
-
-}
+	collision: function(data) {
+		// overrides Environment's collision
+	}
+});
 
 module.exports = Tree;
