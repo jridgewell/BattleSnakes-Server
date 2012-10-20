@@ -27,7 +27,7 @@ function Snake(id) {
 		
 	}
 	
-	function send() {
+	this.send = function() {
 		return {
 			name: this.name,
 			id: this.id,

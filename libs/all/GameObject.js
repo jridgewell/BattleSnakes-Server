@@ -11,7 +11,7 @@ GameObject.prototype.extend({
 		y: 0
 	},
 
-	Collision : function(gameObj) {
+	collision : function(gameObj) {
 		console.log("test");
 	}
 });
