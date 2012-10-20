@@ -28,6 +28,9 @@ Point.prototype.extend({
 			x: parseFloat(this.x().toFixed(4)),
 			y: parseFloat(this.y().toFixed(4))
 		};
+	},
+	clone: function() {
+		return new Point(this.x, this.y);
 	}
 });
 

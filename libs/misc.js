@@ -15,6 +15,19 @@ Array.prototype.compact = function(fn) {
 	return this;
 };
 
+Array.prototype.clone = function() {
+	return Array.prototype.slice.call(this);
+}
+
+Function.prototype.clone = function() {
+    var that = this;
+    var temp = function temporary() { return that.apply(this, arguments); };
+    for( prop in this ) {
+        temp[prop] = this[prop];
+    }
+    return temp;
+};
+
 Object.defineProperty(Object.prototype, 'extend', {
 	value: function(source) {
 		for (var prop in source) {
