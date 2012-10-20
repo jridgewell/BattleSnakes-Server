@@ -29,7 +29,7 @@ var settings = require('./libs/Settings') ,
 /*
  * Vars
  */
-var num_users = 1;
+var num_users = 0;
 var users = new Array();
 var EnvironmentObjects = new Array();
 var MiniSnakes = new Array();
@@ -60,10 +60,10 @@ dbm = new DBManager(settings.MONGO);
 
 io.set('log level', settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
+	++num_users;
     d.log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
     user = new User(socket, function(data){Server.PayerEvent(data);}, num_users);
     users.push(user);
-    num_users++;
 });
 
 /*
@@ -96,7 +96,7 @@ Server.PayerEvent = function(data)
 	switch(data.type)
 	{
 		case 'Disconnect':
-			//handle the disconnect
+			--num_users;
 		default:
 			
 	}
