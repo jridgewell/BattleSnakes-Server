@@ -12,6 +12,7 @@ function User(socket, playerevent, snakeID)
 
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
+ 	socket.emit('message', snake.send());
 
 	function handleMessage(socket, e)
 	{
