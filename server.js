@@ -60,7 +60,7 @@ dbm = new DBManager(settings.MONGO);
 
 io.set('log level', settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
-    d.Log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
+    d.log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
     user = new User(socket, function(data){Server.PayerEvent(data);}, num_users);
     users.push(user);
     num_users++;
@@ -101,5 +101,5 @@ Server.PayerEvent = function(data)
 			
 	}
 	
-	d.Log(1,data.type);
+	d.log(1,data.type);
 };
