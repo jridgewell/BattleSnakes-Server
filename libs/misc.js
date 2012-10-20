@@ -15,11 +15,12 @@ Array.prototype.compact = function(fn) {
 	return this;
 };
 
-Object.defineProperty(Object.prototype, 'mergePrototypeWith', {
+Object.defineProperty(Object.prototype, 'extend', {
 	value: function(source) {
 		for (var prop in source) {
-			this[prop] = source[prop];
+			if (prop != 'constructor') this[prop] = source[prop];
 		}
+		return this;
 	},
 	configurable: true,
 	enumerable: false,
