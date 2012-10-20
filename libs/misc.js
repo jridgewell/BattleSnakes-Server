@@ -14,3 +14,14 @@ Array.prototype.compact = function(fn) {
 		}
 	return this;
 };
+
+Object.defineProperty(Object.prototype, 'mergePrototypeWith', {
+	value: function(source) {
+		for (var prop in source) {
+			this[prop] = source[prop];
+		}
+	},
+	configurable: true,
+	enumerable: false,
+	writable: true
+});
