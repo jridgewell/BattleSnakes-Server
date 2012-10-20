@@ -1,8 +1,4 @@
-var GameObject = require('./Environment');
-
-Bush.prototype = new Environment();
-Bush.prototype.constructor = Bush;
-
+var Environment = require('./Environment');
 
 function Bush()
 {
@@ -20,5 +16,7 @@ function Bush()
 	
 
 }
+
+Bush.prototype.extend(Environment.prototype);
 
 module.exports = Bush;

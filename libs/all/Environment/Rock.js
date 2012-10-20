@@ -1,8 +1,4 @@
-var GameObject = require('./Environment');
-
-Rock.prototype = new Environment();
-Rock.prototype.constructor = Rock;
-
+var Environment = require('./Environment');
 
 function Rock()
 {
@@ -20,5 +16,7 @@ function Rock()
 	
 
 }
+
+Rock.prototype.extend(Environment.prototype);
 
 module.exports = Rock;

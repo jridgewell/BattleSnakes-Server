@@ -1,8 +1,4 @@
-var GameObject = require('./Environment');
-
-Tree.prototype = new Environment();
-Tree.prototype.constructor = Tree;
-
+var Environment = require('./Environment');
 
 function Tree()
 {
@@ -20,5 +16,7 @@ function Tree()
 	
 
 }
+
+Tree.prototype.extend(Environment.prototype);
 
 module.exports = Tree;

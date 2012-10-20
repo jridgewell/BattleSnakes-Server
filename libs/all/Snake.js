@@ -1,11 +1,7 @@
 var GameObject = require('./GameObject');
 var Teams = require('./Teams');
 
-Snake.prototype = new GameObject();
-Snake.prototype.constructor = Snake;
-
-function Snake(id)
-{
+function Snake(id) {
 	this.id = id;
 	var name;  // String
 	var team; // Teams obj
@@ -33,7 +29,11 @@ function Snake(id)
 	};
 	
 	//passes in a Powerup Object
-	function UsePowerup(powerup)
+	function UsePowerup(powerup) {
+		
+	}
 }
+
+Snake.prototype.extend(GameObject.prototype);
 
 module.exports = Snake;

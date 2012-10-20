@@ -10,7 +10,8 @@ var Point = function(x, y) {
 
 	this.set(x, y);
 };
-Point.prototype.mergePrototypeWith({
+
+Point.prototype.extend({
 	x: function() {
 		return this.x;
 	},
