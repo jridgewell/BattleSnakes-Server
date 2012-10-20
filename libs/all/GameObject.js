@@ -1,15 +1,16 @@
-require('../misc');
-var GameObject = Class.extend({
-	init: function() {
+function GameObject(){}
 
-	},
-	id: 0,
-	type: '',
-	isCollidable: false,
-	position: {x: 0, y: 0},
-	collision: function(gameObj) {
-		console.log('test');
+GameObject.prototype = 
+{
+	id : 0,
+	type : "",
+	isCollidable : false,
+	position : {x:0,y:0},
+	
+	Collision : function(gameObj)
+	{
+		console.log("test");
 	}
-});
+};
 
 module.exports = GameObject;

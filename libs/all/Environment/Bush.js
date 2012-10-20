@@ -1,13 +1,24 @@
-var Environment = require('./Environment');
+var GameObject = require('./Environment');
 
-var Bush = Environment.extend({
-	init: function() {
-		// put initlize code here
-	},
+Bush.prototype = new Environment();
+Bush.prototype.constructor = Bush;
 
-	collision: function(data) {
-		// overrides GameObject's collision
-	}
-});
+
+function Bush()
+{
+	
+    __construct = function() 
+    {
+    	
+    	// put initlize code here
+    }();
+	
+	this.Collision = function(data)
+	{
+		// Collision override 
+	};
+	
+
+}
 
 module.exports = Bush;

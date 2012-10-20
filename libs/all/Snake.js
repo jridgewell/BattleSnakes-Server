@@ -1,34 +1,39 @@
 var GameObject = require('./GameObject');
 var Teams = require('./Teams');
 
-var Snake = GameObject.extend({
-	init: function(id) {
-		this.id = id;
-	},
-	name: null,  // String
-	team: Teams.Red, // Teams obj
-	color: 'FF0000',  // Hex ex: 00FF00
-	velocity: 1, // float
-	currentPowerups: null, // Powerup Object
-	numSegments: 1, // int
-	segments: [], // array of segments
+Snake.prototype = new GameObject();
+Snake.prototype.constructor = Snake;
 
-	collision: function(data)
+function Snake(id)
+{
+	this.id = id;
+	var name;  // String
+	var team; // Teams obj
+	var color;  // Hex ex: 00FF00
+	var velocity; // float
+	var currentPowerups; // Powerup Object
+	var numSegments; // int
+	var segments; // array of segments
+	
+    __construct = function() 
+    {
+    	
+    	// put initlize code here
+    }();
+	
+	this.Collision = function(data)
 	{
-		// collision override
-	},
-
-	//passes in a string 'Red' or 'Blue'
-	changeTeam: function(team)
+		// Collision override 
+	};
+	
+	//passes in a string "Red" or "Blue"
+	function ChangeTeam(team)
 	{
-
-	},
-
+		
+	};
+	
 	//passes in a Powerup Object
-	usePowerup: function(powerup)
-	{
-
-	},
-});
+	function UsePowerup(powerup)
+}
 
 module.exports = Snake;
