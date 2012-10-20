@@ -1,20 +1,12 @@
 var Environment = require('./Environment');
 
-function Bush()
-{
+function Bush() {
+	// Constructor code here
 	
-    __construct = function() 
-    {
-    	
-    	// put initlize code here
-    }();
-	
-	this.Collision = function(data)
-	{
+	// this.[whatever] are public methods
+	this.collision = function(data) {
 		// Collision override 
 	};
-	
-
 }
 
 Bush.prototype.extend(Environment.prototype);

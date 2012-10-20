@@ -11,12 +11,6 @@ function Snake(id) {
 	var numSegments; // int
 	var segments; // array of segments
 	
-    __construct = function() 
-    {
-    	
-    	// put initlize code here
-    }();
-	
 	this.Collision = function(data)
 	{
 		// Collision override 
@@ -26,7 +20,7 @@ function Snake(id) {
 	function ChangeTeam(team)
 	{
 		
-	};
+	}
 	
 	//passes in a Powerup Object
 	function UsePowerup(powerup) {

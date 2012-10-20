@@ -1,20 +1,12 @@
 var Environment = require('./Environment');
 
-function Rock()
-{
+function Rock() {
+	// Constructor code here
 	
-    __construct = function() 
-    {
-    	
-    	// put initlize code here
-    }();
-	
-	this.Collision = function(data)
-	{
+	// this.[whatever] are public methods
+	this.collision = function(data) {
 		// Collision override 
 	};
-	
-
 }
 
 Rock.prototype.extend(Environment.prototype);

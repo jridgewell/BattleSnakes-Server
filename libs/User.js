@@ -8,21 +8,12 @@ var d = new Debug();
  */
 function User(socket, playerevent, snakeID)
 {
-	var snake;
-
-	__construct = function()
-	{
-		snake = new Snake(snakeID);
-		// put initlize code here
-	}();
-
+	var snake = new Snake(snakeID);
 
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
 
-
-
-	function handleMessage(socket,e)
+	function handleMessage(socket, e)
 	{
 		/*
 		 * parse JSON and read in the var 'type' to
@@ -33,20 +24,15 @@ function User(socket, playerevent, snakeID)
 		 * var data = JSON.parse(e);
 		 * if(data.type == 'init')
 		 */
-
+		d.log(3, e);
+	 	socket.emit('message', snake.send());
 	};
 
 	function handleDisconnect(e)
 	{
-		/*
-		 * Let the server know that his user disconnected
-		 * so it can let the rest of the world know. use playerevent callback
-		 */
-
-		var disconnectMsg =
-		{
+		var disconnectMsg = {
 			type: 'Disconnect',
-			userid: '4985729', // just a example id
+			userid: snakeID
 		};
 
 		playerevent(disconnectMsg);

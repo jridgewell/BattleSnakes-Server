@@ -1,6 +1,4 @@
-var Teams = {
+module.exports = {
 	Red: 0,
 	Blue: 1
 };
-
-module.exports = Teams;
