@@ -16,9 +16,19 @@ Array.prototype.compact = function(fn) {
 };
 
 Object.defineProperty(Object.prototype, 'extend', {
-	value: function(source) {
+	value: function(source, skipConstructor) {
+		skipConstructor = (skipConstructor != undefined) ? skipConstructor: false;
 		for (var prop in source) {
-			if (prop != 'constructor') this[prop] = source[prop];
+			if (!skipConstructor || prop != 'constructor') {
+				var s = source[prop];
+				if (typeof s != 'object') {
+					this[prop] = s;
+				} else if (Object.prototype.toString.call(s) == Object.prototype.toString.call([])){
+					this[prop] = Array.prototype.slice.call(s);
+				} else {
+					this[prop] = {}.extend(s, true);
+				}
+			}
 		}
 		return this;
 	},
