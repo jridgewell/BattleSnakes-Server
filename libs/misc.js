@@ -16,17 +16,21 @@ Array.prototype.compact = function(fn) {
 };
 
 Object.defineProperty(Object.prototype, 'extend', {
-	value: function(source, skipConstructor) {
-		skipConstructor = (skipConstructor != undefined) ? skipConstructor: false;
+	value: function(source) {
 		for (var prop in source) {
-			if (!skipConstructor || prop != 'constructor') {
+			if (prop != 'constructor') {
 				var s = source[prop];
-				if (typeof s != 'object') {
+				if (typeof s == 'function') {
+					this[prop] = s.clone();
+				} else if (typeof s != 'object') {
 					this[prop] = s;
-				} else if (Object.prototype.toString.call(s) == Object.prototype.toString.call([])){
-					this[prop] = Array.prototype.slice.call(s);
 				} else {
-					this[prop] = {}.extend(s, true);
+					if ('clone' in s && typeof s.clone == 'function') {
+						this[prop] = s.clone();
+					} else {
+						// There are references to the Parent's objects
+						this[prop] = s;
+					}
 				}
 			}
 		}
