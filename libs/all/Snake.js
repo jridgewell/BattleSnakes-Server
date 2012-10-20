@@ -3,23 +3,26 @@ var Teams = require('./Teams');
 
 function Snake(id) {
 	this.id = id;
-	var name;  // String
-	var team; // Teams obj
-	var color;  // Hex ex: 00FF00
-	var velocity; // float
-	var currentPowerups; // Powerup Object
-	var numSegments; // int
-	var segments; // array of segments
+	this.type = this.constructor.name
+	this.isCollidable = true;
+
+	var name = 'Guest' + id;	// String
+	var team = Teams.Red;		// Teams obj
+	var color = 'FF0000';		// Hex ex: 00FF00
+	var velocity = 1;			// float
+	var currentPowerups = null;	// Powerup Object
+	var numSegments = 1;		// int
+	var segments = [];			// array of segments
 	
-	this.Collision = function(data)
-	{
+	this.collision = function(data) {
 		// Collision override 
 	};
 	
 	//passes in a string "Red" or "Blue"
-	function ChangeTeam(team)
-	{
-		
+	function ChangeTeam(newTeam) {
+		if (Teams.hasOwnProperty(newTeam)) {
+			team = newTeam;
+		}
 	}
 	
 	//passes in a Powerup Object
@@ -29,12 +32,12 @@ function Snake(id) {
 	
 	this.send = function() {
 		return {
-			name: this.name,
-			id: this.id,
+			name: name,
+			id: id,
 			position: this.position,
-			team: this.team,
-			color: this.color,
-			segments: this.segments
+			team: team,
+			color: color,
+			segments: segments
 		}
 	}
 }
