@@ -94,7 +94,6 @@ Server.PayerEvent = function(data)
 		case 'Disconnect':
 			--num_users;
 		default:
-			
 	}
 	
 	d.log(1,data.type);
