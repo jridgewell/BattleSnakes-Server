@@ -72,22 +72,18 @@ io.sockets.on('connection', function (socket) {
 
 Server.CreateWorld = function()
 {
-	
 };
 
 Server.EndGame = function()
 {
-	
 };
 
 Server.StartGame = function()
 {
-	
 };
 
 Server.UpdateTimer = function()
 {
-	
 };
 
 Server.PayerEvent = function(data)
