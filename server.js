@@ -6,7 +6,7 @@ var express = require('express'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
 	mongoose = require('mongoose');
- 
+
 
 /*
  * Server libs
