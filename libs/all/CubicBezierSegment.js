@@ -1,4 +1,4 @@
-require('./Point');
+var Point = require('./Point');
 var CubicBezierCurve = require('./CubicBezierCurve');
 /* CubicBezierSegment class
  *
@@ -24,7 +24,7 @@ CubicBezierSegment.prototype.extend({
 		this.control1 = (control1 instanceof Point) ? control1 : new Point();
 		this.control2 = (control2 instanceof Point) ? control2 : new Point();
 		this.to = (to instanceof Point) ? to : new Point();
-	}
+	},
 	clone: function() {
 		var c = new CubicBezierSegment(this.from, this.control1, this.control2, this.to);
 		return c;
