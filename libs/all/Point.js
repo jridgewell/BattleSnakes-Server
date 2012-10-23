@@ -35,7 +35,8 @@ Point.prototype.extend({
 		};
 	},
 	clone: function() {
-		return new Point(this.x, this.y);
+		var p = new Point(this.x, this.y); 
+		return p;
 	}
 });
 
