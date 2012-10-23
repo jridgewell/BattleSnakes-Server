@@ -9,11 +9,19 @@ var Point = function(x, y) {
 };
 
 Point.prototype.extend({
-	x: function() {
-		return this.x;
+	rotationMatrix: function(theta /*degrees*/) {
+		var r = theta * Math.PI / 180;
+		return [
+			[Math.cos(r), -Math.sin(r)],
+			[Math.sin(r), Math.cos(r)]
+		];
 	},
-	y: function() {
-		return this.y;
+	rotate: function(theta /*degrees*/) {
+		var m = this.rotationMatrix(theta);
+		return new Point(
+			(m[0][0] * this.x + m[0][1] * this.y),
+			(m[1][0] * this.x + m[1][1] * this.y)
+		);
 	},
 	set: function(x /* Float */, y /* Float */) {
 		this.x = (typeof x == 'number') ? x : 0;
