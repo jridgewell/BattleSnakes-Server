@@ -5,9 +5,6 @@ require('../misc');
  * https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/graphics/wince/PlatformPathWinCE.h#L32-55
  */
 var Point = function(x, y) {
-	x = (typeof x == 'number') ? x : 0;
-	y = (typeof y == 'number') ? y : 0;
-
 	this.set(x, y);
 };
 
@@ -19,8 +16,8 @@ Point.prototype.extend({
 		return this.y;
 	},
 	set: function(x /* Float */, y /* Float */) {
-		this.x = x;
-		this.y = y;
+		this.x = (typeof x == 'number') ? x : 0;
+		this.y = (typeof y == 'number') ? y : 0;
 		return this;
 	},
 	get: function() {
