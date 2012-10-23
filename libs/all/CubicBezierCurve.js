@@ -1,39 +1,42 @@
 var Point = require('./Point');
+var CubicBezierSegment = require('./CubicBezierSegment');
 
 /* CubicBezierCurve class
  *
  * Based on code from:
  * https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/graphics/wince/PlatformPathWinCE.cpp#L77-118
  */
-module.exports =  function(controlPts /* Array[Points] */, pts /* Array[{x: x, y: y}] */, segments /*= 100 */) {
+module.exports =  function(controlPts /* CubicBezierSegment */, previousPts /* Array[Points] */, segments /*= 100 */) {
 	// Enforce types
-	if (typeof controlPts != 'object' || Object.prototype.toString.call(controlPts) != Object.prototype.toString.call([]) || controlPts.length != 4) {
-		return pts;
+	if (!(controlPts instanceof CubicBezierSegment)) {
+		return previousPts;
 	}
-	if (typeof pts != 'object' && Object.prototype.toString.call(pts) != Object.prototype.toString.call([])) {
-		pts = [];
+	if (typeof previousPts != 'object' && Object.prototype.toString.call(previousPts) != Object.prototype.toString.call([])) {
+		previousPts = [];
 	}
 	segments = (typeof segments == 'number') ? Math.round(segments) : 100;
 	// Setup need vars
 	var step = 1.0 / segments,
 		tA = 0.0,
 		tB = 1.0;
+
+    var c1x = controlPts.from.x,
+    	c1y = controlPts.from.y,
+    	c2x = controlPts.control1.x,
+    	c2y = controlPts.control1.y,
+    	c3x = controlPts.control2.x,
+    	c3y = controlPts.control2.y,
+    	c4x = controlPts.to.x,
+    	c4y = controlPts.to.y;
+
 	var pp = new Point(c1x, c2x);
 
-    var c1x = controlPts[0].x(),
-    	c1y = controlPts[0].y(),
-    	c2x = controlPts[1].x(),
-    	c2y = controlPts[1].y(),
-    	c3x = controlPts[2].x(),
-    	c3y = controlPts[2].y(),
-    	c4x = controlPts[3].x(),
-    	c4y = controlPts[3].y();
 
 	for (var i = 1; i < segments; ++i) {
 		tA += step;
 		tB -= step;
-		var tAsq = (tA * tA).toPrecision(4);
-		var tBsq = (tB * tB).toPrecision(4);
+		var tAsq = (tA * tA);
+		var tBsq = (tB * tB);
 
 		a = tBsq * tB;
 		b = 3.0 * tA * tBsq;
@@ -44,10 +47,10 @@ module.exports =  function(controlPts /* Array[Points] */, pts /* Array[{x: x, y
 			c1x * a + c2x * b + c3x * c + c4x * d,
 			c1y * a + c2y * b + c3y * c + c4y * d
 		);
-		pts.push(pp.get());
+		previousPts.push(pp.clone());
 	}
 	pp.set(c4x, c4y);
-	pts.push(pp.get());
+	previousPts.push(pp.clone());
 
-	return pts;
+	return previousPts;
 };
