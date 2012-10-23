@@ -12,7 +12,15 @@ function User(socket, playerevent, snakeID)
 
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
- 	socket.emit('message', snake.send());
+	handleIntro(socket);
+	
+	function handleIntro() {
+		var msg = {
+			type: 'intro',
+			data: snake.send()
+		}
+	 	socket.emit(msg.type, playerevent(msg));
+	}
 
 	function handleMessage(socket, e)
 	{
@@ -31,12 +39,12 @@ function User(socket, playerevent, snakeID)
 
 	function handleDisconnect(e)
 	{
-		var disconnectMsg = {
-			type: 'Disconnect',
+		var msg = {
+			type: 'disconnect',
 			userid: snakeID
 		};
 
-		playerevent(disconnectMsg);
+		playerevent(msg);
 	};
 }
 

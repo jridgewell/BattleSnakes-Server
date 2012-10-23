@@ -7,6 +7,8 @@
 		<script type="text/javascript">
 		var socket = io.connect('http://' + document.location.host);
 		socket.on('message', function(data) {console.log(data)});
+		socket.on('intro', function(data) {console.log(data)});
+		// socket.on('message', function(data) {console.log(data)});
 		</script>
 	</body>
 </html>

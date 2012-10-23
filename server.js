@@ -62,7 +62,7 @@ io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
     d.log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
-    user = new User(socket, function(data){Server.PayerEvent(data);}, num_users);
+    user = new User(socket, Server.PayerEvent, num_users);
     users.push(user);
 });
 
@@ -86,15 +86,19 @@ Server.UpdateTimer = function()
 {
 };
 
-Server.PayerEvent = function(data)
+Server.PayerEvent = function(event)
 {
 	// example of how you should handle the data
-	switch(data.type)
+	switch(event.type)
 	{
-		case 'Disconnect':
+		case 'intro':
+			return event.data.extend({
+				score: gameScore,
+				currentTime: currentGameTime
+			});
+			break;
+		case 'disconnect':
 			--num_users;
 		default:
 	}
-	
-	d.log(1,data.type);
 };
