@@ -12,11 +12,6 @@ DONTENUMERATE(Array.prototype, 'remove', function(e) {
 		if (e == this[i]) return this.splice(i, 1);
 });
 
-DONTENUMERATE(Array.prototype, 'each', function(fn) {
-	for (var i = 0; i < this.length; ++i) fn(this[i]);
-	return this;
-});
-
 DONTENUMERATE(Array.prototype, 'compact', function(fn) {
 	for (var i = this.length - 1; i >= 0; --i)
 		if (this[i] == null) {
