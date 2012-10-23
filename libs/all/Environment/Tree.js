@@ -5,11 +5,7 @@ function Tree() {
 	// this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
-	
-	// this.[whatever] are public methods
-	this.collision = function(data) {
-		// Collision override 
-	};
+	this.height = 100;
 }
 
 Tree.prototype.extend(Environment.prototype);

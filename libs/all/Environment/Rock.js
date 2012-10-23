@@ -5,11 +5,6 @@ function Rock() {
 	// this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
-	
-	// this.[whatever] are public methods
-	this.collision = function(data) {
-		// Collision override 
-	};
 }
 
 Rock.prototype.extend(Environment.prototype);
