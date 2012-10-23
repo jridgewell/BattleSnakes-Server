@@ -22,8 +22,8 @@ Point.prototype.extend({
 	},
 	get: function() {
 		return {
-			x: parseFloat(this.x().toFixed(4)),
-			y: parseFloat(this.y().toFixed(4))
+			x: this.x,
+			y: this.y
 		};
 	},
 	clone: function() {
