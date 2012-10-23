@@ -11,8 +11,8 @@ var express = require('express'),
 /*
  * Server libs
  */
-var settings = require('./libs/Settings') ,
-	arrays = require('./libs/misc'),
+require('./libs/misc');
+var Settings = require('./libs/Settings') ,
 	DBManager = require('./libs/DBManager'),
 	User = require('./libs/User'),
 	Debug = require('./libs/Debug'),
@@ -44,7 +44,7 @@ var d = new Debug();
  * Express and SocketIO config
  */
 
-server.listen(settings.PORT);
+server.listen(Settings.PORT);
 
 app.configure(function () {
     app.use(express.static(__dirname + '/public'));
@@ -54,11 +54,11 @@ app.get('/', function (req, res, next) {
     res.render('public/index.html');
 });
 
-console.log('Server running at http://'+settings.HOST+':'+settings.PORT+'/');
+console.log('Server running at http://'+Settings.HOST+':'+Settings.PORT+'/');
 
-dbm = new DBManager(settings.MONGO);
+dbm = new DBManager(Settings.MONGO);
 
-io.set('log level', settings.DEBUGLEVEl);
+io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
     d.log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
