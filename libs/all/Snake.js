@@ -18,7 +18,7 @@ function Snake(id) {
 	var currentPowerups = null;	// Powerup Object
 	var numSegments = 1;		// int
 	var segments = [
-		new CubicBezierSegment();
+		new CubicBezierSegment()
 	];							// array of segments
 	
 	// I (snakeA) report I hit another snake (snakeB)
