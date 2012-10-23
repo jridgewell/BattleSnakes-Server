@@ -26,12 +26,19 @@ Vector.prototype.extend({
 		);
 		return v;
 	},
+	center: function() {
+		var v = new Vector(
+			this.from.translate(this.from),
+			this.to.translate(this.from)
+		);
+		return v;
+	},
 	unRotate: function() {
 		var v = this.rotate(-1 * this.angle());
 		return v;
 	},
 	angle: function() { /*degrees*/
-		return (Math.atan2(this.dy(), this.dx()) / Math.PI * 180);
+		return ((Math.atan2(-1 * this.dy(), -1 * this.dx()) / Math.PI * 180) + 180);
 	},
 	dx: function() {
 		return (this.to.x - this.from.x);
