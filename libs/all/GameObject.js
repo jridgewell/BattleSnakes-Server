@@ -5,12 +5,13 @@ function GameObject(){}
 
 GameObject.prototype.extend({
 	id: 0,
-	type: "",
+	type: '',
 	isCollidable: false,
 	position: new Point(),
+	stationary: true,
 
 	collision: function(gameObj) {
-		console.log("test");
+		console.log('test');
 	}
 });
 
