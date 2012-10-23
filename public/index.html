@@ -6,8 +6,13 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript">
 		var socket = io.connect('http://' + document.location.host);
-		socket.on('message', function(data) {console.log(data)});
-		socket.on('intro', function(data) {console.log(data)});
+		function logger(type, data) {
+			console.log('-------------------');
+			console.log(type + ' packet');
+			console.log(data);
+		}
+		socket.on('message', function(data) {logger('message', data)});
+		socket.on('intro', function(data) {logger('intro', data)});
 		// socket.on('message', function(data) {console.log(data)});
 		</script>
 	</body>
