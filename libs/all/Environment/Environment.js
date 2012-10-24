@@ -20,8 +20,6 @@ Environment.prototype.extend(GameObject.prototype).extend({
 				this.position.x + this.width/2,
 				this.position.y - this.height/2
 			);
-		console.log(topLeft, bottomRight);
-		console.log(gameObject.position);
 		return gameObject.position.inside(topLeft, bottomRight);
 	}
 });
