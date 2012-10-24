@@ -14,7 +14,7 @@ function Snake(id) {
 	var name = 'Guest' + id;	// String
 	var team = Teams.Red;		// Teams obj
 	var color = 'FF0000';		// Hex ex: 00FF00
-	var velocity = new Vector();// float
+	this.velocity = new Vector();// float
 	var currentPowerups = null;	// Powerup Object
 	var numSegments = 1;		// int
 	var segments = [
@@ -26,18 +26,16 @@ function Snake(id) {
 	// snakeB.collision(offset, angle, v)
 	this.collide = function(gameObject) {
 		if (gameObject.stationary) {
-			return gameObject.collision(this.velocity.to);
+			return gameObject.collision(this.position);
 		}
-		var offset = this.velocity.from;
-		var angle = this.velocity.angle();
-		var v = this.velocity.center().unRotate();
-		return gameObject.collision()
+		return gameObject.collision(this.position, this.velocity);
 	};
 
-	// A snake (snakeA) reports it me
-	this.collision = function(offset /*Point*/, angle /*degrees*/, v /*Vector*/) {
+	// A snake (snakeA) reports hit it me
+	this.collision = function(offset /*Point*/, v /*Vector*/) {
 		for (var i = 0; i < segments.length; ++i) {
 			var s = segments[i].translate(offset);
+			var angle = v.angle();
 			s = s.rotate(-1 * angle);
 			var m = v.magnitude();
 			return s.isZero(m);
