@@ -3,33 +3,23 @@ var Point = require('./Point');
 /* Vector class
  *
  */
-var Vector = function(from /*Point*/, to /*Point*/) {
-	this.set(from, to);
+var Vector = function(to /*Point*/) {
+	this.set(to);
 };
 
 Vector.prototype.extend({
 	get: function() {
 		return {
-			from: this.from,
 			to: this.to
 		};
 	},
-	set: function(from /*Point*/, to /*Point*/) {
-		this.from = (from instanceof Point) ? from : new Point();
+	set: function(to /*Point*/) {
 		this.to = (to instanceof Point) ? to : new Point();;
 		return this;
 	},
 	rotate: function(theta /*degrees*/) {
 		var v = new Vector(
-			this.from.rotate(theta),
 			this.to.rotate(theta)
-		);
-		return v;
-	},
-	center: function() {
-		var v = new Vector(
-			this.from.translate(this.from),
-			this.to.translate(this.from)
 		);
 		return v;
 	},
@@ -41,10 +31,10 @@ Vector.prototype.extend({
 		return ((Math.atan2(-1 * this.dy(), -1 * this.dx()) / Math.PI * 180) + 180);
 	},
 	dx: function() {
-		return (this.to.x - this.from.x);
+		return this.to.x;
 	},
 	dy: function() {
-		return (this.to.y - this.from.y);
+		return this.to.y;
 	},
 	magnitude: function() {
 		dy = this.dy();
@@ -52,7 +42,7 @@ Vector.prototype.extend({
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
 	clone: function() {
-		var v =  new Vector(this.from.clone(), this.to.clone());
+		var v =  new Vector(this.to.clone());
 		return v;
 	}
 });
