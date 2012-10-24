@@ -16,10 +16,10 @@ function User(socket, playerevent, snakeID)
 	
 	function handleIntro() {
 		var msg = {
-			type: 'message',
+			type: 'intro',
 			data: snake.send()
 		}
-	 	socket.emit(msg.type, playerevent(msg));
+	 	socket.emit('message', playerevent(msg));
 	}
 
 	function handleMessage(socket, e)
