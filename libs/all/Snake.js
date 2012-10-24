@@ -17,7 +17,7 @@ function Snake(id) {
 	this.velocity = new Vector();// float
 	var currentPowerups = null;	// Powerup Object
 	var numSegments = 1;		// int
-	var segments = [
+	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
 	
@@ -33,8 +33,8 @@ function Snake(id) {
 
 	// A snake (snakeA) reports hit it me
 	this.collision = function(offset /*Point*/, v /*Vector*/) {
-		for (var i = 0; i < segments.length; ++i) {
-			var s = segments[i].translate(offset);
+		for (var i = 0; i < this.segments.length; ++i) {
+			var s = this.segments[i].translate(offset);
 			var angle = v.angle();
 			s = s.rotate(-1 * angle);
 			var m = v.magnitude();

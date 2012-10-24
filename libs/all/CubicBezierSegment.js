@@ -46,11 +46,32 @@ CubicBezierSegment.prototype.extend({
 		return false;
 	},
 	x: function(t) {
-		var p1 = this.from.x;
-		var p2 = this.control1.x;
-		var p3 = this.control2.x;
-		var p4 = this.to.x;
+		return this.coordinate('x', t);
+	},
+	y: function(t) {
+		return this.coordinate('y', t);
+	},
+	xPrime: function(t) {
+		return this.coordinatePrime('x', t);
+	},
+	yPrime: function(t) {
+		return this.coordinatePrime('y', t);
+	},
+	coordinate: function(xOrY /*string, 'x' or 'y'*/, t) {
+		xOrY = (xOrY == 'y') ? xOrY : 'x';
+		var p1 = this.from[xOrY];
+		var p2 = this.control1[xOrY];
+		var p3 = this.control2[xOrY];
+		var p4 = this.to[xOrY];
 		return ((-p1+3*p2-3*p3+p4)*t*t*t + (3*p1-6*p2+3*p3)*t*t + (-3*p1+3*p2)*t + p1);
+	},
+	coordinatePrime: function(xOrY /*string, 'x' or 'y'*/, t) {
+		xOrY = (xOrY == 'y') ? xOrY : 'x';
+		var p1 = this.from[xOrY];
+		var p2 = this.control1[xOrY];
+		var p3 = this.control2[xOrY];
+		var p4 = this.to[xOrY];
+		return (3*(-p1+3*p2-3*p3+p4)*t*t + 2*(3*p1-6*p2+3*p3)*t + (-3*p1+3*p2));
 	},
 	roots: function() {
 		var epsilon = 1e-6;
@@ -58,19 +79,39 @@ CubicBezierSegment.prototype.extend({
 		// http://www.kevlindev.com/gui/math/polynomial/Polynomial.js
 		// TODO: Code can probably be optimized.
 		// TODO: We are focused on a very select group of roots. D:[0, 1]
-		var results = new Array();
+		var results = [];
 		
 		var p1 = this.from.y;
 		var p2 = this.control1.y;
 		var p3 = this.control2.y;
 		var p4 = this.to.y;
-		
-		
+				
 		var c3 = (-p1+3*p2-3*p3+p4); //t^3
+		
+		if (Math.abs(c3) <= epsilon) {
+			var bottom = (2*(p1-2*p2+p3));
+			if (Math.abs(bottom) <= epsilon) {
+				var t = .5;
+				for (var i = 0; i < 10; ++i) {
+					var y = this.y(t);
+					if (Math.abs(y) <= epsilon) {
+						break;
+					}
+					t -= y/this.yPrime(t);
+				}
+				if (Math.abs(this.y(t)) <= epsilon) {
+					results.push(t);
+				}
+			} else {
+				results.push((p1-p2) / bottom);
+			}
+			return results;
+		}
+		
 		var c2 = (3*p1-6*p2+3*p3) / c3;//t^2
 		var c1 = (-3*p1+3*p2) / c3; //t^1
 		var c0 = p1 / c3; //t^0
-		
+				
 		var a = (3*c1 - c2*c2) / 3;
 		var b = (2*c2*c2*c2 - 9*c1*c2 + 27*c0) / 27;
 		var offset = c2 / 3;
