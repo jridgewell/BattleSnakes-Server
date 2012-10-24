@@ -93,6 +93,7 @@ Server.PayerEvent = function(event)
 	{
 		case 'intro':
 			return event.data.extend({
+				type: 'intro',
 				score: gameScore,
 				currentTime: currentGameTime
 			});

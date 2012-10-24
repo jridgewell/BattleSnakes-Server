@@ -16,7 +16,7 @@ function User(socket, playerevent, snakeID)
 	
 	function handleIntro() {
 		var msg = {
-			type: 'intro',
+			type: 'message',
 			data: snake.send()
 		}
 	 	socket.emit(msg.type, playerevent(msg));
