@@ -42,8 +42,6 @@ Point.prototype.extend({
 		return p;
 	},
 	inside: function(topLeft, bottomRight) {
-		console.log(this.x >= topLeft.x, this.x <= bottomRight.x);
-		console.log(this.y <= topLeft.y, this.y >= bottomRight.y);
 		if (this.x >= topLeft.x && this.x <= bottomRight.x) {
 			if (this.y <= topLeft.y && this.y >= bottomRight.y) {
 				return true;
