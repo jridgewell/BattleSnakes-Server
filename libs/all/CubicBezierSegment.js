@@ -36,10 +36,28 @@ CubicBezierSegment.prototype.extend({
 		roots = roots.filter(function(t) {
 			return (t >= 0 && t <= 1);
 		});
-		return (roots.length > 0);
+		for (var i = 0; i < roots.length; ++i) {
+			var root = roots[i];
+			var xt = this.x(root);
+			if (xt >= 0 && xt <= x) {
+				return true;
+			}
+		}
+		return false;
+	},
+	x: function(t) {
+		var p1 = this.from.x;
+		var p2 = this.control1.x;
+		var p3 = this.control2.x;
+		var p4 = this.to.x;
+		return ((-p1+3*p2-3*p3+p4)*t*t*t + (3*p1-6*p2+3*p3)*t*t + (-3*p1+3*p2)*t + p1);
 	},
 	roots: function() {
 		var epsilon = 1e-6;
+		// Pure genius
+		// http://www.kevlindev.com/gui/math/polynomial/Polynomial.js
+		// TODO: Code can probably be optimized.
+		// TODO: We are focused on a very select group of roots. D:[0, 1]
 		var results = new Array();
 		
 		var p1 = this.from.y;
@@ -50,14 +68,14 @@ CubicBezierSegment.prototype.extend({
 		
 		var c3 = (-p1+3*p2-3*p3+p4); //t^3
 		var c2 = (3*p1-6*p2+3*p3) / c3;//t^2
-		var c1 = (-3*p1+3*p2) / c3;//t^1
-		var c0 = p1 / c3;//t^0
+		var c1 = (-3*p1+3*p2) / c3; //t^1
+		var c0 = p1 / c3; //t^0
 		
-		var a	   = (3*c1 - c2*c2) / 3;
-		var b	   = (2*c2*c2*c2 - 9*c1*c2 + 27*c0) / 27;
-		var offset  = c2 / 3;
+		var a = (3*c1 - c2*c2) / 3;
+		var b = (2*c2*c2*c2 - 9*c1*c2 + 27*c0) / 27;
+		var offset = c2 / 3;
 		var discrim = b*b/4 + a*a*a/27;
-		var halfB   = b / 2;
+		var halfB = b / 2;
 		
 		if ( Math.abs(discrim) <= epsilon ) disrim = 0;
 		
