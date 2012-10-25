@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 function DBManager(mongodbPath)
 {
-	mongoose.connect(mongodbPath);
+	//mongoose.connect(mongodbPath);
 
 	var Schema = mongoose.Schema;
 	var ObjectId = Schema.ObjectID;

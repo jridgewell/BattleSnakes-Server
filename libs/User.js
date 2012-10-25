@@ -5,21 +5,38 @@ var d = new Debug();
 
 /*
  * playerevent is your callback method to report anything to server class
+ * 
+ * Have all your communication socket wise in here. The User controls the snake.
  */
 function User(socket, playerevent, snakeID)
 {
-	var snake = new Snake(snakeID);
-
+	var user = this;
+	var snake;
+	this.socketID;
+	this.userID = snakeID;
+	
+	init();
+	
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
-	handleIntro(socket);
 	
-	function handleIntro() {
-		var msg = {
-			type: 'intro',
-			data: snake.send()
-		}
-	 	socket.emit('message', playerevent(msg));
+	function init()
+	{
+		snake = new Snake(snakeID);
+		socketID = socket.id;
+		
+		var introPacket = 
+		{
+			type: "intro",
+			id: snake.id,
+			name: snake.name,
+			position: snake.position,
+			team: snake.team,
+			color: snake.color,
+			segments: snake.segments
+		};
+		
+		playerevent({type: 'intro',socketID: socketID, packet: introPacket});
 	}
 
 	function handleMessage(socket, e)
@@ -41,10 +58,21 @@ function User(socket, playerevent, snakeID)
 	{
 		var msg = {
 			type: 'disconnect',
-			userid: snakeID
+			userid: user.userID
 		};
 
 		playerevent(msg);
+	};
+	
+	this.joinGridRoom = function(gridID)
+	{
+		socket.join(gridID);
+	};
+	
+	
+	this.leaveGridRoom = function(gridID)
+	{
+		socket.leave(gridID);
 	};
 }
 

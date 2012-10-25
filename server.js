@@ -30,6 +30,7 @@ var Settings = require('./libs/Settings') ,
  * Vars
  */
 var num_users = 0;
+var user_ids = 1000;
 var users = new Array();
 var EnvironmentObjects = new Array();
 var MiniSnakes = new Array();
@@ -61,8 +62,8 @@ dbm = new DBManager(Settings.MONGO);
 io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
-    d.log(1,'A user with id '+num_users+' at ('+socket.handshake.address.address+') connected!');
-    user = new User(socket, Server.PayerEvent, num_users);
+    var user = new User(socket, Server.PayerEvent, user_ids++);
+    d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
     users.push(user);
 });
 
@@ -92,13 +93,10 @@ Server.PayerEvent = function(event)
 	switch(event.type)
 	{
 		case 'intro':
-			return event.data.extend({
-				type: 'intro',
-				score: gameScore,
-				currentTime: currentGameTime
-			});
+			io.sockets.socket(event.socketID).json.send(event.packet);
 			break;
 		case 'disconnect':
+			 d.log(1,'User '+event.userid+' has disconnected!');
 			--num_users;
 		default:
 	}

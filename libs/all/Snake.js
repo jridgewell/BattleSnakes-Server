@@ -53,17 +53,6 @@ function Snake(id) {
 	function UsePowerup(powerup) {
 		
 	}
-	
-	this.send = function() {
-		return {
-			name: name,
-			id: id,
-			position: this.position,
-			team: team,
-			color: color,
-			segments: segments
-		}
-	}
 }
 
 Snake.prototype.extend(GameObject.prototype);
