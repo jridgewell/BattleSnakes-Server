@@ -92,6 +92,8 @@ Server.PayerEvent = function(event)
 	// example of how you should handle the data
 	switch(event.type)
 	{
+		case 'test':
+			io.sockets.emit('message', 'Youll see this');
 		case 'intro':
 			io.sockets.socket(event.socketID).json.send(event.packet);
 			break;

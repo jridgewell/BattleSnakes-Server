@@ -54,7 +54,10 @@ function User(socket, playerevent, snakeID)
 		 * if(data.type == 'init')
 		 */
 		d.log(3, e);
-	 	socket.emit('message', e);
+		playerevent({
+			type: 'test',
+		});
+	 	// socket.emit('message', e);
 	};
 
 	function handleDisconnect(e)
