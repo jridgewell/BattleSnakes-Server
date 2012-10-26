@@ -25,9 +25,8 @@ function User(socket, playerevent, snakeID)
 		snake = new Snake(snakeID);
 		socketID = socket.id;
 		
-		var introPacket = 
-		{
-			type: "intro",
+		var introPacket =  {
+			type: 'intro',
 			id: snake.id,
 			name: snake.name,
 			position: snake.position,
@@ -36,7 +35,11 @@ function User(socket, playerevent, snakeID)
 			segments: snake.segments
 		};
 		
-		playerevent({type: 'intro',socketID: socketID, packet: introPacket});
+		playerevent({
+			type: 'intro',
+			socketID: socketID,
+			packet: introPacket
+		});
 	}
 
 	function handleMessage(socket, e)
