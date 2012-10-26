@@ -57,7 +57,7 @@ function User(socket, playerevent, snakeID)
 		playerevent({
 			type: 'test',
 		});
-	 	// socket.emit('message', e);
+	 	socket.json.emit('message', e);
 	};
 
 	function handleDisconnect(e)
