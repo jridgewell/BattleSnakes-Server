@@ -20,41 +20,39 @@ function Snake(id) {
 	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
-	
-	// I (snakeA) report I hit another snake (snakeB)
-	// Use bounding box in my region to find the id of snakeB
-	// snakeB.collision(offset, angle, v)
-	this.collide = function(gameObject) {
-		if (gameObject.stationary) {
-			return gameObject.collision(this.position);
-		}
-		return gameObject.collision(this.position, this.velocity);
-	};
-
-	// A snake (snakeA) reports hit it me
-	this.collision = function(offset /*Point*/, v /*Vector*/) {
-		for (var i = 0; i < this.segments.length; ++i) {
-			var s = this.segments[i].translate(offset);
-			var angle = v.angle();
-			s = s.rotate(-1 * angle);
-			var m = v.magnitude();
-			return s.isZero(m);
-		}
-	};
-	
-	//passes in a string "Red" or "Blue"
-	function ChangeTeam(newTeam) {
-		if (Teams.hasOwnProperty(newTeam)) {
-			team = newTeam;
-		}
-	}
-	
-	//passes in a Powerup Object
-	function UsePowerup(powerup) {
-		
-	}
 }
 
-Snake.prototype.extend(GameObject.prototype);
+Snake.prototype.extend(GameObject.prototype).extend({
+	// I (snakeA) report I hit something (gameObject)
+	// Use bounding box in my region to find the id of gameObject
+	// gameObject.collision(myPosition, myVelocity)
+	collide: function(gameObject) {
+		return gameObject.collision(this.position, this.velocity);
+	},
+
+	// A snake (snakeA) reports hit it me
+	collision: function(offset /*Point*/, v /*Vector*/) {
+		var angle = v.angle();
+		var magnitude = v.magnitude();
+		for (var i = 0; i < this.segments.length; ++i) {
+			var s = this.segments[i].translate(offset);
+			s = s.rotate(-1 * angle);
+			return s.isZero(magnitude);
+		}
+	},
+	
+	//passes in a string "Red" or "Blue"
+	changeTeam: function(team) {
+		if (Teams.hasOwnProperty(team)) {
+			this.team = team;
+		}
+		return this;
+	},
+	
+	//passes in a Powerup Object
+	usePowerup: function(powerup) {
+		return this;
+	}
+});
 
 module.exports = Snake;
