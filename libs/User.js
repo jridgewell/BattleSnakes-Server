@@ -35,6 +35,8 @@ function User(socket, playerevent, snakeID)
 			segments: snake.segments
 		};
 		
+		socket.json.emit('message', introPacket);
+		
 		playerevent({
 			type: 'intro',
 			socketID: socketID,
@@ -54,10 +56,6 @@ function User(socket, playerevent, snakeID)
 		 * if(data.type == 'init')
 		 */
 		d.log(3, e);
-		playerevent({
-			type: 'test',
-		});
-	 	socket.json.emit('message', e);
 	};
 
 	function handleDisconnect(e)

@@ -93,7 +93,7 @@ Server.PayerEvent = function(event)
 	switch(event.type)
 	{
 		case 'intro':
-			io.sockets.socket(event.socketID).json.send(event.packet);
+			
 			break;
 		case 'disconnect':
 			 d.log(1,'User '+event.userid+' has disconnected!');
