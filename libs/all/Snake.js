@@ -11,12 +11,12 @@ function Snake(id) {
 	this.isCollidable = true;
 	this.stationary = false;
 
-	var name = 'Guest' + id;	// String
-	var team = Teams.Red;		// Teams obj
-	var color = 'FF0000';		// Hex ex: 00FF00
+	this.name = 'Guest' + id;	// String
+	this.team = Teams.Red;		// Teams obj
+	this.color = 'FF0000';		// Hex ex: 00FF00
 	this.velocity = new Vector();// float
-	var currentPowerups = null;	// Powerup Object
-	var numSegments = 1;		// int
+	this.currentPowerups = null;	// Powerup Object
+	this.numSegments = 1;		// int
 	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
