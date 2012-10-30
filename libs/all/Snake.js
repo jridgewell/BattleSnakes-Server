@@ -17,9 +17,12 @@ function Snake(id) {
 	this.velocity = new Vector();// float
 	this.currentPowerups = null;	// Powerup Object
 	this.numSegments = 1;		// int
+	this.gridID = "";
 	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
+	
+	this.position = new Point();
 }
 
 Snake.prototype.extend(GameObject.prototype).extend({

@@ -16,6 +16,7 @@ var Settings = require('./libs/Settings') ,
 	DBManager = require('./libs/DBManager'),
 	User = require('./libs/User'),
 	Debug = require('./libs/Debug'),
+	World = require('./libs/World'),
 	Server = this;
 
 /*
@@ -40,6 +41,7 @@ var RedBase; // Hatchery object;
 var BlueBase; // Hatchery Object;
 var PlayField; // PlayField object;
 var d = new Debug();
+
 
 /*
  * Express and SocketIO config
@@ -73,6 +75,7 @@ io.sockets.on('connection', function (socket) {
 
 Server.CreateWorld = function()
 {
+	world = new World();
 };
 
 Server.EndGame = function()
@@ -93,7 +96,7 @@ Server.PayerEvent = function(event)
 	switch(event.type)
 	{
 		case 'intro':
-			
+			event.user.sendIntroPacket(world.AddSnake(event.user.getSnake()));
 			break;
 		case 'disconnect':
 			 d.log(1,'User '+event.userid+' has disconnected!');
@@ -101,3 +104,12 @@ Server.PayerEvent = function(event)
 		default:
 	}
 };
+
+
+/*
+ * Init functions
+ */
+console.log("Creating World ...");
+this.CreateWorld();
+console.log("Starting Game ...");
+this.StartGame();

@@ -15,7 +15,7 @@ function User(socket, playerevent, snakeID)
 	this.socketID;
 	this.userID = snakeID;
 	
-	init();
+	
 	
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
@@ -25,24 +25,28 @@ function User(socket, playerevent, snakeID)
 		snake = new Snake(snakeID);
 		socketID = socket.id;
 		
-		var introPacket =  {
-			type: 'intro',
-			id: snake.id,
-			name: snake.name,
-			position: snake.position,
-			team: snake.team,
-			color: snake.color,
-			segments: snake.segments
-		};
-		
-		socket.json.emit('message', introPacket);
-		
 		playerevent({
 			type: 'intro',
 			socketID: socketID,
-			packet: introPacket
+			user: user
 		});
-	}
+	};
+	
+	this.sendIntroPacket = function(env)
+	{
+		var introPacket =  {
+				type: 'intro',
+				id: snake.id,
+				name: snake.name,
+				position: snake.position,
+				team: snake.team,
+				color: snake.color,
+				segments: snake.segments,
+				environment: env
+			};
+			
+			socket.json.emit('message', introPacket);
+	};
 
 	function handleMessage(socket, e)
 	{
@@ -78,6 +82,13 @@ function User(socket, playerevent, snakeID)
 	{
 		socket.leave(gridID);
 	};
+	
+	this.getSnake = function()
+	{
+		return snake;
+	};
+	
+	init();
 }
 
 module.exports = User;
