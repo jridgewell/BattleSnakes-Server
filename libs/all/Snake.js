@@ -9,7 +9,7 @@ function Snake(id) {
 	this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
-	this.stationary = false;
+	this.isStationary = false;
 
 	this.name = 'Guest' + id;	// String
 	this.team = Teams.Red;		// Teams obj
@@ -26,19 +26,14 @@ function Snake(id) {
 }
 
 Snake.prototype.extend(GameObject.prototype).extend({
-	// I (snakeA) report I hit something (gameObject)
-	// Use bounding box in my region to find the id of gameObject
-	// gameObject.collision(myPosition, myVelocity)
-	collide: function(gameObject) {
-		return gameObject.collision(this.position, this.velocity);
-	},
-	
-	// A snake (snakeA) reports hit it me
-	collision: function(offset /*Point*/, v /*Vector*/) {
-		if(v != null)
-		{
-			var angle = v.angle();
-			var magnitude = v.magnitude();
+	collision: function(gameObject) {
+		if (gameObject.isStationary) {
+			return gameObject.collision(this);
+		} else {
+			var velocity = gameObject.velocity;
+			var angle = velocity.angle();
+			var magnitude = velocity.magnitude();
+			var offset = gameObject.position;
 			for (var i = 0; i < this.segments.length; ++i) {
 				var s = this.segments[i].translate(offset);
 				s = s.rotate(-1 * angle);

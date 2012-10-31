@@ -8,9 +8,6 @@ Environment.prototype.extend(GameObject.prototype).extend({
 	height: 50,
 	sprite: '', // path to sprite img to load
 
-	// Simple boundingbox algorithm
-	// TODO: Seems backwards, why woud a rock hit a snake?
-	// TODO: Souldn't we be calling collision on the snake? not the rock?
 	collision: function(gameObject) {
 		var topLeft = new Point(
 				this.position.x - this.width/2,
@@ -20,7 +17,14 @@ Environment.prototype.extend(GameObject.prototype).extend({
 				this.position.x + this.width/2,
 				this.position.y - this.height/2
 			);
-		return gameObject.position.inside(topLeft, bottomRight);
+		if (gameObject.isStationary) {
+			return gameObject.position.x + gameObject.width > this.position.x
+				&& gameObject.position.y + gameObject.height > this.position.y
+				&& gameObject.position.x < this.position.x + this.width
+				&& gameObject.position.y < this.position.y + this.height;
+		} else {
+			return gameObject.position.inside(topLeft, bottomRight);
+		}
 	}
 });
 
