@@ -32,15 +32,18 @@ Snake.prototype.extend(GameObject.prototype).extend({
 	collide: function(gameObject) {
 		return gameObject.collision(this.position, this.velocity);
 	},
-
+	
 	// A snake (snakeA) reports hit it me
 	collision: function(offset /*Point*/, v /*Vector*/) {
-		var angle = v.angle();
-		var magnitude = v.magnitude();
-		for (var i = 0; i < this.segments.length; ++i) {
-			var s = this.segments[i].translate(offset);
-			s = s.rotate(-1 * angle);
-			return s.isZero(magnitude);
+		if(v != null)
+		{
+			var angle = v.angle();
+			var magnitude = v.magnitude();
+			for (var i = 0; i < this.segments.length; ++i) {
+				var s = this.segments[i].translate(offset);
+				s = s.rotate(-1 * angle);
+				return s.isZero(magnitude);
+			}
 		}
 	},
 	
