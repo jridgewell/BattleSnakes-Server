@@ -45,7 +45,7 @@ function User(socket, playerevent, snakeID)
 				environment: env
 			};
 			
-			socket.json.emit('message', introPacket);
+			socket.emit('message', introPacket);
 	};
 
 	function handleMessage(socket, e)
