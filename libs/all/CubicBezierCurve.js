@@ -6,7 +6,7 @@ var CubicBezierSegment = require('./CubicBezierSegment');
  * Based on code from:
  * https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/graphics/wince/PlatformPathWinCE.cpp#L77-118
  */
-module.exports =  function(controlPts /* CubicBezierSegment */, previousPts /* Array[Points] */, segments /*= 100 */) {
+module.exports = function(controlPts /* CubicBezierSegment */, previousPts /* Array[Points] */, segments /*= 100 */) {
 	// Enforce types
 	if (typeof previousPts != 'object' && Object.prototype.toString.call(previousPts) != Object.prototype.toString.call([])) {
 		previousPts = [];
