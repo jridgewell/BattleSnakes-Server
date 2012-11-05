@@ -59,6 +59,7 @@ function User(socket, playerevent, snakeID)
 		 * var data = JSON.parse(e);
 		 * if(data.type == 'init')
 		 */
+		socket.emit('message', e);
 		d.log(3, e);
 	};
 
