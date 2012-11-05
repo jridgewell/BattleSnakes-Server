@@ -30,10 +30,10 @@ Snake.prototype.extend(GameObject.prototype).extend({
 		if (gameObject.isStationary) {
 			return gameObject.collision(this);
 		} else {
+			var offset = gameObject.position;
 			var velocity = gameObject.velocity;
 			var angle = velocity.angle();
 			var magnitude = velocity.magnitude();
-			var offset = gameObject.position;
 			for (var i = 0; i < this.segments.length; ++i) {
 				var s = this.segments[i].translate(offset);
 				s = s.rotate(-1 * angle);
