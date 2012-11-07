@@ -14,7 +14,9 @@ function Snake(id) {
 	this.name = 'Guest' + id;	// String
 	this.team = Teams.Red;		// Teams obj
 	this.color = 'FF0000';		// Hex ex: 00FF00
-	this.velocity = new Vector();// float
+	this.velocity = new Vector(
+		new Point(50, 0)
+	);// float
 	this.currentPowerups = null;	// Powerup Object
 	this.numSegments = 1;		// int
 	this.gridID = "";
