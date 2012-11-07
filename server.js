@@ -99,7 +99,7 @@ Server.PayerEvent = function(event)
 			event.user.sendIntroPacket(world.AddSnake(event.user.getSnake()));
 			break;
 		case 'disconnect':
-			 d.log(1,'User '+event.userid+' has disconnected!');
+			d.log(1,'User '+event.userid+' has disconnected!');
 			--num_users;
 		default:
 	}
@@ -113,3 +113,11 @@ console.log("Creating World ...");
 this.CreateWorld();
 console.log("Starting Game ...");
 this.StartGame();
+
+
+function update() {
+	world.update(users)
+	process.nextTick(update);
+}
+
+update();

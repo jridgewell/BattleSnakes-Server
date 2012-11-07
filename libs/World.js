@@ -15,6 +15,7 @@ function World()
 	var gridSize = 0;
 	var grid;
 	var a = 0;
+	var storedTime = (new Date()).getTime();
 	
 	function init()
 	{
@@ -95,6 +96,7 @@ function World()
 		{
 			var collided = false;
 			
+			
 			var x = Math.floor((Math.random()*(gb.width - obj.width))+gb.width-gridSize);
 			var y = Math.floor((Math.random()*(gb.height - obj.height))+gb.height-gridSize);
 			obj.position.set(x,y);
@@ -139,7 +141,6 @@ function World()
 	this.AddSnake = function(snake)
 	{
 		var env;
-		console.log(snake.team);
 		switch(snake.team)
 		{
 			case 0:
@@ -164,6 +165,23 @@ function World()
 	this.GetCurrentSize = function()
 	{
 		
+	};
+
+	this.update = function(users) {
+		var curTime = (new Date()).getTime();
+		var elapsedTime = (curTime - storedTime) / 1000;
+		
+		for (var u in users) {
+			var snake = users[u].getSnake();
+			
+			snake.position.set(
+				snake.position.x + (snake.velocity.to.x * elapsedTime),
+				snake.position.y + (snake.velocity.to.y * elapsedTime)
+			);
+		}
+		
+		
+		storedTime = (new Date()).getTime();
 	};
 	
 	init();
