@@ -10,10 +10,12 @@ var Point = function(x, y) {
 
 Point.prototype.extend({
 	rotationMatrix: function(theta /*degrees*/) {
-		var r = theta * Math.PI / 180;
+		var r = theta * Math.PI / 180,
+			cos = Math.cos(r),
+			sin = Math.sin(r);
 		return [
-			[Math.cos(r), -Math.sin(r)],
-			[Math.sin(r), Math.cos(r)]
+			[cos, -sin],
+			[sin, cos]
 		];
 	},
 	rotate: function(theta /*degrees*/) {
