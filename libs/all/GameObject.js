@@ -9,6 +9,8 @@ GameObject.prototype.extend({
 	isCollidable: false,
 	position: new Point(),
 	isStationary: true,
+	width: 50,
+	height: 50,
 
 	collision: function(gameObj) {
 		console.log('test');

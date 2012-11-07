@@ -21,6 +21,10 @@ function Snake(id) {
 	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
+
+	this.height = 20;
+	this.width = 20;
+
 	
 	this.position = new Point();
 }

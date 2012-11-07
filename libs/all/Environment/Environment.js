@@ -4,8 +4,6 @@ var Point = require('../Point');
 function Environment(){}
 
 Environment.prototype.extend(GameObject.prototype).extend({
-	width: 50,
-	height: 50,
 	sprite: '', // path to sprite img to load
 
 	collision: function(gameObject) {
