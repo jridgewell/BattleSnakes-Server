@@ -36,16 +36,25 @@ function User(socket, playerevent, snakeID)
 	{
 		var introPacket =  {
 				type: 'intro',
-				id: snake.id,
 				name: snake.name,
+				id: snake.id,
 				position: snake.position,
+				velocity: snake.velocity,
 				team: snake.team,
 				color: snake.color,
 				segments: snake.segments,
-				environment: env
+				sizeOfWorld: env
 			};
 			
 			socket.emit('message', introPacket);
+	};
+	
+	this.sendUpdatePacket = function() {
+		socket.emit('message', {
+			type: 'update',
+			position: snake.position,
+			velocity: snake.velocity
+		});
 	};
 
 	function handleMessage(socket, e)
@@ -59,9 +68,38 @@ function User(socket, playerevent, snakeID)
 		 * var data = JSON.parse(e);
 		 * if(data.type == 'init')
 		 */
-		socket.emit('message', e);
-		d.log(3, e);
+		 if (!e || !e.type) {
+			 return;
+		 }
+		 switch (e.type) {
+			 case 'update':
+				 handleUpdate(e);
+				 break;
+		 }
 	};
+	
+	function handleUpdate(data) {
+		if (data.id !== this.userID) {
+			return;
+		}
+		var position = snake.position;
+		var velocity = snake.velocity;
+		
+		position = position.translate(data.position);
+		
+		console.log(velocity, data.velocity);
+		
+		snake.velocity.set(data.velocity.to);
+		if (Math.abs(position.x) < 1 &&
+			Math.abs(position.x) < 1) {
+			snake.position.set(
+				data.position.x,
+				data.position.y
+			);
+		} else {
+			user.sendUpdatePacket();
+		}
+	}
 
 	function handleDisconnect(e)
 	{
