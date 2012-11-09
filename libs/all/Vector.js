@@ -14,7 +14,7 @@ Vector.prototype.extend({
 		};
 	},
 	set: function(to /*Point*/) {
-		this.to = (to instanceof Point) ? to : new Point();;
+		this.to = (to instanceof Point) ? to : new Point(to);;
 		return this;
 	},
 	rotate: function(theta /*degrees*/) {

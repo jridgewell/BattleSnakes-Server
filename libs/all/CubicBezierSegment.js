@@ -171,7 +171,7 @@ CubicBezierSegment.prototype.extend({
 		};
 	},
 	set: function(from, control1, control2, to) {
-		this.from = (from instanceof Point) ? from : new Point();
+		this.from = (from instanceof Point) ? from : new Point(from);
 		this.control1 = (control1 instanceof Point) ? control1 : new Point();
 		this.control2 = (control2 instanceof Point) ? control2 : new Point();
 		this.to = (to instanceof Point) ? to : new Point();

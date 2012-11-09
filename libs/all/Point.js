@@ -25,9 +25,13 @@ Point.prototype.extend({
 			(m[1][0] * this.x + m[1][1] * this.y)
 		);
 	},
-	set: function(x /* Float */, y /* Float */) {
-		this.x = (typeof x == 'number') ? x : 0;
-		this.y = (typeof y == 'number') ? y : 0;
+	set: function(x /* Float or {x: x, y: y} */, y /* Float */) {
+		if (x instanceof Object) {
+			this.set(x.x, x.y);
+		} else {
+			this.x = (typeof x == 'number') ? x : 0;
+			this.y = (typeof y == 'number') ? y : 0;
+		}
 		return this;
 	},
 	get: function() {
