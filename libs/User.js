@@ -86,12 +86,10 @@ function User(socket, playerevent, snakeID)
 		var velocity = snake.velocity;
 		
 		position = position.translate(data.position);
-		
-		console.log(velocity, data.velocity);
-		
+				
 		snake.velocity.set(data.velocity.to);
 		if (Math.abs(position.x) < 1 &&
-			Math.abs(position.x) < 1) {
+			Math.abs(position.y) < 1) {
 			snake.position.set(
 				data.position.x,
 				data.position.y
