@@ -96,7 +96,8 @@ Server.PayerEvent = function(event)
 	switch(event.type)
 	{
 		case 'intro':
-			event.user.sendIntroPacket(world.AddSnake(event.user.getSnake()));
+			var env = world.AddSnake(event.user.getSnake());
+			event.user.sendIntroPacket(env);
 			break;
 		case 'disconnect':
 			d.log(1,'User '+event.userid+' has disconnected!');
