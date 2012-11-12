@@ -58,6 +58,9 @@ Point.prototype.extend({
 	clone: function() {
 		var p = new Point(this.x, this.y); 
 		return p;
+	},
+	toJSON: function() {
+		return this.get();
 	}
 });
 
