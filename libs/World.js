@@ -150,13 +150,13 @@ function World()
 			case Teams.Red:
 				var grid = GetHatcheryGrid(Teams.Red);
 				var s = FindNewPosition(snake, grid);
-				s.gridID = grid.id;
+				s.grid = grid;
 				grid.addGameObject(s);
 				break;
 			case Teams.Blue:
 				var grid = GetHatcheryGrid(Teams.Blue);
 				var s = FindNewPosition(snake, grid);
-				s.gridID = grid.id;
+				s.grid = grid;
 				grid.addGameObject(s);
 				break;
 		}
@@ -197,6 +197,59 @@ function World()
 		
 		storedTime = (new Date()).getTime();
 	};
+	
+	this.surroundingEnvironment = function(gameObject) {
+		var g = gameObject.grid,
+			row,
+			column,
+			env = [];
+		// Find the grid
+		for (var i = 0, l = grid.length; i < l; ++i) {
+			if ((column = grid[i].indexOf(g)) > -1) {
+				row = i;
+				break;
+			}
+		}
+		
+		if (row != undefined) {
+			var above = (row > 0),
+				below = (row < grid.length - 2),
+				left = (column > 0),
+				right = (column < grid[row].length - 2);
+				
+			env = env.concat(grid[row][column].getGameObjects());
+			if (above) {
+				if (left) {
+					env = env.concat(grid[row - 1][column - 1].getGameObjects());
+				}
+				if (right) {
+					env = env.concat(grid[row - 1][column + 1].getGameObjects());
+				}
+				env = env.concat(grid[row - 1][column].getGameObjects());
+			}
+			if (below) {
+				if (left) {
+					env = env.concat(grid[row + 1][column - 1].getGameObjects());
+				}
+				if (right) {
+					env = env.concat(grid[row + 1][column + 1].getGameObjects());
+				}
+				env = env.concat(grid[row + 1][column].getGameObjects());
+			}
+			if (left) {
+				env = env.concat(grid[row][column - 1].getGameObjects());
+			}
+			if (right) {
+				env = env.concat(grid[row][column + 1].getGameObjects());
+			}
+		}
+		
+		env = env.filter(function(obj) {
+			return obj.type != 'Snake';
+		});
+		
+		return env;
+	}
 	
 	init();
 }

@@ -56,6 +56,13 @@ function User(socket, playerevent, snakeID)
 			velocity: snake.velocity
 		});
 	};
+	
+	this.sendAddEnvironmentPacket = function(env) {
+		socket.emit('message', {
+			type: 'addEnvironment',
+			items: env
+		});
+	}
 
 	function handleMessage(socket, e)
 	{
