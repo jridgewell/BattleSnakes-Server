@@ -5,6 +5,7 @@ var Bush = require('./all/Environment/Bush');
 var Rock = require('./all/Environment/Rock');
 var Tree = require('./all/Environment/Tree');
 var GameObject = require('./all/GameObject');
+var Teams = require('./all/Teams');
 var Point = require('./all/Point');
 var Debug = require('./Debug');
 var d = new Debug();
@@ -12,33 +13,36 @@ var d = new Debug();
 
 function World()
 {
-	var gridSize = 0;
+	var gridSize = 512;
 	var grid;
 	var a = 0;
 	var storedTime = (new Date()).getTime();
 	
 	function init()
 	{
-		gridSize = 512;
-		
 		grid = new Array();
-		grid[0] = [new Grid("0x0"),new Grid("0x1"),new Grid("0x2")];
-		grid[1] = [new Grid("1x0"),new Grid("1x1"),new Grid("1x2")];
-		grid[2] = [new Grid("2x0"),new Grid("2x1"),new Grid("2x2")];
+		grid[0] = [new Grid("0x0"), new Grid("0x1"), new Grid("0x2")];
+		grid[1] = [new Grid("1x0"), new Grid("1x1"), new Grid("1x2")];
+		grid[2] = [new Grid("2x0"), new Grid("2x1"), new Grid("2x2")];
 		
 		InitEnvironment();
 	};
 	
 	function InitEnvironment()
 	{
+		var bounds;
 		// set up Hatcherys
 		
-		grid[0][1].AddGameObject(new Hatchery(0));
-		grid[0][1].hasHatchery = 0;
-		grid[0][1].gameObjects[0].position.set(grid[0][1].GetBounds().width/2,grid[0][1].GetBounds().height/2);
-		grid[2][1].AddGameObject(new Hatchery(1));
-		grid[2][1].hasHatchery = 1;
-		grid[2][1].gameObjects[0].position.set(grid[2][1].GetBounds().width/2,grid[2][1].GetBounds().height/2);
+		grid[0][1].addGameObject(new Hatchery(0));
+		grid[0][1].hasHatchery = Teams.Red;
+		bounds = grid[0][1].getBounds();
+		grid[0][1].gameObjects[0].position.set(bounds.width/2, bounds.height/2);
+		
+
+		grid[2][1].addGameObject(new Hatchery(1));
+		grid[2][1].hasHatchery = Teams.Blue;
+		bounds = grid[2][1].getBounds();
+		grid[2][1].gameObjects[0].position.set(bounds.width/2, bounds.height/2);
 
 		// populate random environment
 		
@@ -68,15 +72,15 @@ function World()
 			{
 				case 1:
 					var bush = FindNewPosition(new Bush(), grid);
-					grid.AddGameObject(bush);
+					grid.addGameObject(bush);
 					break;
 				case 2:
 					var tree = FindNewPosition(new Tree(), grid);
-					grid.AddGameObject(tree);
+					grid.addGameObject(tree);
 					break;
 				case 3:
 					var rock = FindNewPosition(new Rock(), grid);
-					grid.AddGameObject(rock);
+					grid.addGameObject(rock);
 					break;
 			}
 			
@@ -86,8 +90,8 @@ function World()
 	
 	function FindNewPosition(obj, grid)
 	{
-		var gridsObj = grid.GetGameObjects();
-		var gb = grid.GetBounds();
+		var gridsObj = grid.getGameObjects();
+		var gb = grid.getBounds();
 		var found = false;
 		
 		obj.id = ""+obj.type+a++;
@@ -126,9 +130,9 @@ function World()
 	
 	function GetHatcheryGrid(team)
 	{
-		for (var i = 0; i < grid.length; i++) 
+		for (var i = 0; i < grid.length; i++)
 		{
-		    for (var j = 0; j < grid[i].length; j++) 
+		    for (var j = 0; j < grid[i].length; j++)
 		    {
 		         if(grid[i][j].hasHatchery == team)
 		         {
@@ -140,31 +144,41 @@ function World()
 	
 	this.AddSnake = function(snake)
 	{
-		var env;
+		var size = this.GetCurrentSize();
 		switch(snake.team)
 		{
-			case 0:
-				var grid = GetHatcheryGrid(0);
+			case Teams.Red:
+				var grid = GetHatcheryGrid(Teams.Red);
 				var s = FindNewPosition(snake, grid);
 				s.gridID = grid.id;
-				grid.AddGameObject(s);
-				env = grid.GetGameObjects();
+				grid.addGameObject(s);
 				break;
-			case 1:
-				var grid = GetHatcheryGrid(1);
+			case Teams.Blue:
+				var grid = GetHatcheryGrid(Teams.Blue);
 				var s = FindNewPosition(snake, grid);
 				s.gridID = grid.id;
-				grid.AddGameObject(s);
-				env = grid.GetGameObjects();
+				grid.addGameObject(s);
 				break;
 		}
 		
-		return env;
+		return size;
 	};
 	
 	this.GetCurrentSize = function()
 	{
+		var size = {
+			height: 0,
+			width: 0
+		};
 		
+		
+		if (!grid || !grid[0]) {
+			return size;
+		}
+		size.height = gridSize * grid.length;
+		size.width = gridSize * grid[0].length;
+
+		return size;
 	};
 
 	this.update = function(users) {
