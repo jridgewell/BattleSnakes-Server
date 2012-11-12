@@ -68,14 +68,14 @@ function User(socket, playerevent, snakeID)
 		 * var data = JSON.parse(e);
 		 * if(data.type == 'init')
 		 */
-		 if (!e || !e.type) {
-			 return;
-		 }
-		 switch (e.type) {
-			 case 'update':
-				 handleUpdate(e);
-				 break;
-		 }
+		if (!e || !e.type) {
+			return;
+		}
+		switch (e.type) {
+			case 'update':
+				handleUpdate(e);
+				break;
+		}
 	};
 	
 	function handleUpdate(data) {
