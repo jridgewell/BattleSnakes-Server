@@ -1,4 +1,5 @@
 var Grid = require('./Grid');
+var GridSection = require('./GridSection');
 var Hatchery = require('./all/Hatchery');
 var Egg = require('./all/Environment/Egg');
 var Bush = require('./all/Environment/Bush');
@@ -20,10 +21,8 @@ function World()
 	
 	function init()
 	{
-		grid = new Array();
-		grid[0] = [new Grid("0x0"), new Grid("0x1"), new Grid("0x2")];
-		grid[1] = [new Grid("1x0"), new Grid("1x1"), new Grid("1x2")];
-		grid[2] = [new Grid("2x0"), new Grid("2x1"), new Grid("2x2")];
+		grid = new Grid();
+		grid.init();
 		
 		InitEnvironment();
 	};
@@ -33,27 +32,29 @@ function World()
 		var bounds;
 		// set up Hatcherys
 		
-		grid[0][1].addGameObject(new Hatchery(0));
-		grid[0][1].hasHatchery = Teams.Red;
-		bounds = grid[0][1].getBounds();
-		grid[0][1].gameObjects[0].position.set(bounds.width/2, bounds.height/2);
+		var g = grid.getGrid(0, 1);
+		g.addGameObject(new Hatchery(0));
+		g.hasHatchery = Teams.Red;
+		bounds = grid.getBoundsOfGrid(g);
+		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 		
 
-		grid[2][1].addGameObject(new Hatchery(1));
-		grid[2][1].hasHatchery = Teams.Blue;
-		bounds = grid[2][1].getBounds();
-		grid[2][1].gameObjects[0].position.set(bounds.width/2, bounds.height/2);
+		g = grid.getGrid(2, 1);
+		g.addGameObject(new Hatchery(1));
+		g.hasHatchery = Teams.Blue;
+		bounds = grid.getBoundsOfGrid(g);
+		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 
 		// populate random environment
 		
 		console.log("Populating world with environment ...");
-		PopulateEnvironment(grid[0][0]);
-		PopulateEnvironment(grid[0][2]);
-		PopulateEnvironment(grid[1][0]);
-		PopulateEnvironment(grid[1][1]);
-		PopulateEnvironment(grid[1][2]);
-		PopulateEnvironment(grid[2][0]);
-		PopulateEnvironment(grid[2][2]);
+		PopulateEnvironment(grid.getGrid(0, 0));
+		PopulateEnvironment(grid.getGrid(0, 2));
+		PopulateEnvironment(grid.getGrid(1, 0));
+		PopulateEnvironment(grid.getGrid(1, 1));
+		PopulateEnvironment(grid.getGrid(1, 2));
+		PopulateEnvironment(grid.getGrid(2, 0));
+		PopulateEnvironment(grid.getGrid(2, 2));
 		
 	};
 	
@@ -128,16 +129,13 @@ function World()
 		return obj;
 	};
 	
-	function GetHatcheryGrid(team)
-	{
-		for (var i = 0; i < grid.length; i++)
-		{
-		    for (var j = 0; j < grid[i].length; j++)
-		    {
-		         if(grid[i][j].hasHatchery == team)
-		         {
-		        	 return grid[i][j];
-		         }
+	function GetHatcheryGrid(team) {
+		for (var i = 0; i < grid.rows; ++i) {
+		    for (var j = 0; j < grid.columns; ++j) {
+				var g = grid.getGrid(i, j);
+		        if(g.hasHatchery == team) {
+		        	return g;
+		        }
 		    }
 		}
 	}
@@ -164,19 +162,22 @@ function World()
 		return size;
 	};
 	
-	this.GetCurrentSize = function()
-	{
+	this.GetCurrentSize = function() {
 		var size = {
 			height: 0,
 			width: 0
 		};
 		
 		
-		if (!grid || !grid[0]) {
+		if (grid) {
 			return size;
 		}
-		size.height = gridSize * grid.length;
-		size.width = gridSize * grid[0].length;
+		for (var i = 0; i < grid.rows; ++i) {
+			size.height += grid.getGrid(i, 0).height;
+		}
+		for (var i = 0; i < grid.columns; ++i) {
+			size.width += grid.getGrid(0, i).height;
+		}
 
 		return size;
 	};
@@ -192,64 +193,68 @@ function World()
 				snake.position.x + (snake.velocity.to.x * elapsedTime),
 				snake.position.y + (snake.velocity.to.y * elapsedTime)
 			);
+			updateUserGrid(users[u]);
 		}
-		
 		
 		storedTime = (new Date()).getTime();
 	};
 	
-	this.surroundingEnvironment = function(gameObject) {
-		var g = gameObject.grid,
-			row,
-			column,
-			env = [];
-		// Find the grid
-		for (var i = 0, l = grid.length; i < l; ++i) {
-			if ((column = grid[i].indexOf(g)) > -1) {
-				row = i;
-				break;
-			}
-		}
+	function updateUserGrid(user) {
 		
-		if (row != undefined) {
-			var above = (row > 0),
-				below = (row < grid.length - 2),
-				left = (column > 0),
-				right = (column < grid[row].length - 2);
+	}
+	
+	function environment(gameObject) {
+		var g = gameObject.grid,
+			row = g.row,
+			column = g.column,
+			env = [];
+		var above = (row > 0),
+			below = (row < grid.rows),
+			left = (column > 0),
+			right = (column < grid.columns);
 				
-			env = env.concat(grid[row][column].getGameObjects());
-			if (above) {
-				if (left) {
-					env = env.concat(grid[row - 1][column - 1].getGameObjects());
-				}
-				if (right) {
-					env = env.concat(grid[row - 1][column + 1].getGameObjects());
-				}
-				env = env.concat(grid[row - 1][column].getGameObjects());
-			}
-			if (below) {
-				if (left) {
-					env = env.concat(grid[row + 1][column - 1].getGameObjects());
-				}
-				if (right) {
-					env = env.concat(grid[row + 1][column + 1].getGameObjects());
-				}
-				env = env.concat(grid[row + 1][column].getGameObjects());
-			}
+		env = env.concat(g.getGameObjects());
+		if (above) {
 			if (left) {
-				env = env.concat(grid[row][column - 1].getGameObjects());
+				env = env.concat(grid.getGrid(row - 1, column - 1).getGameObjects());
 			}
 			if (right) {
-				env = env.concat(grid[row][column + 1].getGameObjects());
+				env = env.concat(grid.getGrid(row - 1, column + 1).getGameObjects());
 			}
+			env = env.concat(grid.getGrid(row - 1, column).getGameObjects());
 		}
-		
-		env = env.filter(function(obj) {
+		if (below) {
+			if (left) {
+				env = env.concat(grid.getGrid(row + 1, column - 1).getGameObjects());
+			}
+			if (right) {
+				env = env.concat(grid.getGrid(row + 1, column + 1).getGameObjects());
+			}
+			env = env.concat(grid.getGrid(row + 1, column).getGameObjects());
+		}
+		if (left) {
+			env = env.concat(grid.getGrid(row, column - 1).getGameObjects());
+		}
+		if (right) {
+			env = env.concat(grid.getGrid(row, column + 1).getGameObjects());
+		}
+		return env;
+	};
+	
+	this.surroundingSnakes = function(gameObject) {
+		var env = environment(gameObject).filter(function(obj) {
+			return (obj.type == 'Snake' && obj != gameObject);
+		});
+		return env;
+	};
+	
+	this.surroundingEnvironment = function(gameObject) {
+		var env = environment(gameObject).filter(function(obj) {
 			return obj.type != 'Snake';
 		});
 		
 		return env;
-	}
+	};
 	
 	init();
 }
