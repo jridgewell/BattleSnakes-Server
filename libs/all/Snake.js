@@ -19,7 +19,7 @@ function Snake(id) {
 	);// float
 	this.currentPowerups = null;	// Powerup Object
 	this.numSegments = 1;		// int
-	this.gridID = "";
+	this.grid = null;
 	this.segments = [
 		new CubicBezierSegment()
 	];							// array of segments
