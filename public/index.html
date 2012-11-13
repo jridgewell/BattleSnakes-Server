@@ -8,7 +8,7 @@
 		var socket = io.connect('http://' + document.location.host);
 		function logger(type, data) {
 			console.log('-------------------');
-			console.log(type + ' packet');
+			console.log(data.type + ' packet');
 			console.log(data);
 		}
 		socket.on('message', function(data) {logger('message', data)});
