@@ -100,6 +100,8 @@ Server.PayerEvent = function(event)
 			event.user.sendIntroPacket(world.AddSnake(snake));
 			event.user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
 			break;
+		case 'update':
+			break;
 		case 'disconnect':
 			d.log(1,'User '+event.userid+' has disconnected!');
 			--num_users;

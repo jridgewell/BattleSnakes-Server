@@ -63,6 +63,13 @@ function User(socket, playerevent, snakeID)
 			items: env
 		});
 	}
+	
+	this.sendPlayerUpdate = function(env) {
+		socket.emit('message', {
+			type: 'playerUpdate',
+			snakes: env
+		})
+	}
 
 	function handleMessage(socket, e)
 	{
@@ -104,6 +111,11 @@ function User(socket, playerevent, snakeID)
 		} else {
 			user.sendUpdatePacket();
 		}
+		
+		playerevent({
+			type: 'update',
+			user: user
+		});
 	}
 
 	function handleDisconnect(e)
