@@ -99,6 +99,7 @@ Server.PayerEvent = function(event)
 			var snake = event.user.getSnake();
 			event.user.sendIntroPacket(world.AddSnake(snake));
 			event.user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
+			event.user.sendPlayerUpdate(world.surroundingSnakes(snake));
 			break;
 		case 'update':
 			break;
