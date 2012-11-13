@@ -48,6 +48,16 @@ Snake.prototype.extend(GameObject.prototype).extend({
 		}
 	},
 	
+	toJSON: function() {
+		return {
+			id: this.id,
+			position: this.position.toJSON(),
+			velocity: this.velocity.toJSON(),
+			currentPowerup: null,
+			segments: this.segments
+		};
+	},
+	
 	//passes in a string "Red" or "Blue"
 	changeTeam: function(team) {
 		if (Teams.hasOwnProperty(team)) {

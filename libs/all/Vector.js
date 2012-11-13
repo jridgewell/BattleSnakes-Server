@@ -44,6 +44,11 @@ Vector.prototype.extend({
 	clone: function() {
 		var v =  new Vector(this.to.clone());
 		return v;
+	},
+	toJSON: function() {
+		return {
+			to: this.to.toJSON()
+		};
 	}
 });
 
