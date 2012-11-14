@@ -1,5 +1,5 @@
 var Debug = require('./Debug');
-require('./Misc');
+require('./misc');
 var GridSection = require('./GridSection');
 var d = new Debug();
 
