@@ -95,8 +95,8 @@ function World()
 		var gb = grid.getBounds();
 		var found = false;
 		
-		obj.id = ""+obj.type+a++;
 		
+		obj.id = ""+a++;
 		while(!found)
 		{
 			var collided = false;
