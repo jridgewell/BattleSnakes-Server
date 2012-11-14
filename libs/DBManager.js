@@ -14,7 +14,7 @@ function DBManager(mongodbPath)
 	var User = new Schema({
 		first_name:	{ type: String,  trim: true },
 		last_name:	{ type: String,  trim: true },
-		username: 	{ type: String,  trim: true },
+		username:	{ type: String,  trim: true },
 		ip:			{ type: String, trim: true },
 		friends:	[Friend]
 	});

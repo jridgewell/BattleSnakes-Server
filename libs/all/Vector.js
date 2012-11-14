@@ -42,7 +42,7 @@ Vector.prototype.extend({
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
 	clone: function() {
-		var v =  new Vector(this.to.clone());
+		var v = new Vector(this.to.clone());
 		return v;
 	},
 	toJSON: function() {

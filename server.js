@@ -25,7 +25,7 @@ var Settings = require('./libs/Settings') ,
  * So you do not need to write two snake classes.
  *
  * Snake = require(__dirname +'/public/js/Snake');
- */ 
+ */
 
 /*
  * Vars
@@ -50,11 +50,11 @@ var d = new Debug();
 server.listen(Settings.PORT);
 
 app.configure(function () {
-    app.use(express.static(__dirname + '/public'));
+	app.use(express.static(__dirname + '/public'));
 });
 
 app.get('/', function (req, res, next) {
-    res.render('public/index.html');
+	res.render('public/index.html');
 });
 
 console.log('Server running at http://'+Settings.HOST+':'+Settings.PORT+'/');
@@ -64,9 +64,9 @@ dbm = new DBManager(Settings.MONGO);
 io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
-    var user = new User(socket, Server.PayerEvent, user_ids++);
-    d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
-    users.push(user);
+	var user = new User(socket, Server.PayerEvent, user_ids++);
+	d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
+	users.push(user);
 });
 
 /*

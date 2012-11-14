@@ -5,7 +5,7 @@ function Environment(){}
 
 Environment.prototype.extend(GameObject.prototype).extend({
 	sprite: '', // path to sprite img to load
-	
+
 	toJSON: function() {
 		return {
 			id: this.id,

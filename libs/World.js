@@ -18,26 +18,26 @@ function World()
 	var grid;
 	var a = 0;
 	var storedTime = (new Date()).getTime();
-	
+
 	function init()
 	{
 		grid = new Grid();
 		grid.init();
-		
+
 		InitEnvironment();
 	};
-	
+
 	function InitEnvironment()
 	{
 		var bounds;
 		// set up Hatcherys
-		
+
 		var g = grid.getGrid(0, 1);
 		g.addGameObject(new Hatchery(0));
 		g.hasHatchery = Teams.Red;
 		bounds = grid.getBoundsOfGrid(g);
 		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
-		
+
 
 		g = grid.getGrid(2, 1);
 		g.addGameObject(new Hatchery(1));
@@ -46,7 +46,7 @@ function World()
 		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 
 		// populate random environment
-		
+
 		console.log("Populating world with environment ...");
 		PopulateEnvironment(grid.getGrid(0, 0));
 		PopulateEnvironment(grid.getGrid(0, 2));
@@ -55,9 +55,9 @@ function World()
 		PopulateEnvironment(grid.getGrid(1, 2));
 		PopulateEnvironment(grid.getGrid(2, 0));
 		PopulateEnvironment(grid.getGrid(2, 2));
-		
+
 	};
-	
+
 	function PopulateEnvironment(grid)
 	{
 		var number = Math.floor((Math.random()*3));
@@ -84,28 +84,28 @@ function World()
 					grid.addGameObject(rock);
 					break;
 			}
-			
+
 		}
-		
+
 	};
-	
+
 	function FindNewPosition(obj, grid)
 	{
 		var gridsObj = grid.getGameObjects();
 		var gb = grid.getBounds();
 		var found = false;
-		
-		
+
 		obj.id = ""+a++;
+
 		while(!found)
 		{
 			var collided = false;
-			
-			
+
+
 			var x = Math.floor((Math.random()*(gb.width - obj.width))+gb.width-gridSize);
 			var y = Math.floor((Math.random()*(gb.height - obj.height))+gb.height-gridSize);
 			obj.position.set(x,y);
-			
+
 			if(gridsObj.length > 0)
 			{
 				for(var i = 0; i < gridsObj.length; i++)
@@ -114,12 +114,12 @@ function World()
 					{
 						collided = true;
 					}
-						
+
 				}
-				
+
 				if(!collided || gridsObj.length == 0)
 					found = true;
-							
+
 			}
 			else
 			{
@@ -128,18 +128,18 @@ function World()
 		}
 		return obj;
 	};
-	
+
 	function GetHatcheryGrid(team) {
 		for (var i = 0; i < grid.rows; ++i) {
-		    for (var j = 0; j < grid.columns; ++j) {
+			for (var j = 0; j < grid.columns; ++j) {
 				var g = grid.getGrid(i, j);
-		        if(g.hasHatchery == team) {
-		        	return g;
-		        }
-		    }
+				if(g.hasHatchery == team) {
+					return g;
+				}
+			}
 		}
 	}
-	
+
 	this.AddSnake = function(snake)
 	{
 		var size = this.GetCurrentSize();
@@ -158,17 +158,17 @@ function World()
 				grid.addGameObject(s);
 				break;
 		}
-		
+
 		return size;
 	};
-	
+
 	this.GetCurrentSize = function() {
 		var size = {
 			height: 0,
 			width: 0
 		};
-		
-		
+
+
 		if (grid) {
 			return size;
 		}
@@ -185,24 +185,24 @@ function World()
 	this.update = function(users) {
 		var curTime = (new Date()).getTime();
 		var elapsedTime = (curTime - storedTime) / 1000;
-		
+
 		for (var u in users) {
 			var snake = users[u].getSnake();
-			
+
 			snake.position.set(
 				snake.position.x + (snake.velocity.to.x * elapsedTime),
 				snake.position.y + (snake.velocity.to.y * elapsedTime)
 			);
 			updateUserGrid(users[u]);
 		}
-		
+
 		storedTime = (new Date()).getTime();
 	};
-	
+
 	function updateUserGrid(user) {
-		
+
 	}
-	
+
 	function environment(gameObject) {
 		var g = gameObject.grid,
 			row = g.row,
@@ -212,7 +212,7 @@ function World()
 			below = (row < grid.rows),
 			left = (column > 0),
 			right = (column < grid.columns);
-				
+
 		env = env.concat(g.getGameObjects());
 		if (above) {
 			if (left) {
@@ -240,22 +240,22 @@ function World()
 		}
 		return env;
 	};
-	
+
 	this.surroundingSnakes = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
 			return (obj.type == 'Snake' && obj != gameObject);
 		});
 		return env;
 	};
-	
+
 	this.surroundingEnvironment = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
 			return obj.type != 'Snake';
 		});
-		
+
 		return env;
 	};
-	
+
 	init();
 }
 

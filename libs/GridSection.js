@@ -16,7 +16,7 @@ GridSection.prototype.extend({
 	addGameObject: function(gobj) {
 		this.gameObjects.push(gobj);
 	},
-	
+
 	removeGameObject: function(gobj) {
 		var i = this.gameObjects.indexOf(gobj);
 		if (i > -1) {
@@ -24,11 +24,11 @@ GridSection.prototype.extend({
 		}
 		return false;
 	},
-	
+
 	getGameObjects: function() {
 		return this.gameObjects;
 	},
-	
+
 	getBounds: function() {
 		return {
 			height: this.height,

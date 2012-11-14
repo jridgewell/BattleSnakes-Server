@@ -27,7 +27,7 @@ function Snake(id) {
 	this.height = 20;
 	this.width = 20;
 
-	
+
 	this.position = new Point();
 }
 
@@ -47,7 +47,7 @@ Snake.prototype.extend(GameObject.prototype).extend({
 			}
 		}
 	},
-	
+
 	toJSON: function() {
 		return {
 			id: this.id,
@@ -57,7 +57,7 @@ Snake.prototype.extend(GameObject.prototype).extend({
 			segments: this.segments
 		};
 	},
-	
+
 	//passes in a string "Red" or "Blue"
 	changeTeam: function(team) {
 		if (Teams.hasOwnProperty(team)) {
@@ -65,12 +65,12 @@ Snake.prototype.extend(GameObject.prototype).extend({
 		}
 		return this;
 	},
-	
+
 	//passes in a Powerup Object
 	usePowerup: function(powerup) {
 		return this;
 	},
-	
+
 	smooth: function() {
 		function getFirstControlPoints(rhs) {
 			var n = rhs.length,

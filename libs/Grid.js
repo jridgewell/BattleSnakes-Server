@@ -40,10 +40,10 @@ Grid.prototype.extend({
 	},
 	decrease: function() {
 		var column = this.columns - 1;
-		
+
 		// Get first row except last column
 		var grid = this.grid.slice(0, column);
-		
+
 		// Grab each successive row (except last) without it's last column
 		for (var row = 1; row < this.rows - 1; ++row) {
 			var index = row * this.columns;
@@ -60,22 +60,22 @@ Grid.prototype.extend({
 		var index = gridOrRow * this.rows + column;
 		return this.grid[index];
 	},
-	
+
 	addGameObjectToGrid: function(gobj, gridOrRow, column) {
 		var grid = this.getGrid(gridOrRow, column);
 		return grid.addGameObject(gobj);
 	},
-	
+
 	removeGameObjectFromGrid: function(gobj, gridOrRow, column) {
 		var grid = this.getGrid(gridOrRow, column);
 		return grid.removeGameObject(gobj);
 	},
-	
+
 	getGameObjectsInGrid: function(gridOrRow, column) {
 		var grid = this.getGrid(gridOrRow, column);
 		return grid.getGameObjects();
 	},
-	
+
 	getBoundsOfGrid: function(gridOrRow, column) {
 		var grid = this.getGrid(gridOrRow, column),
 			bounds = grid.getBounds(),

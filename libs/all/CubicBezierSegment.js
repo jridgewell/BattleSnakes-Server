@@ -80,14 +80,14 @@ CubicBezierSegment.prototype.extend({
 		// TODO: Code can probably be optimized.
 		// TODO: We are focused on a very select group of roots. D:[0, 1]
 		var results = [];
-		
+
 		var p1 = this.from.y;
 		var p2 = this.control1.y;
 		var p3 = this.control2.y;
 		var p4 = this.to.y;
-				
+
 		var c3 = (-p1+3*p2-3*p3+p4); //t^3
-		
+
 		if (Math.abs(c3) <= epsilon) {
 			var bottom = (2*(p1-2*p2+p3));
 			if (Math.abs(bottom) <= epsilon) {
@@ -107,55 +107,55 @@ CubicBezierSegment.prototype.extend({
 			}
 			return results;
 		}
-		
+
 		var c2 = (3*p1-6*p2+3*p3) / c3;//t^2
 		var c1 = (-3*p1+3*p2) / c3; //t^1
 		var c0 = p1 / c3; //t^0
-				
+
 		var a = (3*c1 - c2*c2) / 3;
 		var b = (2*c2*c2*c2 - 9*c1*c2 + 27*c0) / 27;
 		var offset = c2 / 3;
 		var discrim = b*b/4 + a*a*a/27;
 		var halfB = b / 2;
-		
+
 		if ( Math.abs(discrim) <= epsilon ) disrim = 0;
-		
+
 		if ( discrim > 0 ) {
 			var e = Math.sqrt(discrim);
 			var tmp;
 			var root;
-		
+
 			tmp = -halfB + e;
 			if ( tmp >= 0 )
 				root = Math.pow(tmp, 1/3);
 			else
 				root = -Math.pow(-tmp, 1/3);
-		
+
 			tmp = -halfB - e;
 			if ( tmp >= 0 )
 				root += Math.pow(tmp, 1/3);
 			else
 				root -= Math.pow(-tmp, 1/3);
-		
+
 			results.push( root - offset );
 		} else if ( discrim < 0 ) {
 			var distance = Math.sqrt(-a/3);
-			var angle	= Math.atan2( Math.sqrt(-discrim), -halfB) / 3;
-			var cos	  = Math.cos(angle);
-			var sin	  = Math.sin(angle);
-			var sqrt3	= Math.sqrt(3);
-		
+			var angle = Math.atan2( Math.sqrt(-discrim), -halfB) / 3;
+			var cos = Math.cos(angle);
+			var sin = Math.sin(angle);
+			var sqrt3 = Math.sqrt(3);
+
 			results.push( 2*distance*cos - offset );
 			results.push( -distance * (cos + sqrt3 * sin) - offset);
 			results.push( -distance * (cos - sqrt3 * sin) - offset);
 		} else {
 			var tmp;
-		
+
 			if ( halfB >= 0 )
 				tmp = -Math.pow(halfB, 1/3);
 			else
 				tmp = Math.pow(-halfB, 1/3);
-		
+
 			results.push( 2*tmp - offset );
 			// really should return next root twice, but we return only one
 			results.push( -tmp - offset );
