@@ -6,8 +6,8 @@ function GridSection(row, column, width, height)
 {
 	this.gameObjects = [];
 	this.hasHatchery = -1; // 0 for red 1 for blue -1 for no
-	this.width = width || 512;
-	this.height = height || 512;
+	this.width = width || 500;
+	this.height = height || 500;
 	this.row = (row != undefined) ? row : 0;
 	this.column = (column != undefined) ? column : 0;
 }
@@ -33,6 +33,20 @@ GridSection.prototype.extend({
 		return {
 			height: this.height,
 			width: this.width
+		};
+	},
+
+	get id() {
+		return '' + this.row + 'x' + this.column;
+	},
+
+	valueOf: function() {
+		return {
+			hasHatchery: this.hasHatchery,
+			width: this.width,
+			height: this.height,
+			row: this.row,
+			column: this.column
 		};
 	}
 });

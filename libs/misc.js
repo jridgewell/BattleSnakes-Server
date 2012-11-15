@@ -28,8 +28,17 @@ DONTENUMERATE(Object.prototype, 'extend', function(source) {
 	$this = this;
 	for (var prop in source) {
 		if (prop != 'constructor') {
-			var s = source[prop];
-			if (typeof s != 'object') {
+			var get = source.__lookupGetter__(prop),
+				set = source.__lookupSetter__(prop),
+				s = source[prop];
+			if (get || set) {
+				if (get) {
+					this.__defineGetter__(prop, get);
+				}
+				if (set) {
+					this.__defineSetter__(prop, set);
+				}
+			} else if (typeof s != 'object') {
 				this[prop] = s;
 			} else {
 				if ('clone' in s && typeof s.clone == 'function') {
