@@ -223,7 +223,7 @@ function World()
 			size.height += grid.getGrid(i, 0).height;
 		}
 		for (var i = 0; i < grid.columns; ++i) {
-			size.width += grid.getGrid(0, i).height;
+			size.width += grid.getGrid(0, i).width;
 		}
 
 		return size;
