@@ -246,46 +246,95 @@ function World()
 		storedTime = (new Date()).getTime();
 	};
 
-	function updateUserGrid(user) {
+	function updateSnakeGrid(snake, vector) {
+		var g = snake.grid,
+			up = (vector.y > 0),
+			down = (vector.y < 0),
+			right = (vector.x > 0),
+			left = (vector.x < 0),
+			row = (up) ? 1 : (down) ? -1 : 0,
+			column = (right) ? 1 : (left) ? -1 : 0;
 
+		if (grid.positionInsideGrid(snake.position, g)) {
+			return g;
+		}
+		// console.log(g.id);
+		if (up || down) {
+			g = grid.getGrid(g.row + row, g.column);
+			if (!g) {
+				return null;
+			}
+			if (grid.positionInsideGrid(snake.position, g)) {
+				return g;
+			}
+		}
+		if (left || right) {
+			g = grid.getGrid(g.row, g.column + column);
+			if (!g) {
+				return null;
+			}
+			if (grid.positionInsideGrid(snake.position, g)) {
+				return g;
+			}
+		}
+		return null;
 	}
 
 	function environment(gameObject) {
+		var grids = surroundingGrids(gameObject),
+			env = [];
+		for (var i = 0, l = grids.length; i < l; ++i) {
+			if (grids[i] instanceof Object) {
+				env = env.concat(grids[i].getGameObjects());
+			}
+		}
+		return env;
+	};
+
+	function surroundingGrids(gameObject) {
 		var g = gameObject.grid,
 			row = g.row,
 			column = g.column,
-			env = [];
+			grids = [g];
 		var above = (row > 0),
-			below = (row < grid.rows),
+			below = (row < grid.rows - 1),
 			left = (column > 0),
-			right = (column < grid.columns);
+			right = (column < grid.columns - 1);
 
-		env = env.concat(g.getGameObjects());
 		if (above) {
 			if (left) {
-				env = env.concat(grid.getGrid(row - 1, column - 1).getGameObjects());
+				grids = grids.concat(grid.getGrid(row - 1, column - 1));
 			}
 			if (right) {
-				env = env.concat(grid.getGrid(row - 1, column + 1).getGameObjects());
+				grids = grids.concat(grid.getGrid(row - 1, column + 1));
 			}
-			env = env.concat(grid.getGrid(row - 1, column).getGameObjects());
+			grids = grids.concat(grid.getGrid(row - 1, column));
 		}
 		if (below) {
 			if (left) {
-				env = env.concat(grid.getGrid(row + 1, column - 1).getGameObjects());
+				grids = grids.concat(grid.getGrid(row + 1, column - 1));
 			}
 			if (right) {
-				env = env.concat(grid.getGrid(row + 1, column + 1).getGameObjects());
+				grids = grids.concat(grid.getGrid(row + 1, column + 1));
 			}
-			env = env.concat(grid.getGrid(row + 1, column).getGameObjects());
+			grids = grids.concat(grid.getGrid(row + 1, column));
 		}
 		if (left) {
-			env = env.concat(grid.getGrid(row, column - 1).getGameObjects());
+			grids = grids.concat(grid.getGrid(row, column - 1));
 		}
 		if (right) {
-			env = env.concat(grid.getGrid(row, column + 1).getGameObjects());
+			grids = grids.concat(grid.getGrid(row, column + 1));
 		}
-		return env;
+		return grids;
+	};
+
+	this.surroundingGridIds = function(gameObject) {
+		var grids = surroundingGrids(gameObject),
+			gids = [];
+		for (var i = 0, l = grids.length; i < l; ++i) {
+			gids.push(grids[i].id);
+		}
+		return gids;
 	};
 
 	this.surroundingSnakes = function(gameObject) {
