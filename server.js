@@ -97,11 +97,14 @@ Server.PayerEvent = function(event)
 	{
 		case 'intro':
 			var snake = event.user.getSnake();
-			event.user.sendIntroPacket(world.AddSnake(snake));
+			event.user.sendIntroPacket(world.AddSnake(event.user));
 			event.user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
 			event.user.sendPlayerUpdate(world.surroundingSnakes(snake));
+			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
 			break;
 		case 'update':
+			var snake = event.user.getSnake();
+			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
 			break;
 		case 'disconnect':
 			d.log(1,'User '+event.userid+' has disconnected!');
