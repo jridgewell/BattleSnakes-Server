@@ -122,9 +122,9 @@ function World()
 		for(var i = 0; i < number; i++)
 		{
 			/*
-			 *  1 = bush
-			 *  2 = tree
-			 *  3 = rock
+			 * 1 = bush
+			 * 2 = tree
+			 * 3 = rock
 			 */
 			var type = Math.floor((Math.random()*3)+1);
 			switch(type)
@@ -147,42 +147,33 @@ function World()
 
 	};
 
-	function FindNewPosition(obj, grid)
+	function FindNewPosition(obj, g)
 	{
-		var gridsObj = grid.getGameObjects();
-		var gb = grid.getBounds();
+		var gridsObj = g.getGameObjects();
+		var gb = grid.getBoundsOfGrid(g);
 		var found = false;
 
 		obj.id = ""+a++;
+		if (!obj.id) {
+			//TODO: this will collide eventually
+			obj.id = a++;
+		}
 
-		while(!found)
-		{
-			var collided = false;
-
-
-			var x = Math.floor((Math.random()*(gb.width - obj.width))+gb.width-gridSize);
-			var y = Math.floor((Math.random()*(gb.height - obj.height))+gb.height-gridSize);
+		var found = false;
+		while (!found) {
+			found = true;
+			var x = Math.floor(Math.random()*(gb.width - obj.width) + obj.width / 2);
+			var y = Math.floor(Math.random()*(gb.height - obj.height) + obj.height / 2);
+			x += gb.x;
+			y += gb.y;
 			obj.position.set(x,y);
 
-			if(gridsObj.length > 0)
-			{
-				for(var i = 0; i < gridsObj.length; i++)
-				{
-					if(gridsObj[i].collision(obj))
-					{
-						collided = true;
-					}
-
+			for(var i = 0, l = gridsObj.length; i < l; ++i) {
+				if(gridsObj[i].collision(obj)) {
+					found = false;
 				}
-
-				if(!collided || gridsObj.length == 0)
-					found = true;
-
 			}
-			else
-			{
-				found = true;
-			}
+
 		}
 		return obj;
 	};
