@@ -45,8 +45,11 @@ function World()
 		bounds = grid.getBoundsOfGrid(g);
 		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 
-		// populate random environment
+		// Surround the world with rocks
+		console.log("Surrounding world with rocks ...");
+		SurroundWorld();
 
+		// populate random environment
 		console.log("Populating world with environment ...");
 		PopulateEnvironment(grid.getGrid(0, 0));
 		PopulateEnvironment(grid.getGrid(0, 2));
@@ -55,7 +58,62 @@ function World()
 		PopulateEnvironment(grid.getGrid(1, 2));
 		PopulateEnvironment(grid.getGrid(2, 0));
 		PopulateEnvironment(grid.getGrid(2, 2));
+	};
 
+	function SurroundWorld() {
+		function genRock(x, y, id) {
+			var r = new Rock();
+			r.id = id;
+			r.position.set(x, y);
+			return r;
+		}
+		var bottomRow = grid.rows - 1,
+			rightColumn = grid.columns - 1,
+			rock = new Rock(),
+			rH = rock.height,
+			rW = rock.width,
+			rH2 = rH / 2,
+			rW2 = rW / 2;
+		// Top of world
+		for (var i = 0, l = grid.columns; i < l; ++i) {
+			var g = grid.getGrid(0, i),
+				gX = grid.getBoundsOfGrid(g).x;
+			for (var j = rW2 + gX, w = gX + g.width; j < w; j += rW) {
+				var r = genRock(j, rH2, a++);
+				g.addGameObject(r);
+			}
+		}
+		// Bottom of world
+		for (var i = 0, l = grid.columns; i < l; ++i) {
+			var g = grid.getGrid(bottomRow, i),
+				gB = grid.getBoundsOfGrid(g),
+				gX = gB.x,
+				y = gB.y + gB.width - rH2;
+			for (var j = rW2 + gX, w = gX + g.width; j < w; j += rW) {
+				var r = genRock(j, y, a++);
+				g.addGameObject(r);
+			}
+		}
+		// Left of world
+		for (var i = 0, l = grid.columns; i < l; ++i) {
+			var g = grid.getGrid(i, 0)
+				gY = grid.getBoundsOfGrid(g).y;
+			for (var j = rH2 + gY, h = gY + g.height; j < h; j += rH) {
+				var r = genRock(rW2, j, a++);
+				g.addGameObject(r);
+			}
+		}
+		// Right of world
+		for (var i = 0, l = grid.columns; i < l; ++i) {
+			var g = grid.getGrid(i, rightColumn),
+				gB = grid.getBoundsOfGrid(g),
+				gY = gB.y,
+				x = gB.x + gB.width - rW2;
+			for (var j = rH2 + gY, h = gY + g.height; j < h; j += rH) {
+				var r = genRock(x, j, a++);
+				g.addGameObject(r);
+			}
+		}
 	};
 
 	function PopulateEnvironment(grid)
