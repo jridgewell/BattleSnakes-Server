@@ -41,6 +41,13 @@ Vector.prototype.extend({
 		dx = this.dx();
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
+	normalize: function() {
+		var m = this.magnitude(),
+		v = new Vector(
+			this.to.x / m,
+			this.to.y / m
+		)
+	},
 	clone: function() {
 		var v = new Vector(this.to.clone());
 		return v;
