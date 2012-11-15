@@ -49,12 +49,20 @@ function User(socket, playerevent, snakeID)
 			socket.emit('message', introPacket);
 	};
 
-	this.sendUpdatePacket = function() {
+	this.sendUpdatePacket = function(broadcast) {
 		socket.emit('message', {
 			type: 'update',
 			position: snake.position,
 			velocity: snake.velocity
 		});
+
+		if (broadcast) {
+			handleUpdate({
+				id: this.userID,
+				position: snake.position,
+				velocity: snake.velocity
+			});
+		}
 	};
 
 	this.sendAddEnvironmentPacket = function(env) {
@@ -68,7 +76,16 @@ function User(socket, playerevent, snakeID)
 		socket.emit('message', {
 			type: 'playerUpdate',
 			snakes: env
-		})
+		});
+	}
+
+	this.broadcastPlayerUpdate = function(env) {
+		for (var i = 0, l = env.length; i < l; ++i) {
+			socket.broadcast.to(env[i]).emit('message', {
+				type: 'playerUpdate',
+				snakes: [snake]
+			});
+		}
 	}
 
 	function handleMessage(socket, e)
