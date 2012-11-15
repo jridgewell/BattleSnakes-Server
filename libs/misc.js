@@ -28,24 +28,25 @@ DONTENUMERATE(Object.prototype, 'extend', function(source) {
 	$this = this;
 	for (var prop in source) {
 		if (prop != 'constructor') {
-			var get = source.__lookupGetter__(prop),
-				set = source.__lookupSetter__(prop),
-				s = source[prop];
+			var propertyDescriptor = Object.getOwnPropertyDescriptor(source, prop),
+				get = propertyDescriptor.get,
+				set = propertyDescriptor.set,
+				val = propertyDescriptor.value;
 			if (get || set) {
-				if (get) {
-					this.__defineGetter__(prop, get);
-				}
-				if (set) {
-					this.__defineSetter__(prop, set);
-				}
-			} else if (typeof s != 'object') {
-				this[prop] = s;
+				Object.defineProperty(this, prop, {
+					get: get,
+					set: set,
+					enumerable : true,
+					configurable : true
+				});
+			} else if (typeof val != 'object') {
+				this[prop] = val;
 			} else {
-				if ('clone' in s && typeof s.clone == 'function') {
-					this[prop] = s.clone();
+				if ('clone' in val && typeof val.clone == 'function') {
+					this[prop] = val.clone();
 				} else {
 					// There are references to the Parent's objects
-					this[prop] = s;
+					this[prop] = val;
 				}
 			}
 		}
