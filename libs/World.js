@@ -179,12 +179,12 @@ function World()
 
 	function GetHatcheryGrid(team) {
 		for (var i = 0; i < grid.rows; ++i) {
-			for (var j = 0; j < grid.columns; ++j) {
+		    for (var j = 0; j < grid.columns; ++j) {
 				var g = grid.getGrid(i, j);
-				if(g.hasHatchery == team) {
-					return g;
-				}
-			}
+		        if(g.hasHatchery == team) {
+		        	return g;
+		        }
+		    }
 		}
 	}
 
