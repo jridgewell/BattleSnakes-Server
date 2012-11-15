@@ -153,7 +153,6 @@ function World()
 		var gb = grid.getBoundsOfGrid(g);
 		var found = false;
 
-		obj.id = ""+a++;
 		if (!obj.id) {
 			//TODO: this will collide eventually
 			obj.id = a++;
