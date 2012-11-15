@@ -232,18 +232,48 @@ function World()
 	this.update = function(users) {
 		var curTime = (new Date()).getTime();
 		var elapsedTime = (curTime - storedTime) / 1000;
+		storedTime = curTime;
 
-		for (var u in users) {
-			var snake = users[u].getSnake();
+		for (var u = 0, U = users.length; u < U; ++u) {
+			var user = users[u],
+				snake = user.getSnake(),
+				velocity = snake.velocity.to,
+				oldX = snake.position.x,
+				oldY = snake.position.y,
+				newX = oldX + (velocity.x * elapsedTime),
+				newY = oldY + (velocity.y * elapsedTime),
+				collision = false,
+				OoB = false;
 
-			snake.position.set(
-				snake.position.x + (snake.velocity.to.x * elapsedTime),
-				snake.position.y + (snake.velocity.to.y * elapsedTime)
-			);
-			updateUserGrid(users[u]);
+			snake.position.set(newX, newY);
+			var g = updateSnakeGrid(snake, velocity);
+			if (g) {
+				if (g != snake.grid) {
+					user.leaveGridRoom(snake.grid.id);
+					snake.grid = g;
+					user.joinGridRoom(g.id);
+				}
+			} else {
+				OoB = true;
+			}
+
+			if (!OoB) {
+				var gObjs = snake.grid.getGameObjects();
+				for (var i = 0, l = gObjs.length; i < l; ++i) {
+					var gObj = gObjs[i];
+					if (snake.collision(gObj)) {
+						collision = true;
+						break;
+					}
+				}
+			}
+			if (OoB || collision) {
+				snake.position.set(oldX, oldY);
+				snake.velocity.set(0, 0);
+				user.sendUpdatePacket(true);
+			}
 		}
 
-		storedTime = (new Date()).getTime();
 	};
 
 	function updateSnakeGrid(snake, vector) {
