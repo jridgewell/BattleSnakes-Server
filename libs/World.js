@@ -188,24 +188,23 @@ function World()
 		}
 	}
 
-	this.AddSnake = function(snake)
-	{
+	this.AddSnake = function(user) {
+		var snake = user.getSnake();
 		var size = this.GetCurrentSize();
+		var g;
 		switch(snake.team)
 		{
 			case Teams.Red:
-				var grid = GetHatcheryGrid(Teams.Red);
-				var s = FindNewPosition(snake, grid);
-				s.grid = grid;
-				grid.addGameObject(s);
+				g = GetHatcheryGrid(Teams.Red);
 				break;
 			case Teams.Blue:
-				var grid = GetHatcheryGrid(Teams.Blue);
-				var s = FindNewPosition(snake, grid);
-				s.grid = grid;
-				grid.addGameObject(s);
+				g = GetHatcheryGrid(Teams.Blue);
 				break;
 		}
+		FindNewPosition(snake, g);
+		snake.grid = g;
+		user.joinGridRoom(g.id)
+		g.addGameObject(snake);
 
 		return size;
 	};
