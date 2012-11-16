@@ -1,5 +1,4 @@
 var Point = require('./Point');
-var CubicBezierCurve = require('./CubicBezierCurve');
 /* CubicBezierSegment class
  *
  */
@@ -8,10 +7,30 @@ function CubicBezierSegment(from /*Point*/, control1 /*Point*/, control2 /*Point
 }
 
 CubicBezierSegment.prototype.extend({
-	approximate: function(numSegments) {
-		numSegments = (typeof numSegments == 'number') ? numSegments : 100;
-		var approx = CubicBezierCurve(this, [], numSegments);
-		return approx;
+	approximate: function(previousPts /* Array[Points] */, segments /*= 100 */) {
+		/* Based on code from:
+		 * https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/graphics/wince/PlatformPathWinCE.cpp#L77-118
+		 */
+		// Enforce types
+		if (typeof previousPts != 'object' && Object.prototype.toString.call(previousPts) != Object.prototype.toString.call([])) {
+			previousPts = [];
+		}
+		segments = (typeof segments == 'number') ? Math.round(segments) : 100;
+
+		var step = 1.0 / segments,
+			t = 0.0;
+		var pp = new Point();
+
+		for (var i = 1; i <= segments; ++i) {
+			t += step;
+			pp.set(
+				this.x(t),
+				this.y(t)
+			);
+			previousPts.push(pp.clone());
+		}
+
+		return previousPts;
 	},
 	rotate: function(theta /*degrees*/) {
 		var c = new CubicBezierSegment(
