@@ -8,15 +8,10 @@ var DONTENUMERATE = function(Obj, property, val) {
 }
 
 DONTENUMERATE(Array.prototype, 'remove', function(e) {
-	for (var i = 0; i < this.length; ++i)
-		if (e == this[i]) return this.splice(i, 1);
-});
-
-DONTENUMERATE(Array.prototype, 'compact', function(fn) {
-	for (var i = this.length - 1; i >= 0; --i)
-		if (this[i] == null) {
-			this.splice(i, 1);
-		}
+	var index = this.indexOf(e);
+	if (index > -1) {
+		this.splice(index, 1);
+	}
 	return this;
 });
 
