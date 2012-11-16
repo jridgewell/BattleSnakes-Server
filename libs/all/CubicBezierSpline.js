@@ -44,7 +44,7 @@ CubicBezierSpline.prototype.extend({
 
 		if (l) {
 			points.push(
-				this.bezierSegments[0].from.clone();
+				this.bezierSegments[0].from.clone()
 			);
 			for (var i = 0; i < l; ++i) {
 				points = this.bezierSegments[i].approximate(points, segments);
@@ -54,7 +54,7 @@ CubicBezierSpline.prototype.extend({
 		return points;
 	},
 	rotate: function(theta /*degrees*/) {
-		var spline = new CubicBezierSegment();
+		var spline = new CubicBezierSpline();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var c = this.bezierSegments[i].rotate(theta);
 			if (i > 0) {
@@ -65,7 +65,7 @@ CubicBezierSpline.prototype.extend({
 		return spline;
 	},
 	translate: function(offset /*Point*/) {
-		var spline = new CubicBezierSegment();
+		var spline = new CubicBezierSpline();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var c = this.bezierSegments[i].translate(offset);
 			if (i > 0) {
@@ -98,7 +98,7 @@ CubicBezierSpline.prototype.extend({
 		return segment ? segment.coordinatePrime(xOrY, t) : undefined;
 	},
 	clone: function() {
-		var spline = new CubicBezierSegment();
+		var spline = new CubicBezierSpline();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var c = this.bezierSegments[i].clone();
 			if (i > 0) {
@@ -116,7 +116,7 @@ CubicBezierSpline.prototype.extend({
 		return spline;
 	},
 	push: function(segment) {
-		segment = (segment instanceof CubicBezierSegment) segment : new CubicBezierSegment(segment);
+		segment = (segment instanceof CubicBezierSegment) ? segment : new CubicBezierSegment(segment);
 		var l = this.bezierSegments.length;
 		if (l) {
 			segment.from = this.bezierSegments[l - 1].to;
