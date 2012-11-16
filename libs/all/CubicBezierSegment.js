@@ -198,6 +198,9 @@ CubicBezierSegment.prototype.extend({
 	clone: function() {
 		var c = new CubicBezierSegment(this.from, this.control1, this.control2, this.to);
 		return c;
+	},
+	toJSON: function() {
+		return this.get();
 	}
 });
 
