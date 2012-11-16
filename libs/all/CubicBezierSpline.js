@@ -31,9 +31,8 @@ CubicBezierSpline.prototype.extend({
 					//http://paperjs.org/tutorials/animation/creating-animations/
 					var seg = spline.bezierSegments[i],
 						sinus = Math.sin(this.time * 3.2 + i);
-					seg.from.y = sinus * height;
+					seg.to.y = sinus * height;
 				}
-				spline.bezierSegments[l - 1].to.y = height * Math.sin(this.time * 3.2 + l);
 				this.bezierSegments = spline.rotate(angle).bezierSegments;
 				this.smooth();
 			}
