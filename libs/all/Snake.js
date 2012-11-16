@@ -21,16 +21,50 @@ function Snake(id) {
 	this.currentPowerups = null;	// Powerup Object
 	this.numSegments = 1;		// int
 	this.grid = null;
-	this.segments = new CubicBezierSpline();// array of segments
-
 	this.height = 20;
 	this.width = 20;
-
-
 	this.position = new Point();
+	this.segments = new CubicBezierSpline([
+		new CubicBezierSegment(
+			this.position,
+			{
+				x: this.position.x - 20,
+				y: this.position.y
+			},
+			{
+				x: this.position.x - 40,
+				y: this.position.y
+			},
+			{
+				x: this.position.x - 60,
+				y: this.position.y
+			}
+		),
+		new CubicBezierSegment(
+			{
+				x: this.position.x - 60,
+				y: this.position.y
+			},
+			{
+				x: this.position.x - 80,
+				y: this.position.y
+			},
+			{
+				x: this.position.x - 100,
+				y: this.position.y
+			},
+			{
+				x: this.position.x - 120,
+				y: this.position.y
+			}
+		),
+	]);// array of segments
 }
 
 Snake.prototype.extend(GameObject.prototype).extend({
+	wiggle: function() {
+		this.segments.wiggle(this.velocity);
+	},
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
 			return;
