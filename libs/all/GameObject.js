@@ -14,7 +14,7 @@ GameObject.prototype.extend({
 
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
-			return;
+			return false;
 		}
 		var topLeft = new Point(
 				this.position.x - this.width/2,

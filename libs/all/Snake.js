@@ -67,7 +67,7 @@ Snake.prototype.extend(GameObject.prototype).extend({
 	},
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
-			return;
+			return false;
 		}
 		if (gameObject.isStationary) {
 			return gameObject.collision(this);
