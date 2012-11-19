@@ -116,39 +116,25 @@ function World()
 		}
 	};
 
-	function PopulateEnvironment(grid)
-	{
-		var number = Math.floor((Math.random()*3));
-		for(var i = 0; i < number; i++)
-		{
+	function PopulateEnvironment(grid) {
+		var objects = [Bush, Tree, Rock, Egg],
+			num = objects.length,
+			randomNumOfObjects = Math.floor((Math.random() * num));
+		for (var i = 0; i < randomNumOfObjects; ++i) {
 			/*
-			 * 1 = bush
-			 * 2 = tree
-			 * 3 = rock
+			 * 1 = Bush
+			 * 2 = Tree
+			 * 3 = Rock
+			 * 4 = Egg
 			 */
-			var type = Math.floor((Math.random()*3)+1);
-			switch(type)
-			{
-				case 1:
-					var bush = FindNewPosition(new Bush(), grid);
-					grid.addGameObject(bush);
-					break;
-				case 2:
-					var tree = FindNewPosition(new Tree(), grid);
-					grid.addGameObject(tree);
-					break;
-				case 3:
-					var rock = FindNewPosition(new Rock(), grid);
-					grid.addGameObject(rock);
-					break;
-			}
-
+			var type = Math.floor((Math.random() * num)),
+				obj = new objects[type];
+			FindNewPosition(obj, grid)
+			grid.addGameObject(obj);
 		}
-
 	};
 
-	function FindNewPosition(obj, g)
-	{
+	function FindNewPosition(obj, g) {
 		var gridsObj = g.getGameObjects();
 		var gb = grid.getBoundsOfGrid(g);
 		var found = false;
@@ -159,7 +145,12 @@ function World()
 		}
 
 		var found = false;
+		var attempt = 0;
 		while (!found) {
+			console.log('finding position attempt ' + attempt);
+			if (attempt > 5000) {
+				debugger;
+			}
 			found = true;
 			var x = Math.floor(Math.random()*(gb.width - obj.width) + obj.width / 2);
 			var y = Math.floor(Math.random()*(gb.height - obj.height) + obj.height / 2);
@@ -170,11 +161,10 @@ function World()
 			for(var i = 0, l = gridsObj.length; i < l; ++i) {
 				if(gridsObj[i].collision(obj)) {
 					found = false;
+					++attempt;
 				}
 			}
-
 		}
-		return obj;
 	};
 
 	function GetHatcheryGrid(team) {
