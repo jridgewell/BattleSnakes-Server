@@ -24,6 +24,7 @@ function Snake(id) {
 	this.height = 20;
 	this.width = 20;
 	this.position = new Point();
+	this.eggs = [];
 	this.segments = new CubicBezierSpline([
 		new CubicBezierSegment(
 			this.position,
@@ -106,6 +107,18 @@ Snake.prototype.extend(GameObject.prototype).extend({
 	//passes in a Powerup Object
 	usePowerup: function(powerup) {
 		return this;
+	},
+
+	pickUpEgg: function(egg) {
+		this.eggs.push(egg);
+	},
+
+	hasEggs: function() {
+		return (this.eggs.length > 0);
+	},
+
+	dropOffEggs: function(hatchery) {
+		return this.eggs.splice(0);
 	}
 });
 
