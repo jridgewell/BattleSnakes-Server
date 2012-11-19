@@ -24,6 +24,7 @@ function User(socket, playerevent, snakeID)
 	{
 		snake = new Snake(snakeID);
 		socketID = socket.id;
+		socket.join('chat');
 
 		playerevent({
 			type: 'intro',
@@ -106,6 +107,9 @@ function User(socket, playerevent, snakeID)
 			case 'update':
 				handleUpdate(e);
 				break;
+			case 'chat':
+				handleChat(e);
+				break;
 		}
 	};
 
@@ -132,6 +136,13 @@ function User(socket, playerevent, snakeID)
 		playerevent({
 			type: 'update',
 			user: user
+		});
+	}
+
+	function handleChat(data) {
+		socket.broadcast.to('chat').emit('message', {
+			type: 'chat',
+			message: data.message
 		});
 	}
 
