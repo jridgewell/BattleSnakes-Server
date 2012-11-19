@@ -10,8 +10,8 @@ function Hatchery(team)
 }
 
 Hatchery.prototype.extend(GameObject.prototype).extend({
-	width: 250,
-	height: 250,
+	width: 256,
+	height: 256,
 	sprite: '', // path to sprite img to load
 });
 

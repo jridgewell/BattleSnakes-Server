@@ -9,8 +9,8 @@ GameObject.prototype.extend({
 	isCollidable: false,
 	position: new Point(),
 	isStationary: true,
-	width: 50,
-	height: 50,
+	width: 128,
+	height: 128,
 
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
