@@ -142,6 +142,7 @@ function User(socket, playerevent, snakeID)
 	function handleChat(data) {
 		socket.broadcast.to('chat').emit('message', {
 			type: 'chat',
+			from: snake.name,
 			message: data.message
 		});
 	}
