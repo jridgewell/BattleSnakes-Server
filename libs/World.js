@@ -150,8 +150,13 @@ function World()
 		var attempt = 0;
 		while (!found) {
 			console.log('finding position attempt ' + attempt);
-			if (attempt > 5000) {
-				debugger;
+			if (attempt > 100) {
+				// Couldn't find a spot in this grid.
+				// Drop it.
+				g.removeGameObject(obj);
+				// Reset, and exit out of the loop;
+				found = false;
+				break;
 			}
 			found = true;
 			var x = Math.floor(Math.random()*(gb.width - obj.width) + obj.width / 2);
