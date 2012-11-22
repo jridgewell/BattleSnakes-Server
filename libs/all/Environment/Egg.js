@@ -13,7 +13,8 @@ var Point = require('../Point');
 function Egg(hColor) {
 	// Constructor code here
 	// this.id = id;
-	this.type = this.constructor.name;
+	// Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4:rock , 5: bush
+	this.type = 2;
 	this.isCollidable = true;
 	this.hatchlingColor = hColor;
 }

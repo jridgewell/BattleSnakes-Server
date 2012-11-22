@@ -3,7 +3,8 @@ var Point = require('../Point');
 
 function Hatchery(team)
 {
-	this.type = this.constructor.name;
+	// Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4:rock , 5: bush
+	this.type = 1;
 	this.color = team;
 	this.position = new Point();
 	var playersEggs = new Array();

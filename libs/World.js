@@ -1,6 +1,7 @@
 var Grid = require('./Grid');
 var GridSection = require('./GridSection');
-var Hatchery = require('./all/Hatchery');
+var Environment = require('./all/Environment/Environment');
+var Hatchery = require('./all/Environment/Hatchery');
 var Egg = require('./all/Environment/Egg');
 var Bush = require('./all/Environment/Bush');
 var Rock = require('./all/Environment/Rock');
@@ -367,7 +368,7 @@ function World()
 
 	this.surroundingEnvironment = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
-			return obj.type != 'Snake';
+			return obj instanceof Environment;
 		});
 
 		return env;
