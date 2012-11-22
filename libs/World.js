@@ -373,7 +373,7 @@ function World()
 
 	this.surroundingEnvironment = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
-			return obj instanceof Environment;
+			return obj.type != 'Snake';
 		});
 
 		return env;
