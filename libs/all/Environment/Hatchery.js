@@ -1,5 +1,5 @@
-var GameObject = require('./GameObject');
-var Point = require('./Point');
+var Environment = require('./Environment');
+var Point = require('../Point');
 
 function Hatchery(team)
 {
@@ -9,10 +9,9 @@ function Hatchery(team)
 	var playersEggs = new Array();
 }
 
-Hatchery.prototype.extend(GameObject.prototype).extend({
+Hatchery.prototype.extend(Environment.prototype).extend({
 	width: 256,
 	height: 256,
-	sprite: '', // path to sprite img to load
 
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
