@@ -12,11 +12,13 @@ function DBManager(mongodbPath)
 	});
 
 	var User = new Schema({
-		first_name:	{ type: String,  trim: true },
-		last_name:	{ type: String,  trim: true },
-		username:	{ type: String,  trim: true },
+		first_name:	{ type: String, trim: true },
+		last_name:	{ type: String, trim: true },
+		username:	{ type: String, trim: true },
 		ip:			{ type: String, trim: true },
-		friends:	[Friend]
+		friends:	[Friend],
+		score:		{ type: Number },
+		games:		{ type: Number }
 	});
 	var User_M = mongoose.model('User',User);
 
