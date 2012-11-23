@@ -102,7 +102,7 @@ Server.PayerEvent = function(event)
 			event.user.sendPlayerUpdate(world.surroundingSnakes(snake));
 			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
 			break;
-		case 'update':
+		case 'playerUpdate':
 			var snake = event.user.getSnake();
 			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
 			break;

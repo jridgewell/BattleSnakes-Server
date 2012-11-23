@@ -134,7 +134,7 @@ function User(socket, playerevent, snakeID)
 		}
 
 		playerevent({
-			type: 'update',
+			type: 'playerUpdate',
 			user: user
 		});
 	}
