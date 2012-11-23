@@ -54,7 +54,8 @@ function User(socket, playerevent, snakeID)
 		socket.emit('message', {
 			type: 'update',
 			position: snake.position,
-			velocity: snake.velocity
+			velocity: snake.velocity,
+			segments: snake.segments
 		});
 
 		if (broadcast) {

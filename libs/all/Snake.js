@@ -73,15 +73,19 @@ Snake.prototype.extend(GameObject.prototype).extend({
 		if (gameObject.isStationary) {
 			return gameObject.collision(this);
 		} else {
-			var offset = gameObject.position;
-			var velocity = gameObject.velocity;
-			var angle = velocity.angle();
-			var magnitude = velocity.magnitude();
-			var segments = this.segments.translate(offset);
+			var offset = gameObject.position,
+				velocity = gameObject.velocity,
+				angle = velocity.angle(),
+				magnitude = velocity.magnitude(),
+				segments = this.segments.translate(offset);
 			for (var i = 0; i < segments.length; ++i) {
 				var s = segments[i];
 				s = s.rotate(-1 * angle);
-				return s.isZero(magnitude);
+				var hit = s.isZero(magnitude);
+				if (hit) {
+					this.segments.splice(i);
+					return i;
+				}
 			}
 		}
 	},

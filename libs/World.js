@@ -166,7 +166,8 @@ function World()
 			obj.position.set(x,y);
 
 			for(var i = 0, l = gridsObj.length; i < l; ++i) {
-				if(gridsObj[i].collision(obj)) {
+				var c = gridsObj[i].collision(obj)
+				if(c || c === 0) {
 					found = false;
 					++attempt;
 				}
@@ -258,11 +259,14 @@ function World()
 				var gObjs = snake.grid.getGameObjects();
 				for (var i = 0, l = gObjs.length; i < l; ++i) {
 					var gObj = gObjs[i];
-					if (snake.collision(gObj)) {
-						collision = true;
+					collision = snake.collision(gObj)
+					if (collision || collision === 0) {
 						break;
 					}
 				}
+			}
+			if (typeof collision == 'number') {
+				user.sendUpdatePacket(true);
 			}
 			if (OoB || collision) {
 				snake.position.set(oldX, oldY);
