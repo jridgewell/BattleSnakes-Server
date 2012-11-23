@@ -51,18 +51,14 @@ function User(socket, playerevent, snakeID)
 	};
 
 	this.sendUpdatePacket = function(broadcast) {
-		socket.emit('message', {
-			type: 'update',
-			position: snake.position,
-			velocity: snake.velocity,
-			segments: snake.segments
-		});
+		var message = snake.toJSON();
+		message.type = 'update';
+		socket.emit('message', message);
 
 		if (broadcast) {
-			handleUpdate({
-				id: this.userID,
-				position: snake.position,
-				velocity: snake.velocity
+			playerevent({
+				type: 'playerUpdate',
+				user: user
 			});
 		}
 	};
@@ -115,9 +111,6 @@ function User(socket, playerevent, snakeID)
 	};
 
 	function handleUpdate(data) {
-		if (data.id !== this.userID) {
-			return;
-		}
 		var position = snake.position;
 		var velocity = snake.velocity;
 
