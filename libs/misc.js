@@ -7,14 +7,6 @@ var DONTENUMERATE = function(Obj, property, val) {
 	});
 }
 
-DONTENUMERATE(Array.prototype, 'remove', function(e) {
-	var index = this.indexOf(e);
-	if (index > -1) {
-		this.splice(index, 1);
-	}
-	return this;
-});
-
 DONTENUMERATE(Array.prototype, 'clone', function() {
 	return Array.prototype.slice.call(this);
 });
