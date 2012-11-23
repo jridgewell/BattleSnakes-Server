@@ -12,6 +12,7 @@ function User(socket, playerevent, snakeID)
 {
 	var user = this;
 	var snake;
+	var score = {};
 	this.socketID;
 	this.userID = snakeID;
 
@@ -31,6 +32,17 @@ function User(socket, playerevent, snakeID)
 			socketID: socketID,
 			user: user
 		});
+
+		snake.score = function(type, increment) {
+			var get = (increment == undefined),
+				scoreSet = (type in score),
+				scoreOfType = (scoreSet) ? score[type] : 0;
+			if (get) {
+				return scoreOfType;
+			}
+			scoreOfType += increment;
+			score[type] = scoreOfType;
+		};
 	};
 
 	this.sendIntroPacket = function(env)

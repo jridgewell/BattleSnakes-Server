@@ -84,6 +84,7 @@ Snake.prototype.extend(GameObject.prototype).extend({
 				var hit = s.isZero(magnitude);
 				if (hit) {
 					this.segments.splice(i);
+					gameObject.score('bite', 1);
 					return i;
 				}
 			}
@@ -114,7 +115,9 @@ Snake.prototype.extend(GameObject.prototype).extend({
 	},
 
 	pickUpEgg: function(egg) {
+		this.score('pickUpEgg', 1);
 		this.eggs.push(egg);
+		return this;
 	},
 
 	hasEggs: function() {
@@ -122,7 +125,9 @@ Snake.prototype.extend(GameObject.prototype).extend({
 	},
 
 	dropOffEggs: function(hatchery) {
-		return this.eggs.splice(0);
+		var eggs = this.eggs.splice(0);
+		this.score('dropOffEggs', eggs.length);
+		return eggs;
 	}
 });
 
