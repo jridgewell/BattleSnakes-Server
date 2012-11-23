@@ -12,14 +12,14 @@ function Snake(id) {
 	this.isCollidable = true;
 	this.isStationary = false;
 
-	this.name = 'Guest' + id;	// String
-	this.team = Teams.Red;		// Teams obj
-	this.color = 'FF0000';		// Hex ex: 00FF00
+	this.name = 'Guest' + id;
+	this.team = Teams.Red;
+	this.color = 'FF0000';
 	this.velocity = new Vector(
 		new Point(1, 0)
 	);// float
-	this.currentPowerups = null;	// Powerup Object
-	this.numSegments = 1;		// int
+	this.currentPowerups = [];
+	this.numSegments = 1;
 	this.grid = null;
 	this.height = 20;
 	this.width = 20;
