@@ -37,8 +37,8 @@ Vector.prototype.extend({
 		return this.to.y;
 	},
 	magnitude: function() {
-		dy = this.dy();
-		dx = this.dx();
+		var dy = this.dy(),
+			dx = this.dx();
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
 	normalize: function() {
