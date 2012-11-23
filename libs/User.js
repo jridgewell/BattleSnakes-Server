@@ -119,6 +119,9 @@ function User(socket, playerevent, snakeID)
 			case 'chat':
 				handleChat(e);
 				break;
+			case 'usePowerup':
+				handlePowerup(e);
+				break;
 		}
 	};
 
@@ -151,6 +154,22 @@ function User(socket, playerevent, snakeID)
 			from: snake.name,
 			message: data.message
 		});
+	}
+
+	function handlePowerup(data) {
+		var powerUpTime = 2000;
+		var powerups = snake.currentPowerups.filter(function(element) {
+			return element.id == data.id;
+		});
+		if (!Array.isArray(powerups)) {
+			return null;
+		}
+		var powerup = powerups[0];
+		switch (powerup.type) {
+			case 1:
+				this.snake.velocity.multiply(2);
+				setTimeout.call(this.snake.velocity, this.snake.velocity.divide, powerUpTime, 2);
+		}
 	}
 
 	function handleDisconnect(e)
