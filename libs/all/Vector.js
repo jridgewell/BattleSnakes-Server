@@ -41,6 +41,17 @@ Vector.prototype.extend({
 			dx = this.dx();
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
+	multiply: function(scalar) {
+		var dy = this.dy(),
+			dx = this.dx();
+		this.set(new Point(
+			dx * scalar,
+			dy * scalar
+		));
+	},
+	divide: function(scalar) {
+		this.multiply(1 / scalar);
+	},
 	normalize: function() {
 		var m = this.magnitude(),
 		v = new Vector(
