@@ -11,8 +11,8 @@ Hatchery._extends(Environment);
 Hatchery.prototype.extend({
 	isCollidable: true,
 	type: 1, // Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4: Rock , 5: bush
-	width: 256,
-	height: 256,
+	width: 48,
+	height: 48,
 
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {

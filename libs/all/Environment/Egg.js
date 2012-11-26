@@ -17,7 +17,9 @@ function Egg(hColor) {
 
 Egg._extends(Environment);
 Egg.prototype.extend({
-	isCollidable: true,
+	height: 3,
+	width: 3,
+	isCollidable: false,
 	type: 2, // Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4: Rock , 5: bush
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
