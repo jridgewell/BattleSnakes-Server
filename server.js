@@ -126,7 +126,7 @@ this.StartGame();
 
 
 function update() {
-	world.update(users)
+	world.update.call(world, users);
 	process.nextTick(update);
 }
 
