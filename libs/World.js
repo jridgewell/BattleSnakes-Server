@@ -238,9 +238,7 @@ function World()
 			var g = updateSnakeGrid(snake, velocity);
 			if (g) {
 				if (g != snake.grid) {
-					user.leaveGridRoom(snake.grid.id);
-					snake.grid = g;
-					user.joinGridRoom(g.id);
+					changeGrid(snake, g, user);
 				}
 			} else {
 				OoB = true;
@@ -304,9 +302,30 @@ function World()
 		return null;
 	}
 
-	function environment(gameObject) {
-		var grids = surroundingGrids(gameObject),
-			env = [];
+	function changeGrid(snake, newGrid, user) {
+		var oldGrids = surroundingGrids(snake),
+			newGrids = surroundingGrids(newGrid);
+
+		var remove = oldGrids.elementsNotIn(newGrids),
+			add = newGrids.elementsNotIn(oldGrids);
+		remove = this.surroundingEnvironment(remove);
+		add = this.surroundingEnvironment(add);
+		user.sendRemoveEnvironmentPacket(remove);
+		user.sendAddEnvironmentPacket(add);
+
+		user.leaveGridRoom(snake.grid.id);
+		snake.grid = newGrid;
+		user.joinGridRoom(newGrid.id);
+	}
+
+	function environment(gridsOrGameObject) {
+		var env = [],
+			grids;
+		if (Array.isArray(gameObjectOrGrids)) {
+			grids = gameObjectOrGrids;
+		} else {
+			grids = surroundingGrids(gameObject);
+		}
 		for (var i = 0, l = grids.length; i < l; ++i) {
 			if (grids[i] instanceof Object) {
 				env = env.concat(grids[i].getGameObjects());
