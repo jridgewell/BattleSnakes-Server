@@ -222,7 +222,7 @@ function User(socket, playerevent, snakeID)
 	{
 		var msg = {
 			type: 'disconnect',
-			userid: user.userID
+			user: user
 		};
 
 		playerevent(msg);

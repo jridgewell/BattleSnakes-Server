@@ -109,7 +109,7 @@ Server.PayerEvent = function(event)
 			user.broadcastPlayerUpdate();
 			break;
 		case 'disconnect':
-			d.log(1,'User '+event.userid+' has disconnected!');
+			d.log(1,'User '+event.user+' has disconnected!');
 			--num_users;
 		default:
 	}
