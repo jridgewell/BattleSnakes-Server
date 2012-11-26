@@ -32,6 +32,8 @@ Grid.prototype.extend({
 		}
 		this.grid.push(lastRow);
 
+		this.surrounding(ret);
+
 		++this.rows;
 		++this.columns;
 		return ret;
@@ -49,7 +51,47 @@ Grid.prototype.extend({
 
 		--this.rows;
 		--this.columns;
+
+		this.surrounding(ret);
+
 		return ret;
+	},
+	surrounding: function(newGrids) {
+		var grids = newGrids.slice(0);
+		for (var i = 0, l = grids.length; i < l; ++i) {
+			var grid = grids[i];
+			if (grid.column == this.columns) {
+				var g = this.getGrid(grid.row, grid.column - 1);
+				if (g && grids.indexOf(g) == -1) {
+					grids.push(g);
+				}
+			}
+			if (grid.row == this.rows) {
+				var g = this.getGrid(grid.row - 1, grid.column);
+				if (g && grids.indexOf(g) == -1) {
+					grids.push(g);
+				}
+			}
+		}
+		for (var i = 0, l = grids.length; i < l; ++i) {
+			var grid = grids[i],
+				gridRow = grid.row,
+				gridColumn = grid.column,
+				surrounding = [];
+			for (var row = -1; row <= 1; ++row) {
+				for (var column = -1; column <= 1; ++column) {
+					if (row == 0 && column == 0) {
+						//prevent circular structure
+						continue;
+					}
+					var g = this.getGrid(gridRow + row, gridColumn + column);
+					if (g) {
+						surrounding.push(g);
+					}
+				}
+			}
+			grid.surrounding = surrounding;
+		}
 	},
 	getGrid: function(gridOrRow, column) {
 		if (gridOrRow instanceof GridSection) {

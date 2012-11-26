@@ -2,14 +2,14 @@ var Debug = require('./Debug');
 var d = new Debug();
 
 
-function GridSection(row, column, width, height)
-{
+function GridSection(row, column, width, height) {
 	this.gameObjects = [];
 	this.hasHatchery = -1; // 0 for red 1 for blue -1 for no
 	this.width = width || 512;
 	this.height = height || 512;
 	this.row = (row != undefined) ? row : 0;
 	this.column = (column != undefined) ? column : 0;
+	this.surrounding = [];
 }
 
 GridSection.prototype.extend({

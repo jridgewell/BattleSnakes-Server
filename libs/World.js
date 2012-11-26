@@ -332,48 +332,16 @@ function World()
 	};
 
 	function surroundingGrids(gameObject) {
-		var g = gameObject.grid,
-			row = g.row,
-			column = g.column,
-			grids = [g];
-		var above = (row > 0),
-			below = (row < grid.rows - 1),
-			left = (column > 0),
-			right = (column < grid.columns - 1);
-
-		if (above) {
-			if (left) {
-				grids = grids.concat(grid.getGrid(row - 1, column - 1));
-			}
-			if (right) {
-				grids = grids.concat(grid.getGrid(row - 1, column + 1));
-			}
-			grids = grids.concat(grid.getGrid(row - 1, column));
-		}
-		if (below) {
-			if (left) {
-				grids = grids.concat(grid.getGrid(row + 1, column - 1));
-			}
-			if (right) {
-				grids = grids.concat(grid.getGrid(row + 1, column + 1));
-			}
-			grids = grids.concat(grid.getGrid(row + 1, column));
-		}
-		if (left) {
-			grids = grids.concat(grid.getGrid(row, column - 1));
-		}
-		if (right) {
-			grids = grids.concat(grid.getGrid(row, column + 1));
-		}
-		return grids;
+		var g = gameObject.grid;
+		return g.surrounding;
 	};
 
 	this.surroundingGridIds = function(gameObject) {
-		var grids = surroundingGrids(gameObject),
-			gids = [];
-		for (var i = 0, l = grids.length; i < l; ++i) {
-			gids.push(grids[i].id);
-		}
+		var grids = surroundingGrids(gameObject);
+
+		var gids = grids.map(function(grid) {
+			return grid.id;
+		});
 		return gids;
 	};
 
