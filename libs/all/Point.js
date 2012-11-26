@@ -61,6 +61,50 @@ Point.prototype.extend({
 	},
 	toJSON: function() {
 		return this.get();
+	},
+	multiply: function(scalar) {
+		var p = this.clone();
+		if (scalar instanceof Object) {
+			p.set(
+				p.x * scalar.x,
+				p.y * scalar.y
+			);
+		} else {
+			p.set(
+				p.x * scalar,
+				p.y * scalar
+			);
+		}
+		return p;
+	},
+	divide: function(scalar) {
+		if (scalar instanceof Object) {
+			scalar.x = 1 / scalar.x;
+			scalar.y = 1 / scalar.y;
+		}
+		return this.multiply(scalar);
+	},
+	add: function(offset) {
+		var p = this.clone();
+		if (offset instanceof Object) {
+			p.set(
+				p.x + offset.x,
+				p.y + offset.y
+			);
+		} else {
+			p.set(
+				p.x + offset,
+				p.y + offset
+			);
+		}
+		return p;
+	},
+	subtract: function(offset) {
+		if (offset instanceof Object) {
+			offset.x = -1 * offset.x;
+			offset.y = -1 * offset.y;
+		}
+		return this.add(offset);
 	}
 });
 

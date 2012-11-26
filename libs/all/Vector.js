@@ -42,15 +42,28 @@ Vector.prototype.extend({
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
 	multiply: function(scalar) {
-		var dy = this.dy(),
-			dx = this.dx();
-		this.set(new Point(
-			dx * scalar,
-			dy * scalar
-		));
+		var v = new Vector(
+			this.to.multiply(scalar);
+		);
+		return v;
 	},
 	divide: function(scalar) {
-		this.multiply(1 / scalar);
+		var v = new Vector(
+			this.to.divide(scalar);
+		);
+		return v;
+	},
+	add: function(offset) {
+		var v = new Vector(
+			this.to.add(offset);
+		);
+		return v;
+	},
+	subtract: function(offset) {
+		var v = new Vector(
+			this.to.subtract(offset);
+		);
+		return v;
 	},
 	normalize: function() {
 		var m = this.magnitude(),
@@ -60,7 +73,9 @@ Vector.prototype.extend({
 		)
 	},
 	clone: function() {
-		var v = new Vector(this.to.clone());
+		var v = new Vector(
+			this.to.clone()
+		);
 		return v;
 	},
 	toJSON: function() {
