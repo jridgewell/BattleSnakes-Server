@@ -61,7 +61,7 @@ Grid.prototype.extend({
 		if (row) {
 			return row[column];
 		} else {
-			return null;
+			return undefined;
 		}
 	},
 
