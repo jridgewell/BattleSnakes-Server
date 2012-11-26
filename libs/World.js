@@ -7,6 +7,7 @@ var Bush = require('./all/Environment/Bush');
 var Rock = require('./all/Environment/Rock');
 var Tree = require('./all/Environment/Tree');
 var GameObject = require('./all/GameObject');
+var Snake = require('./all/Snake');
 var Teams = require('./all/Teams');
 var Point = require('./all/Point');
 var Debug = require('./Debug');
@@ -378,14 +379,14 @@ function World()
 
 	this.surroundingSnakes = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
-			return (obj.type == 'Snake' && obj != gameObject);
+			return (obj instanceof Snake && obj != gameObject);
 		});
 		return env;
 	};
 
 	this.surroundingEnvironment = function(gameObject) {
 		var env = environment(gameObject).filter(function(obj) {
-			return obj.type != 'Snake';
+			return obj instanceof Environment;
 		});
 
 		return env;
