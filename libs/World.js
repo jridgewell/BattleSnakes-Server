@@ -306,8 +306,8 @@ function World()
 		var oldGrids = surroundingGrids(snake),
 			newGrids = surroundingGrids(newGrid);
 
-		var remove = oldGrids.elementsNotIn(newGrids),
-			add = newGrids.elementsNotIn(oldGrids);
+		var remove = oldGrids.complement(newGrids),
+			add = newGrids.complement(oldGrids);
 		remove = this.surroundingEnvironment(remove);
 		add = this.surroundingEnvironment(add);
 		user.sendRemoveEnvironmentPacket(remove);

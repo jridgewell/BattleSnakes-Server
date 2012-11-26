@@ -11,7 +11,7 @@ DONTENUMERATE(Array.prototype, 'clone', function() {
 	return Array.prototype.slice.call(this);
 });
 
-DONTENUMERATE(Array.prototype, 'elementsNotIn', function(array) {
+DONTENUMERATE(Array.prototype, 'complement', function(array) {
 	var elements = this.slice(0);
 	elements = elements.filter(function(element) {
 		return (array.indexOf(element) != -1);
