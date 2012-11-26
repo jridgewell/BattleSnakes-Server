@@ -238,8 +238,8 @@ function World()
 				velocity = snake.velocity.to,
 				oldX = snake.position.x,
 				oldY = snake.position.y,
-				newX = oldX + (velocity.x * scale * elapsedTime),
-				newY = oldY + (velocity.y * scale * elapsedTime),
+				newX = oldX + (velocity.x * elapsedTime),
+				newY = oldY + (velocity.y * elapsedTime),
 				collision = false,
 				OoB = false;
 
