@@ -70,27 +70,34 @@ function User(socket, playerevent, snakeID)
 		if (broadcast) {
 			this.broadcastPlayerUpdate();
 		}
+		return message;
 	};
 
 	this.sendAddEnvironmentPacket = function(env) {
-		socket.emit('message', {
+		var message = {
 			type: 'addEnvironment',
 			items: env
-		});
+		};
+		socket.emit('message', message);
+		return message;
 	}
 
 	this.sendRemoveEnvironmentPacket = function(env) {
-		socket.emit('message', {
+		var message = {
 			type: 'removeEnvironment',
 			items: env
-		});
+		};
+		socket.emit('message', message);
+		return message;
 	}
 
 	this.sendPlayerUpdate = function(env) {
-		socket.emit('message', {
+		var message = {
 			type: 'playerUpdate',
 			snakes: env
-		});
+		};
+		socket.emit('message', message);
+		return message;
 	}
 
 	this.broadcast = function(to, message) {
