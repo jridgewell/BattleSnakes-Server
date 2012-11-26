@@ -5,8 +5,8 @@ var d = new Debug();
 function GridSection(row, column, width, height) {
 	this.gameObjects = [];
 	this.hasHatchery = -1; // 0 for red 1 for blue -1 for no
-	this.width = width || 512;
-	this.height = height || 512;
+	this.width = width || 96;
+	this.height = height || 96;
 	this.x = 0;
 	this.y = 0;
 	this.row = (row != undefined) ? row : 0;
