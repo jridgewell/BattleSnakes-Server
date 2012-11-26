@@ -43,25 +43,25 @@ Vector.prototype.extend({
 	},
 	multiply: function(scalar) {
 		var v = new Vector(
-			this.to.multiply(scalar);
+			this.to.multiply(scalar)
 		);
 		return v;
 	},
 	divide: function(scalar) {
 		var v = new Vector(
-			this.to.divide(scalar);
+			this.to.divide(scalar)
 		);
 		return v;
 	},
 	add: function(offset) {
 		var v = new Vector(
-			this.to.add(offset);
+			this.to.add(offset)
 		);
 		return v;
 	},
 	subtract: function(offset) {
 		var v = new Vector(
-			this.to.subtract(offset);
+			this.to.subtract(offset)
 		);
 		return v;
 	},
