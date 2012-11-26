@@ -33,6 +33,8 @@ GridSection.prototype.extend({
 
 	getBounds: function() {
 		return {
+			x: this.x,
+			y: this.y,
 			height: this.height,
 			width: this.width
 		};
