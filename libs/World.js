@@ -332,8 +332,10 @@ function World()
 	};
 
 	function surroundingGrids(gameObject) {
-		var g = gameObject.grid;
-		return g.surrounding;
+		var g = gameObject.grid,
+			grids = g.surrounding.slice(0);
+		grids.push(g);
+		return grids;
 	};
 
 	this.surroundingGridIds = function(gameObject) {
