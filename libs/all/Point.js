@@ -60,7 +60,10 @@ Point.prototype.extend({
 		return p;
 	},
 	toJSON: function() {
-		return this.get();
+		return {
+			x: parseInt(this.x, 10),
+			y: parseInt(this.y, 10)
+		};
 	},
 	multiply: function(scalar) {
 		var p = this.clone();

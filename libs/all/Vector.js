@@ -80,7 +80,8 @@ Vector.prototype.extend({
 	},
 	toJSON: function() {
 		return {
-			to: this.to.toJSON()
+			angle: parseInt(this.angle(), 10),
+			magnitude: parseInt(this.magnitude(), 10)
 		};
 	}
 });
