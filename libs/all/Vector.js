@@ -28,7 +28,26 @@ Vector.prototype.extend({
 		return v;
 	},
 	angle: function() { /*degrees*/
-		return ((Math.atan2(-1 * this.dy(), -1 * this.dx()) / Math.PI * 180) + 180);
+		var dx = this.dx(),
+			dy = this.dy();
+		if (dx === 0 && dy === 0) {
+			return 0;
+		}
+		var quadrant1 = (dx > 0 && dy > 0),
+			quadrant2 = (dx < 0 && dy > 0),
+			quadrant3 = (dx < 0 && dy <= 0),
+			quadrant4 = (dx >= 0 && dy < 0),
+			ratio = (dy / dx),
+			angle = (Math.atan(ratio) / Math.PI * 180);
+		if (quadrant1) {
+		} else if (quadrant2) {
+			angle += 180;
+		} else if (quadrant3) {
+			angle += 180;
+		} else if (quadrant4) {
+			angle = 360 + angle;
+		}
+		return angle;
 	},
 	dx: function() {
 		return this.to.x;
