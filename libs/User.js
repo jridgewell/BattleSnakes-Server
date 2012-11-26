@@ -174,7 +174,7 @@ function User(socket, playerevent, snakeID)
 		var position = snake.position;
 		var velocity = snake.velocity;
 
-		position = position.translate(data.position);
+		position = position.subtract(data.position);
 
 		snake.velocity.set(data.velocity.to);
 		if (Math.abs(position.x) < 1 &&
@@ -209,8 +209,9 @@ function User(socket, playerevent, snakeID)
 		var powerup = powerups[0];
 		switch (powerup.type) {
 			case 1:
-				this.snake.velocity.multiply(2);
-				setTimeout.call(this.snake.velocity, this.snake.velocity.divide, powerUpTime, 2);
+				var velocity = this.snake.velocity;
+				velocity.set(velocity.multiply(2));
+				setTimeout.call(velocity, velocity.set, powerUpTime, velocity.divide(2));
 		}
 	}
 
