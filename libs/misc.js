@@ -19,30 +19,31 @@ DONTENUMERATE(Object.prototype, '_extends', function(source) {
 });
 
 DONTENUMERATE(Object.prototype, 'extend', function(source) {
-	$this = this;
 	for (var prop in source) {
-		if (prop != 'constructor') {
-			var propertyDescriptor = Object.getOwnPropertyDescriptor(source, prop),
-				get = propertyDescriptor.get,
-				set = propertyDescriptor.set,
-				val = propertyDescriptor.value;
-			if (get || set) {
-				Object.defineProperty(this, prop, {
-					get: get,
-					set: set,
-					enumerable : true,
-					configurable : true
-				});
-			} else if (typeof val != 'object') {
-				this[prop] = val;
-			} else {
-				if ('clone' in val && typeof val.clone == 'function') {
-					this[prop] = val.clone();
-				} else {
-					// There are references to the Parent's objects
-					this[prop] = val;
-				}
+		var propertyDescriptor = Object.getOwnPropertyDescriptor(source, prop),
+			get = propertyDescriptor.get,
+			set = propertyDescriptor.set,
+			val = propertyDescriptor.value,
+			writable = propertyDescriptor.writable,
+			configurable = propertyDescriptor.configurable,
+			enumerable = propertyDescriptor.enumerable;
+		if (get || set) {
+			Object.defineProperty(this, prop, {
+				get: get,
+				set: set,
+				enumerable: enumerable,
+				configurable: configurable
+			});
+		} else {
+			if (val instanceof Object && 'clone' in val && val.clone instanceof Function) {
+				val = val.clone();
 			}
+			Object.defineProperty(this, prop, {
+				value: val,
+				writable: writable,
+				enumerable: enumerable,
+				configurable: configurable
+			});
 		}
 	}
 	return this;
