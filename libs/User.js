@@ -68,16 +68,20 @@ function User(socket, playerevent, snakeID)
 		socket.emit('message', message);
 
 		if (broadcast) {
-			playerevent({
-				type: 'playerUpdate',
-				user: user
-			});
+			this.broadcastPlayerUpdate();
 		}
 	};
 
 	this.sendAddEnvironmentPacket = function(env) {
 		socket.emit('message', {
 			type: 'addEnvironment',
+			items: env
+		});
+	}
+
+	this.sendRemoveEnvironmentPacket = function(env) {
+		socket.emit('message', {
+			type: 'removeEnvironment',
 			items: env
 		});
 	}
@@ -89,14 +93,23 @@ function User(socket, playerevent, snakeID)
 		});
 	}
 
-	this.broadcastPlayerUpdate = function(env) {
-		for (var i = 0, l = env.length; i < l; ++i) {
-			socket.broadcast.to(env[i]).emit('message', {
-				type: 'playerUpdate',
-				snakes: [snake]
-			});
+	this.broadcast = function(to, message) {
+		if (Array.isArray(to)) {
+			for (var i = 0, l = to.length; i < l; ++i) {
+				socket.broadcast.to(to[i]).emit('message', message);
+			}
+		} else {
+			socket.broadcast.to(to).emit('message', message);
 		}
 	}
+
+	this.broadcastPlayerUpdate = function() {
+		this.broadcast(this.surroundingGridRooms(), {
+			type: 'playerUpdate',
+			snake: [snake]
+		});
+	}
+
 
 	function handleMessage(socket, e)
 	{
@@ -142,14 +155,11 @@ function User(socket, playerevent, snakeID)
 			user.sendUpdatePacket();
 		}
 
-		playerevent({
-			type: 'playerUpdate',
-			user: user
-		});
+		this.broadcastPlayerUpdate();
 	}
 
 	function handleChat(data) {
-		socket.broadcast.to('chat').emit('message', {
+		this.broadcast('chat', {
 			type: 'chat',
 			from: snake.name,
 			message: data.message

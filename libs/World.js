@@ -188,6 +188,12 @@ function World()
 
 	this.AddSnake = function(user) {
 		var snake = user.getSnake();
+		// User function that must be aware of the World
+		(function(world) {
+			user.surroundingGridRooms = function() {
+				return world.surroundingGridIds(snake);
+			}
+		})(this);
 		var size = this.GetCurrentSize();
 		var g;
 		switch(snake.team)

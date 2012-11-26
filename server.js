@@ -92,19 +92,21 @@ Server.UpdateTimer = function()
 
 Server.PayerEvent = function(event)
 {
-	// example of how you should handle the data
+	var user = event.user,
+		snake = user.getSnake();
 	switch(event.type)
 	{
 		case 'intro':
-			var snake = event.user.getSnake();
-			event.user.sendIntroPacket(world.AddSnake(event.user));
-			event.user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
-			event.user.sendPlayerUpdate(world.surroundingSnakes(snake));
-			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
+			user.sendIntroPacket(world.AddSnake(user));
+			user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
+			//Send other snakes to the user
+			user.sendPlayerUpdate(world.surroundingSnakes(snake));
+			//Send user to the  other snakes
+			user.broadcastPlayerUpdate();
 			break;
 		case 'playerUpdate':
-			var snake = event.user.getSnake();
-			event.user.broadcastPlayerUpdate(world.surroundingGridIds(snake));
+			//Send other snakes to the user
+			user.broadcastPlayerUpdate();
 			break;
 		case 'disconnect':
 			d.log(1,'User '+event.userid+' has disconnected!');
