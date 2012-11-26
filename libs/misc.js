@@ -11,6 +11,14 @@ DONTENUMERATE(Array.prototype, 'clone', function() {
 	return Array.prototype.slice.call(this);
 });
 
+DONTENUMERATE(Array.prototype, 'elementsNotIn', function(array) {
+	var elements = this.slice(0);
+	elements = elements.filter(function(element) {
+		return (array.indexOf(element) != -1);
+	});
+	return elements;
+});
+
 DONTENUMERATE(Object.prototype, '_extends', function(source) {
 	if (this instanceof Function && source instanceof Function) {
 		this.prototype = Object.create(source.prototype);
