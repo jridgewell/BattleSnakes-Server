@@ -114,21 +114,10 @@ Snake.prototype.extend(GameObject.prototype).extend({
 		return this;
 	},
 
-	pickUpEgg: function(egg) {
-		this.score('pickUpEgg', 1);
-		this.eggs.push(egg);
-		return this;
-	},
-
 	hasEggs: function() {
 		return (this.eggs.length > 0);
 	},
 
-	dropOffEggs: function(hatchery) {
-		var eggs = this.eggs.splice(0);
-		this.score('dropOffEggs', eggs.length);
-		return eggs;
-	}
 });
 
 module.exports = Snake;
