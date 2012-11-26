@@ -191,7 +191,7 @@ function User(socket, playerevent, snakeID)
 			user.sendUpdatePacket();
 		}
 
-		this.broadcastPlayerUpdate();
+		user.broadcastPlayerUpdate();
 	}
 
 	function handleChat(data) {
