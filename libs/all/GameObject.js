@@ -31,7 +31,7 @@ GameObject.prototype.extend({
 				&& gameObject.position.x <= this.position.x + this.width
 				&& gameObject.position.y <= this.position.y + this.height;
 		} else {
-			return gameObject.position.inside(topLeft, bottomRight);
+			return (this.isCollidable) ? gameObject.position.inside(topLeft, bottomRight) : false;
 		}
 	}
 });
