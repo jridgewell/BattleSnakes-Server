@@ -19,14 +19,25 @@ Grid.prototype.extend({
 	},
 	increase: function() {
 		var ret = [],
-			lastRow = [];
+			lastRow = [],
+			size = this.getSize();
+			x = size.width,
+			y = 0;
 		for (var i = 0, r = this.rows; i < r; ++i) {
 			var g = new GridSection(i, this.columns);
+			g.x = x;
+			g.y = y;
+			y += g.height;
 			this.grid[i].push(g);
 			ret.push(g);
 		}
+		x = 0;
+		y = size.height;
 		for (var i = 0, c = this.columns; i <= c; ++i) {
 			var g = new GridSection(this.rows, i);
+			g.x = x;
+			g.y = y;
+			x += g.width;
 			lastRow.push(g);
 			ret.push(g);
 		}
@@ -124,21 +135,7 @@ Grid.prototype.extend({
 
 	getBoundsOfGrid: function(gridOrRow, column) {
 		var grid = this.getGrid(gridOrRow, column),
-			bounds = grid.getBounds(),
-			row = grid.row - 1,
-			column = grid.column - 1,
-			x = 0,
-			y = 0;
-		while (row >= 0) {
-			y += this.getGrid(row, grid.column).height;
-			--row;
-		}
-		while (column >= 0) {
-			x += this.getGrid(grid.row, column).width;
-			--column;
-		}
-		bounds.x = x;
-		bounds.y = y;
+			bounds = grid.getBounds();
 		return bounds;
 	},
 
@@ -154,6 +151,24 @@ Grid.prototype.extend({
 				bounds.y
 			);
 		return position.inside(topLeft, bottomRight);
+	},
+
+	getSize: function() {
+		var size = {
+			height: 0,
+			width: 0
+		};
+
+		if (!this.grid) {
+			return size;
+		}
+		for (var i = 0; i < this.rows; ++i) {
+			size.height += this.getGrid(i, 0).height;
+		}
+		for (var i = 0; i < this.columns; ++i) {
+			size.width += this.getGrid(0, i).width;
+		}
+		return size;
 	}
 });
 module.exports = Grid;

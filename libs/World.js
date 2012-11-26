@@ -215,23 +215,7 @@ function World()
 	};
 
 	this.GetCurrentSize = function() {
-		var size = {
-			height: 0,
-			width: 0
-		};
-
-
-		if (grid) {
-			return size;
-		}
-		for (var i = 0; i < grid.rows; ++i) {
-			size.height += grid.getGrid(i, 0).height;
-		}
-		for (var i = 0; i < grid.columns; ++i) {
-			size.width += grid.getGrid(0, i).width;
-		}
-
-		return size;
+		return grid.getSize();
 	};
 
 	this.update = function(users) {

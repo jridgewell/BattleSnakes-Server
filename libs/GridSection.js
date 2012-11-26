@@ -7,6 +7,8 @@ function GridSection(row, column, width, height) {
 	this.hasHatchery = -1; // 0 for red 1 for blue -1 for no
 	this.width = width || 512;
 	this.height = height || 512;
+	this.x = 0;
+	this.y = 0;
 	this.row = (row != undefined) ? row : 0;
 	this.column = (column != undefined) ? column : 0;
 	this.surrounding = [];
