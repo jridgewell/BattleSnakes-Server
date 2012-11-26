@@ -58,7 +58,7 @@ CubicBezierSegment.prototype.extend({
 		for (var i = 0; i < roots.length; ++i) {
 			var root = roots[i];
 			var xt = this.x(root);
-			if (xt >= 0 && xt <= x) {
+			if (xt >= 0 && xt <= x + 1) {
 				return true;
 			}
 		}
