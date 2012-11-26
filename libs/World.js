@@ -315,15 +315,19 @@ function World()
 		return env;
 	};
 
-	function surroundingGrids(gameObject) {
-		var g = gameObject.grid,
-			grids = g.surrounding.slice(0);
+	function surroundingGrids(gridOrGameObject) {
+		if (gridOrGameObject instanceof GameObject) {
+			var g = gridOrGameObject.grid;
+		} else {
+			var g = gridOrGameObject;
+		}
+		var grids = g.surrounding.slice(0);
 		grids.push(g);
 		return grids;
 	};
 
-	this.surroundingGridIds = function(gameObject) {
-		var grids = surroundingGrids(gameObject);
+	this.surroundingGridIds = function(gridOrGameObject) {
+		var grids = surroundingGrids(gridOrGameObject);
 
 		var gids = grids.map(function(grid) {
 			return grid.id;
@@ -331,16 +335,16 @@ function World()
 		return gids;
 	};
 
-	this.surroundingSnakes = function(gameObject) {
-		var env = environment(gameObject).filter(function(obj) {
+	this.surroundingSnakes = function(gridsOrGameObject) {
+		var env = environment(gridsOrGameObject).filter(function(obj) {
 			return (obj instanceof Snake && obj != gameObject);
 		});
 		return env;
 	};
 
-	this.surroundingEnvironment = function(gameObject) {
-		var env = environment(gameObject).filter(function(obj) {
-			return obj instanceof Environment;
+	this.surroundingEnvironment = function(gridsOrGameObject) {
+		var env = environment(gridsOrGameObject).filter(function(obj) {
+			return (obj instanceof Environment);
 		});
 
 		return env;
