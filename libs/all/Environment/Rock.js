@@ -2,14 +2,13 @@ var Environment = require('./Environment');
 var Point = require('../Point');
 
 function Rock() {
-	// Constructor code here
-	// this.id = id;
-	// Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4:rock , 5: bush
-	this.type = 4;
-	this.isCollidable = true;
-	this.position = new Point();
-};
+	Environment.call(this);
+}
 
 Rock._extends(Environment);
+Rock.prototype.extend({
+	isCollidable: true,
+	type: 4 // Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4: Rock , 5: bush
+});
 
 module.exports = Rock;

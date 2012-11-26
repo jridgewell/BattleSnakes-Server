@@ -1,7 +1,9 @@
 var GameObject = require('../GameObject');
 var Point = require('../Point');
 
-function Environment(){}
+function Environment() {
+	GameObject.call(this);
+}
 
 Environment._extends(GameObject);
 Environment.prototype.extend({

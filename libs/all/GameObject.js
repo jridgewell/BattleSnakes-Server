@@ -1,13 +1,14 @@
 require('../misc');
 var Point = require('./Point');
 
-function GameObject(){}
+function GameObject() {
+	this.id = 0;
+	this.position = new Point();
+}
 
 GameObject.prototype.extend({
-	id: 0,
-	type: '',
+	type: -1,
 	isCollidable: false,
-	position: new Point(),
 	isStationary: true,
 	width: 128,
 	height: 128,
