@@ -22,7 +22,7 @@ CubicBezierSpline.prototype.extend({
 				delta = this.storedTime ? now - this.storedTime : 0;
 			this.time += delta;
 			this.storedTime = now;
-			var height = 50,
+			var height = 5,
 				angle = vector.angle(),
 				spline = this.rotate(angle * -1),
 				l = spline.bezierSegments.length;
