@@ -10,6 +10,6 @@ function Bush() {
 	this.position = new Point();
 }
 
-Bush.prototype.extend(Environment.prototype);
+Bush._extends(Environment);
 
 module.exports = Bush;

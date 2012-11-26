@@ -11,6 +11,13 @@ DONTENUMERATE(Array.prototype, 'clone', function() {
 	return Array.prototype.slice.call(this);
 });
 
+DONTENUMERATE(Object.prototype, '_extends', function(source) {
+	if (this instanceof Function && source instanceof Function) {
+		this.prototype = Object.create(source.prototype);
+		DONTENUMERATE(this.prototype, 'constructor', this);
+	}
+});
+
 DONTENUMERATE(Object.prototype, 'extend', function(source) {
 	$this = this;
 	for (var prop in source) {

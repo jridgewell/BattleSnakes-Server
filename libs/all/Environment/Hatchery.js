@@ -10,7 +10,8 @@ function Hatchery(team)
 	var playersEggs = new Array();
 }
 
-Hatchery.prototype.extend(Environment.prototype).extend({
+Hatchery._extends(Environment);
+Hatchery.prototype.extend({
 	width: 256,
 	height: 256,
 

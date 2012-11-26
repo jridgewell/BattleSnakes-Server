@@ -10,6 +10,6 @@ function Rock() {
 	this.position = new Point();
 };
 
-Rock.prototype.extend(Environment.prototype);
+Rock._extends(Environment);
 
 module.exports = Rock;

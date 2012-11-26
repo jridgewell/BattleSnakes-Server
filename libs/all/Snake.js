@@ -62,7 +62,8 @@ function Snake(id) {
 	]);// array of segments
 }
 
-Snake.prototype.extend(GameObject.prototype).extend({
+Snake._extends(GameObject);
+Snake.prototype.extend({
 	wiggle: function() {
 		this.segments.wiggle(this.velocity);
 	},

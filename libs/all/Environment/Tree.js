@@ -10,6 +10,6 @@ function Tree() {
 	this.position = new Point();
 }
 
-Tree.prototype.extend(Environment.prototype);
+Tree._extends(Environment);
 
 module.exports = Tree;

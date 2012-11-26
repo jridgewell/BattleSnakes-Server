@@ -3,7 +3,8 @@ var Point = require('../Point');
 
 function Environment(){}
 
-Environment.prototype.extend(GameObject.prototype).extend({
+Environment._extends(GameObject);
+Environment.prototype.extend({
 	sprite: '', // path to sprite img to load
 
 	toJSON: function() {

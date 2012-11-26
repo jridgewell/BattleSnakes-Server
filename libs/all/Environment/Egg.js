@@ -19,7 +19,8 @@ function Egg(hColor) {
 	this.hatchlingColor = hColor;
 }
 
-Egg.prototype.extend(Environment.prototype).extend({
+Egg._extends(Environment);
+Egg.prototype.extend({
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
 			return false;
