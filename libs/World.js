@@ -21,6 +21,7 @@ function World()
 	var a = 0;
 	var storedTime = (new Date()).getTime();
 	var scale = 25;
+	var world = this;
 
 	function init()
 	{
@@ -308,8 +309,8 @@ function World()
 
 		var remove = oldGrids.complement(newGrids),
 			add = newGrids.complement(oldGrids);
-		remove = this.surroundingEnvironment(remove);
-		add = this.surroundingEnvironment(add);
+		remove = world.surroundingEnvironment(remove);
+		add = world.surroundingEnvironment(add);
 		user.sendRemoveEnvironmentPacket(remove);
 		user.sendAddEnvironmentPacket(add);
 
