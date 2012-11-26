@@ -321,10 +321,10 @@ function World()
 	function environment(gridsOrGameObject) {
 		var env = [],
 			grids;
-		if (Array.isArray(gameObjectOrGrids)) {
-			grids = gameObjectOrGrids;
+		if (Array.isArray(gridsOrGameObject)) {
+			grids = gridsOrGameObject;
 		} else {
-			grids = surroundingGrids(gameObject);
+			grids = surroundingGrids(gridsOrGameObject);
 		}
 		for (var i = 0, l = grids.length; i < l; ++i) {
 			if (grids[i] instanceof Object) {
@@ -356,7 +356,7 @@ function World()
 
 	this.surroundingSnakes = function(gridsOrGameObject) {
 		var env = environment(gridsOrGameObject).filter(function(obj) {
-			return (obj instanceof Snake && obj != gameObject);
+			return (obj instanceof Snake && obj != gridsOrGameObject);
 		});
 		return env;
 	};
