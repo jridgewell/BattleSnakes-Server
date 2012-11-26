@@ -57,7 +57,12 @@ Grid.prototype.extend({
 		} else if (gridOrRow instanceof Object) {
 			return this.getGrid(gridOrRow.row, gridOrRow.column);
 		}
-		return this.grid[gridOrRow][column];
+		var row = this.grid[gridOrRow];
+		if (row) {
+			return row[column];
+		} else {
+			return null;
+		}
 	},
 
 	addGameObjectToGrid: function(gobj, gridOrRow, column) {
