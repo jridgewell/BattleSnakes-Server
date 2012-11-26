@@ -33,18 +33,10 @@ Vector.prototype.extend({
 		if (dx === 0 && dy === 0) {
 			return 0;
 		}
-		var quadrant1 = (dx > 0 && dy > 0),
-			quadrant2 = (dx < 0 && dy > 0),
-			quadrant3 = (dx < 0 && dy <= 0),
-			quadrant4 = (dx >= 0 && dy < 0),
-			ratio = (dy / dx),
-			angle = (Math.atan(ratio) / Math.PI * 180);
-		if (quadrant1) {
-		} else if (quadrant2) {
+		var angle = (Math.atan(dy / dx) / Math.PI * 180);
+		if (dx < 0) {
 			angle += 180;
-		} else if (quadrant3) {
-			angle += 180;
-		} else if (quadrant4) {
+		} else if (dx >= 0 && dy < 0) {
 			angle = 360 + angle;
 		}
 		return angle;
