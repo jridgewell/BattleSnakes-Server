@@ -82,6 +82,7 @@ Vector.prototype.extend({
 			this.to.x / m,
 			this.to.y / m
 		)
+		return v;
 	},
 	clone: function() {
 		var v = new Vector(
