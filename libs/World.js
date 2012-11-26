@@ -272,12 +272,14 @@ function World()
 				}
 			}
 			if (typeof collision == 'number') {
-				user.sendUpdatePacket(true);
+				user.sendUpdatePacket();
+				user.broadcastPlayerUpdate();
 			}
 			if (OoB || collision) {
 				snake.position.set(oldX, oldY);
 				snake.velocity.set(0, 0);
-				user.sendUpdatePacket(true);
+				user.sendUpdatePacket();
+				user.broadcastPlayerUpdate();
 			}
 		}
 

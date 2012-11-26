@@ -91,14 +91,10 @@ function User(socket, playerevent, snakeID)
 		return message;
 	}
 
-	this.sendUpdatePacket = function(broadcast) {
+	this.sendUpdatePacket = function() {
 		var message = snake.toJSON();
 		message.type = 'update';
 		socket.emit('message', message);
-
-		if (broadcast) {
-			this.broadcastPlayerUpdate();
-		}
 		return message;
 	};
 
