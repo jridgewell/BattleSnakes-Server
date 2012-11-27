@@ -166,7 +166,7 @@ function World()
 			x += gb.x;
 			y += gb.y;
 			if (obj.move) {
-				objects.move(x, y);
+				obj.move(x, y);
 			} else {
 				obj.position.set(x, y);
 			}
