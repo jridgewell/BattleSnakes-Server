@@ -18,13 +18,13 @@ function Snake(id) {
 	this.velocity = new Vector(
 		new Point(1, 0)
 	);// float
-	this.currentPowerups = [];
 	this.numSegments = 1;
 	this.grid = null;
 	this.height = 20;
 	this.width = 20;
 	this.position = new Point();
 	this.eggs = [];
+	this.powerups = [];
 	this.segments = new CubicBezierSpline();
 	(function(snake) {
 		snake.segments.vel = function() {
@@ -131,6 +131,17 @@ Snake.prototype.extend({
 	pickUpEgg: function(egg) {
 		this.eggs.push(egg);
 		this.addSegment();
+	},
+
+	pickUpPowerup: function(powerup) {
+		this.powerups.push(powerup);
+	},
+
+	usePowerup: function(powerup) {
+		var index = this.powerups.indexOf(powerup);
+		if (index > -1) {
+			return this.powerup.splice(index, 1);
+		}
 	}
 });
 

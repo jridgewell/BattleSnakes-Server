@@ -73,6 +73,16 @@ function User(socket, playerevent, snakeID)
 			user.sendEggPacket();
 			return eggs;
 		}
+
+		snakePickUpPowerup = snake.pickUpPowerup;
+		snake.pickUpPowerup = function(powerup) {
+			if (snakePickUpPowerup) {
+				snakePickUpPowerup(powerup);
+			}
+			user.sendUpdatePacket();
+			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(powerup));
+			return this;
+		}
 	};
 
 	this.sendIntroPacket = function(env)
@@ -221,18 +231,21 @@ function User(socket, playerevent, snakeID)
 
 	function handlePowerup(data) {
 		var powerUpTime = 2000;
-		var powerups = snake.currentPowerups.filter(function(element) {
+		var powerups = snake.powerups.filter(function(element) {
 			return element.id == data.id;
 		});
 		if (!Array.isArray(powerups)) {
 			return null;
 		}
 		var powerup = powerups[0];
-		switch (powerup.type) {
+		switch (powerup.powerupType) {
 			case 1:
+				snake.usePowerup(powerup);
 				var velocity = this.snake.velocity;
 				velocity.set(velocity.multiply(2));
+				user.sendUpdatePacket();
 				setTimeout.call(velocity, velocity.set, powerUpTime, velocity.divide(2));
+				setTimeout.call(user, user.sendUpdatePacket, powerUpTime);
 		}
 	}
 
