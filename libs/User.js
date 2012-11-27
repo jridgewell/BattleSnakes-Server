@@ -171,12 +171,23 @@ function User(socket, playerevent, snakeID)
 	};
 
 	function handleUpdate(data) {
-		var position = snake.position;
-		var velocity = snake.velocity;
+		var position = snake.position,
+			velocity = snake.velocity,
+			dVelocity = data.velocity;
+
+		if ('angle' in dVelocity && 'magnitude' in dVelocity) {
+			var angle = dVelocity.angle * Math.PI / 180;
+			dVelocity = {
+				to: {
+					x: Math.cos(angle) * dVelocity.magnitude,
+					y: Math.sin(angle) * dVelocity.magnitude
+				}
+			};
+		}
 
 		position = position.subtract(data.position);
 
-		snake.velocity.set(data.velocity.to);
+		snake.velocity.set(dVelocity.to);
 		if (Math.abs(position.x) < 1 &&
 			Math.abs(position.y) < 1) {
 			snake.position.set(
