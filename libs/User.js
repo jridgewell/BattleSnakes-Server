@@ -35,6 +35,7 @@ function User(socket, playerevent, snakeID)
 
 
 		// Snake functions that must be aware of the User object
+		snakeScore = snake.score;
 		snake.score = function(type, increment) {
 			var get = (increment == undefined),
 				scoreSet = (type in score),
@@ -44,23 +45,32 @@ function User(socket, playerevent, snakeID)
 			}
 			scoreOfType += increment;
 			score[type] = scoreOfType;
+			if (snakeScore) {
+				snakeScore(type, increment);
+			}
 		};
 
+		snakePickUpEgg = snake.pickUpEgg;
 		snake.pickUpEgg = function(egg) {
 			this.score('pickUpEgg', 1);
-			this.eggs.push(egg);
-			//TODO: Increase snake length
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
 			user.sendEggPacket();
 			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(egg));
+			if (snakePickUpEgg) {
+				snakePickUpEgg(egg);
+			}
 			return this;
 		},
 
+		snakeDropOffEggs = snake.dropOffEggs;
 		snake.dropOffEggs = function(hatchery) {
 			var eggs = this.eggs.splice(0);
 			this.score('dropOffEggs', eggs.length);
 			user.sendEggPacket();
+			if (snakeDropOffEggs) {
+				snakeDropOffEggs(hatchery);
+			}
 			return eggs;
 		}
 	};

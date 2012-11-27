@@ -117,6 +117,10 @@ Snake.prototype.extend({
 		return (this.eggs.length > 0);
 	},
 
+	pickUpEgg: function(egg) {
+		this.eggs.push(egg);
+		this.addSegment();
+	}
 });
 
 module.exports = Snake;
