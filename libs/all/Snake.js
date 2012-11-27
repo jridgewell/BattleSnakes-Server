@@ -25,41 +25,8 @@ function Snake(id) {
 	this.width = 20;
 	this.position = new Point();
 	this.eggs = [];
-	this.segments = new CubicBezierSpline([
-		new CubicBezierSegment(
-			this.position,
-			{
-				x: this.position.x - 20,
-				y: this.position.y
-			},
-			{
-				x: this.position.x - 40,
-				y: this.position.y
-			},
-			{
-				x: this.position.x - 60,
-				y: this.position.y
-			}
-		),
-		new CubicBezierSegment(
-			{
-				x: this.position.x - 60,
-				y: this.position.y
-			},
-			{
-				x: this.position.x - 80,
-				y: this.position.y
-			},
-			{
-				x: this.position.x - 100,
-				y: this.position.y
-			},
-			{
-				x: this.position.x - 120,
-				y: this.position.y
-			}
-		),
-	]);// array of segments
+	this.segments = new CubicBezierSpline();
+	this.addSegment();
 }
 
 Snake._extends(GameObject);
@@ -100,6 +67,37 @@ Snake.prototype.extend({
 			currentPowerup: null,
 			segments: this.segments.toJSON()
 		};
+	},
+
+	addSegment: function() {
+		var last = this.segments.last(),
+			lastFrom = (last) ? last.from : this.velocity.to,
+			lastPoint = (last) ? last.to : this.position,
+			v = new Vector(
+				lastFrom.subtract(lastPoint)
+			).normalize(),
+			angle = v.angleRadians(),
+			x = Math.cos(angle),
+			y = Math.sin(angle),
+			cp1 = lastPoint.add(new Point(
+				x * 2,
+				y * 2
+			)),
+			cp2 = lastPoint.add(new Point(
+				x * 4,
+				y * 4
+			)),
+			to = lastPoint.add(new Point(
+				x * 6,
+				y * 6
+			));
+		var segment = new CubicBezierSegment(
+			lastPoint,
+			cp1,
+			cp2,
+			to
+		);
+		this.segments.push(segment);
 	},
 
 	//passes in a string "Red" or "Blue"

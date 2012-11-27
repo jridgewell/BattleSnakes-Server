@@ -124,6 +124,9 @@ CubicBezierSpline.prototype.extend({
 	pop: function() {
 		return this.bezierSegments.pop();
 	},
+	last: function() {
+		return this.bezierSegments[this.bezierSegments.length - 1];
+	},
 	splice: function(index, howMany) {
 		if (howMany) {
 			return this.bezierSegments.splice(index, howMany);
