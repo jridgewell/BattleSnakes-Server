@@ -11,17 +11,12 @@ function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 		}
 	}
 	this.shouldWiggle = true;
-	this.storedTime = undefined;
-	this.time = 0;
 }
 
 CubicBezierSpline.prototype.extend({
 	wiggle: function(vector) {
 		if (this.shouldWiggle) {
-			var now = Date.now() / 1000,
-				delta = this.storedTime ? now - this.storedTime : 0;
-			this.time += delta;
-			this.storedTime = now;
+			var now = Date.now() / 1000;
 			var height = 5,
 				angle = vector.angle(),
 				spline = this.rotate(angle * -1),
@@ -30,7 +25,7 @@ CubicBezierSpline.prototype.extend({
 					for (var i = 0; i < l; ++i) {
 					//http://paperjs.org/tutorials/animation/creating-animations/
 					var seg = spline.bezierSegments[i],
-						sinus = Math.sin(this.time * 3.2 + i);
+						sinus = Math.sin(now * 3.2 + i);
 					seg.to.y = sinus * height;
 				}
 				this.bezierSegments = spline.rotate(angle).bezierSegments;
