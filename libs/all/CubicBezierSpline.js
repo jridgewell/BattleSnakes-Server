@@ -16,7 +16,7 @@ function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 
 CubicBezierSpline.prototype.extend({
 	shouldWiggle: function() {
-		if (this.bezierSegments.length === 0) {
+		if (this.bezierSegments.length === 0 || this.vel().magnitude() === 0) {
 			return false;
 		}
 		var wiggle = true;
