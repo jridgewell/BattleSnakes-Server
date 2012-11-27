@@ -239,6 +239,7 @@ function World()
 				OoB = false;
 
 			snake.move(newX, newY);
+			snake.wiggle();
 			var g = updateSnakeGrid(snake, velocity);
 			if (g) {
 				if (g != snake.grid) {

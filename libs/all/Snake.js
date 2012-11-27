@@ -26,13 +26,18 @@ function Snake(id) {
 	this.position = new Point();
 	this.eggs = [];
 	this.segments = new CubicBezierSpline();
+	(function(snake) {
+		snake.segments.vel = function() {
+			return snake.velocity;
+		};
+	})(this);
 	this.addSegment();
 }
 
 Snake._extends(GameObject);
 Snake.prototype.extend({
 	wiggle: function() {
-		this.segments.wiggle(this.velocity);
+		this.segments.wiggle();
 	},
 	move: function(pointOrX, y) {
 		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),

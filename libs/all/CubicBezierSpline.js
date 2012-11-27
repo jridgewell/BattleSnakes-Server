@@ -1,4 +1,5 @@
 var Point = require('./Point');
+var Vector = require('./Vector');
 var CubicBezierSegment = require('./CubicBezierSegment');
 /* CubicBezierSpline class
  * Handles an array of CubicBezierSegments
@@ -10,26 +11,51 @@ function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 			this.push(bezierSegments[i]);
 		}
 	}
-	this.shouldWiggle = true;
+	this.vel = function() {};
 }
 
 CubicBezierSpline.prototype.extend({
-	wiggle: function(vector) {
-		if (this.shouldWiggle) {
+	shouldWiggle: function() {
+		if (this.bezierSegments.length === 0) {
+			return false;
+		}
+		var wiggle = true;
+		var lastVelocity = this.vel();
+		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
+			var segment = this.bezierSegments[i],
+				v = new Vector(segment.to.subtract(segment.from));
+			if (lastVelocity) {
+				if (!lastVelocity.angleEquals(v)) {
+					wiggle = false;
+					break;
+				}
+			}
+			lastVelocity = v;
+		}
+		return wiggle;
+	},
+	wiggle: function() {
+		if (this.shouldWiggle()) {
 			var now = Date.now() / 1000;
 			var height = 5,
+				vector = this.vel(),
 				angle = vector.angle(),
 				spline = this.rotate(angle * -1),
 				l = spline.bezierSegments.length;
 			if (l) {
-					for (var i = 0; i < l; ++i) {
+				var cp = 0;
+				for (var i = 0; i < l; ++i) {
 					//http://paperjs.org/tutorials/animation/creating-animations/
 					var seg = spline.bezierSegments[i],
-						sinus = Math.sin(now * 3.2 + i);
-					seg.to.y = sinus * height;
+						sinus = Math.sin(now * 3.2 + cp);
+					seg.control1.y = sinus * height;
+					++cp;
+
+					sinus = Math.sin(now * 3.2 + cp);
+					seg.control2.y = sinus * height;
+					++cp;
 				}
 				this.bezierSegments = spline.rotate(angle).bezierSegments;
-				this.smooth();
 			}
 		}
 	},
