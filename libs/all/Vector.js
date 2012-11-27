@@ -27,19 +27,22 @@ Vector.prototype.extend({
 		var v = this.rotate(-1 * this.angle());
 		return v;
 	},
-	angle: function() { /*degrees*/
+	angleRadians: function() {
 		var dx = this.dx(),
 			dy = this.dy();
 		if (dx === 0 && dy === 0) {
 			return 0;
 		}
-		var angle = (Math.atan(dy / dx) / Math.PI * 180);
+		var angle = (Math.atan(dy / dx));
 		if (dx < 0) {
-			angle += 180;
+			angle += Math.PI;
 		} else if (dx >= 0 && dy < 0) {
-			angle = 360 + angle;
+			angle = 2 * Math.PI + angle;
 		}
 		return angle;
+	},
+	angle: function() { /*degrees*/
+		return this.angleRadians() * 180 / Math.PI;
 	},
 	dx: function() {
 		return this.to.x;
