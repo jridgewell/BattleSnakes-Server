@@ -98,6 +98,12 @@ Vector.prototype.extend({
 			angle: parseInt(this.angle(), 10),
 			magnitude: parseInt(this.magnitude(), 10)
 		};
+	},
+	equals: function(other) {
+		return ((this.to.x === other.to.x) && (this.to.y === other.to.y));
+	},
+	angleEquals: function(other) {
+		return (this.angle() === other.angle());
 	}
 });
 
