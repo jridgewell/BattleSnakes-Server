@@ -64,10 +64,7 @@ CubicBezierSpline.prototype.extend({
 		var spline = new CubicBezierSpline();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var c = this.bezierSegments[i].translate(offset);
-			if (i > 0) {
-				c.from = spline.bezierSegments[i - 1].to;
-			}
-			spline.bezierSegments[i] = c;
+			spline.push(c);
 		}
 		return spline;
 	},
