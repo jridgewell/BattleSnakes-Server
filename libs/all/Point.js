@@ -82,8 +82,10 @@ Point.prototype.extend({
 	},
 	divide: function(scalar) {
 		if (scalar instanceof Object) {
-			scalar.x = 1 / scalar.x;
-			scalar.y = 1 / scalar.y;
+			s = {};
+			s.x = 1 / scalar.x;
+			s.y = 1 / scalar.y;
+			scalar = s;
 		}
 		return this.multiply(scalar);
 	},
@@ -104,8 +106,10 @@ Point.prototype.extend({
 	},
 	subtract: function(offset) {
 		if (offset instanceof Object) {
-			offset.x = -1 * offset.x;
-			offset.y = -1 * offset.y;
+			o = {};
+			o.x = -1 * offset.x;
+			o.y = -1 * offset.y;
+			offset = o;
 		}
 		return this.add(offset);
 	}
