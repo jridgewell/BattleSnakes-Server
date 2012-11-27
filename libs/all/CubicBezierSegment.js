@@ -41,6 +41,12 @@ CubicBezierSegment.prototype.extend({
 		);
 		return c;
 	},
+	move: function(offset) {
+		this.from.add(offset);
+		this.control1.add(offset);
+		this.control2.add(offset);
+		this.to.add(offset);
+	},
 	translate: function(offset /*Point*/) {
 		var c = new CubicBezierSegment(
 			this.from.translate(offset),

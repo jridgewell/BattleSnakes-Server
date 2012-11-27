@@ -60,6 +60,11 @@ CubicBezierSpline.prototype.extend({
 		}
 		return spline;
 	},
+	move: function(offset) {
+		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
+			this.bezierSegments[i].move(offset);
+		}
+	},
 	translate: function(offset /*Point*/) {
 		var spline = new CubicBezierSpline();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
