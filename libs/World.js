@@ -16,7 +16,6 @@ var d = new Debug();
 
 function World()
 {
-	var gridSize = 512;
 	var grid;
 	var a = 0;
 	var storedTime = (new Date()).getTime();
