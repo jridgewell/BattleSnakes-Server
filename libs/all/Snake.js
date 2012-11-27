@@ -34,6 +34,12 @@ Snake.prototype.extend({
 	wiggle: function() {
 		this.segments.wiggle(this.velocity);
 	},
+	move: function(pointOrX, y) {
+		var point = (pointOrX instanceof Point) ? pointOrX : new Point(x, y),
+			d = this.position.subtract(point).multiply(-1);
+		this.position = point;
+		this.segments = this.segments.translate(d);
+	},
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
 			return false;

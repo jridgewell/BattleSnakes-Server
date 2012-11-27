@@ -165,7 +165,11 @@ function World()
 			var y = Math.floor(Math.random()*(gb.height - obj.height) + obj.height / 2);
 			x += gb.x;
 			y += gb.y;
-			obj.position.set(x,y);
+			if (obj.move) {
+				objects.move(x, y);
+			} else {
+				obj.position.set(x, y);
+			}
 
 			for(var i = 0, l = gridsObj.length; i < l; ++i) {
 				var c = gridsObj[i].collision(obj)
@@ -235,7 +239,7 @@ function World()
 				collision = false,
 				OoB = false;
 
-			snake.position.set(newX, newY);
+			snake.move(newX, newY);
 			var g = updateSnakeGrid(snake, velocity);
 			if (g) {
 				if (g != snake.grid) {
@@ -260,7 +264,7 @@ function World()
 				user.broadcastPlayerUpdate();
 			}
 			if (OoB || collision) {
-				snake.position.set(oldX, oldY);
+				snake.move(oldX, oldY);
 				snake.velocity.set(0, 0);
 				user.sendUpdatePacket();
 				user.broadcastPlayerUpdate();
