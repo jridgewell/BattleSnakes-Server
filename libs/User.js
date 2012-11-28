@@ -175,6 +175,7 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.sendPlayerUpdate = function(env) {
+		console.log('sendPlayerUpdate', user.userID);
 		var message = {
 			type: 'playerUpdate',
 			snakes: env
@@ -202,6 +203,7 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.broadcastPlayerUpdate = function() {
+		console.log('broadcastPlayerUpdate', user.userID);
 		this.broadcast(this.surroundingGridRooms(), {
 			type: 'playerUpdate',
 			snakes: [snake]
