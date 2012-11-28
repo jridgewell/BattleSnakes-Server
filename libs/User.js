@@ -94,7 +94,6 @@ function User(socket, playerevent, snakeID)
 				position: snake.position,
 				velocity: snake.velocity,
 				team: snake.team,
-				color: snake.color,
 				segments: snake.segments,
 				sizeOfWorld: env
 			};

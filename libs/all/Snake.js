@@ -14,7 +14,6 @@ function Snake(id) {
 
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
-	this.color = 'FF0000';
 	this.velocity = new Vector(
 		new Point(1, 0)
 	);// float
