@@ -145,13 +145,7 @@ function User(socket, playerevent, snakeID)
 	this.sendAddSnakePacket = function(env) {
 		var items = env.map(function(element) {
 			if (element instanceof Snake) {
-				return {
-					id: element.id,
-					team: element.team,
-					position: element.position,
-					velocity: element.velocity,
-					segments: element.segments
-				};
+				return element.addSnakePacket();
 			} else {
 				return element;
 			}
@@ -197,6 +191,14 @@ function User(socket, playerevent, snakeID)
 		} else {
 			socket.broadcast.to(to).emit('message', message);
 		}
+	}
+
+
+	this.broadcastAddSnake = function() {
+		this.broadcast(this.surroundingGridRooms(), {
+			type: 'addSnake',
+			snakes: [snake.addSnakePacket()]
+		});
 	}
 
 	this.broadcastPlayerUpdate = function() {

@@ -79,6 +79,16 @@ Snake.prototype.extend({
 		};
 	},
 
+	addSnakePacket: function() {
+		return {
+			id: this.id,
+			team: this.team,
+			position: this.position,
+			velocity: this.velocity,
+			segments: this.segments
+		};
+	}
+
 	addSegment: function() {
 		var last = this.segments.last(),
 			lastFrom = (last) ? last.from : this.velocity.to,
