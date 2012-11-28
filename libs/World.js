@@ -260,10 +260,12 @@ function World()
 				}
 			}
 			if (typeof collision == 'number') {
+				console.log('collision == number')
 				user.sendUpdatePacket();
 				user.broadcastPlayerUpdate();
 			}
 			if (OoB || collision) {
+				console.log('OoB or collision')
 				snake.move(oldX, oldY);
 				snake.velocity.set(0, 0);
 				user.sendUpdatePacket();
