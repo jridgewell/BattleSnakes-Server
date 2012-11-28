@@ -15,7 +15,7 @@ function Snake(id) {
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
 	this.velocity = new Vector(
-		new Point(1, 0)
+		new Point(0, 0)
 	);// float
 	this.numSegments = 1;
 	this.grid = null;
