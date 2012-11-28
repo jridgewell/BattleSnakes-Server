@@ -97,16 +97,21 @@ Snake.prototype.extend({
 				lastFrom.subtract(lastPoint)
 			).normalize(),
 			angle = v.angleRadians(),
+			angleDegrees = v.angle(),
 			x = Math.cos(angle),
 			y = Math.sin(angle),
 			cp1 = lastPoint.add(new Point(
-				x * 2,
-				y * 2
-			)),
+				// x * 2,
+				// y * 2
+				2,
+				2
+			).rotate(angleDegrees)),
 			cp2 = lastPoint.add(new Point(
-				x * 4,
-				y * 4
-			)),
+				// x * 4,
+				// y * 4
+				4,
+				4
+			).angle(angleDegrees)),
 			to = lastPoint.add(new Point(
 				x * 6,
 				y * 6
