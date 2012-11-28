@@ -87,7 +87,7 @@ Snake.prototype.extend({
 			velocity: this.velocity,
 			segments: this.segments
 		};
-	}
+	},
 
 	addSegment: function() {
 		var last = this.segments.last(),
