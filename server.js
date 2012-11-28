@@ -114,6 +114,7 @@ Server.PayerEvent = function(event)
 				}
 			}
 			snake.changeTeam(team);
+			break;
 		case 'intro':
 			user.sendIntroPacket(world.AddSnake(user));
 			user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
