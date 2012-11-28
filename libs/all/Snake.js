@@ -114,7 +114,7 @@ Snake.prototype.extend({
 	//passes in a string "Red" or "Blue"
 	changeTeam: function(team) {
 		if (Teams.hasOwnProperty(team)) {
-			this.team = team;
+			this.team = Teams.team;
 		}
 		return this;
 	},
