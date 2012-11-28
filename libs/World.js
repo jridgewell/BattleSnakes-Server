@@ -266,6 +266,9 @@ function World()
 			}
 			if (OoB || collision) {
 				console.log('OoB or collision')
+				console.log('OoB ' + OoB);
+				console.log('Collision ' + collision)
+				console.log(snake.position);
 				snake.move(oldX, oldY);
 				snake.velocity.set(0, 0);
 				user.sendUpdatePacket();
