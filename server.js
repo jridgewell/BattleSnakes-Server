@@ -63,7 +63,7 @@ dbm = new DBManager(Settings.MONGO);
 io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
-	var user = new User(socket, Server.PayerEvent, user_ids++);
+	var user = new User(socket, Server.PlayerEvent, user_ids++);
 	d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
 	users.push(user);
 });
@@ -89,7 +89,7 @@ Server.UpdateTimer = function()
 {
 };
 
-Server.PayerEvent = function(event)
+Server.PlayerEvent = function(event)
 {
 	var user = event.user,
 		snake = user.getSnake();
