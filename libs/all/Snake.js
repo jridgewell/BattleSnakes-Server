@@ -111,7 +111,7 @@ Snake.prototype.extend({
 				// y * 4
 				4,
 				4
-			).angle(angleDegrees)),
+			).rotate(angleDegrees)),
 			to = lastPoint.add(new Point(
 				x * 6,
 				y * 6
