@@ -123,9 +123,6 @@ Server.PlayerEvent = function(event)
 			//Send user to the  other snakes
 			user.broadcastPlayerUpdate();
 			break;
-		case 'playerUpdate':
-			//Send other snakes to the user
-			user.broadcastPlayerUpdate();
 			break;
 		case 'disconnect':
 			d.log(1,'User '+event.user+' has disconnected!');
