@@ -127,9 +127,16 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.sendRemoveEnvironmentPacket = function(env) {
+		var items = env.map(function(element) {
+			if (element instanceof Object) {
+				return element.id;
+			} else {
+				return element;
+			}
+		});
 		var message = {
 			type: 'removeEnvironment',
-			items: env
+			items: items
 		};
 		socket.emit('message', message);
 		return message;
