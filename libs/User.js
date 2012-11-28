@@ -142,6 +142,44 @@ function User(socket, playerevent, snakeID)
 		return message;
 	}
 
+	this.sendAddSnakePacket = function(env) {
+		var items = env.map(function(element) {
+			if (element instanceof Snake) {
+				return {
+					id: element.id,
+					team: element.team,
+					position: element.position,
+					velocity: element.velocity,
+					segments: element.segments
+				};
+			} else {
+				return element;
+			}
+		});
+		var message = {
+			type: 'addSnake',
+			snakes: items
+		}
+		socket.emit('message', message);
+		return message;
+	}
+
+	this.sendRemoveSnakePacket = function(env) {
+		var items = env.map(function(element) {
+			if (element instanceof Object) {
+				return element.id;
+			} else {
+				return element;
+			}
+		});
+		var message = {
+			type: 'removeSnake',
+			snakes: items
+		}
+		socket.emit('message', message);
+		return message;
+	}
+
 	this.sendPlayerUpdate = function(env) {
 		var message = {
 			type: 'playerUpdate',
