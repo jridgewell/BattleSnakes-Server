@@ -37,9 +37,8 @@ var EnvironmentObjects = new Array();
 var MiniSnakes = new Array();
 var gameScore = 0;
 var currentGameTime = 0;
-var RedBase; // Hatchery object;
-var BlueBase; // Hatchery Object;
-var PlayField; // PlayField object;
+var RedTeam = [];
+var BlueTeam = [];
 var d = new Debug();
 
 
@@ -94,8 +93,27 @@ Server.PayerEvent = function(event)
 {
 	var user = event.user,
 		snake = user.getSnake();
-	switch(event.type)
-	{
+	switch(event.type) {
+		case 'team':
+			var blueTeamLength = BlueTeam.length,
+				redTeamLength = RedTeam.length,
+				team;
+			if (blueTeamLength > redTeamLength) {
+				team = 'Red';
+				RedTeam.push(user);
+			} else if (redTeamLength > blueTeamLength) {
+				team = 'Blue';
+				BlueTeam.push(user);
+			} else {
+				if (Math.random() < .5) {
+					team = 'Red';
+					RedTeam.push(user);
+				} else {
+					team = 'Blue';
+					BlueTeam.push(user);
+				}
+			}
+			snake.changeTeam(team);
 		case 'intro':
 			user.sendIntroPacket(world.AddSnake(user));
 			user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));

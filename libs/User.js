@@ -17,7 +17,6 @@ function User(socket, playerevent, snakeID)
 	this.userID = snakeID;
 
 
-
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
 
@@ -27,6 +26,7 @@ function User(socket, playerevent, snakeID)
 		socketID = socket.id;
 		socket.join('chat');
 
+		playerevent({type: 'team', user: user})
 		playerevent({
 			type: 'intro',
 			socketID: socketID,
