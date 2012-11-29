@@ -166,6 +166,7 @@ Snake.prototype.extend({
 		switch (sprintObj.current) {
 			case 'use':
 				if (sprintObj.remaining <= 0) {
+					sprintObj.remaining = 0;
 					sprintObj.current = 'regen';
 					this.updateSprint();
 					this.velocity = this.velocity.divide(2);
@@ -176,6 +177,7 @@ Snake.prototype.extend({
 				break;
 			case 'regen':
 				if (sprintObj.remaining >= 3) {
+					sprintObj.remaining = 3;
 					sprintObj.current = 'full';
 					this.updateSprint();
 					return;
