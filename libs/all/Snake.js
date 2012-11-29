@@ -130,7 +130,8 @@ Snake.prototype.extend({
 
 	//passes in a Powerup Object
 	usePowerup: function(powerup) {
-		return this;
+		var index = this.powerups.indexOf(powerup);
+		return (index > -1) ? this.powerups.splice(index, 1) : undefined;
 	},
 
 	hasEggs: function() {
