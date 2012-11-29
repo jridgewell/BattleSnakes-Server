@@ -236,6 +236,9 @@ function User(socket, playerevent, snakeID)
 			case 'usePowerup':
 				handlePowerup(e);
 				break;
+			case 'sprint':
+				handleSprint(e);
+				break;
 		}
 	};
 
@@ -280,7 +283,7 @@ function User(socket, playerevent, snakeID)
 	}
 
 	function handlePowerup(data) {
-		var powerUpTime = 2000;
+		var powerUpTime = 3000;
 		var powerups = snake.powerups.filter(function(element) {
 			return element.id == data.id;
 		});
@@ -296,6 +299,28 @@ function User(socket, playerevent, snakeID)
 				user.sendUpdatePacket();
 				setTimeout.call(velocity, velocity.set, powerUpTime, velocity.divide(2));
 				setTimeout.call(user, user.sendUpdatePacket, powerUpTime);
+		}
+	}
+
+	function handleSprint(data) {
+		var sprintObj = snake.sprintObj;
+		switch (data.sprint) {
+			case 'start':
+				if (sprintObj.current != 'use') {
+					snake.velocity.set(
+						snake.velocity.multiply(2)
+					);
+				}
+				sprintObj.current = 'use';
+				break;
+			case 'stop':
+				if (sprintObj.current != 'regen') {
+					snake.velocity.set(
+						snake.velocity.divide(2)
+					);
+				}
+				snake.sprintObj.current = 'regen';
+				break;
 		}
 	}
 

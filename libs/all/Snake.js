@@ -24,13 +24,19 @@ function Snake(id) {
 	this.position = new Point();
 	this.eggs = [];
 	this.powerups = [];
+	this.sprintObj = {
+		current: 'regen'
+		remaining: 3,
+		intervalID: undefined
+	};
 	this.segments = new CubicBezierSpline();
+	this.addSegment();
+
 	(function(snake) {
 		snake.segments.vel = function() {
 			return snake.velocity;
 		};
 	})(this);
-	this.addSegment();
 }
 
 Snake._extends(GameObject);
@@ -151,6 +157,30 @@ Snake.prototype.extend({
 		var index = this.powerups.indexOf(powerup);
 		if (index > -1) {
 			return this.powerup.splice(index, 1);
+		}
+	},
+
+	sprint: function(elapsedTime) {
+		var snake = this;
+		switch (this.sprintObj.current) {
+			case 'use':
+				if (snake.sprint.remaining <= 0) {
+					this.sprint.current = 'regen';
+					this.velocity.set(
+						this.velocity.divide(2);
+					);
+					return;
+				}
+				// Drain at 1 unit per second
+				this.sprint.remaining -= 1 * elapsedTime;
+				break;
+			case 'regen':
+				if (snake.sprint.remaining >= 3) {
+					return;
+				}
+				// Regen at 1/3 unit per second
+				this.sprint.remaining += 1 / 3 * elapsedTime;
+				break;
 		}
 	}
 });
