@@ -93,6 +93,14 @@ function User(socket, playerevent, snakeID)
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
 		}
+
+		snakeUpdateSprint = snake.updateSprint;
+		snake.updateSprint = function() {
+			if (snakeUpdateSprint) {
+				snakeUpdateSprint();
+			}
+			user.sendSprintPacket();
+		}
 	};
 
 	this.sendIntroPacket = function(env)
@@ -126,6 +134,15 @@ function User(socket, playerevent, snakeID)
 		socket.emit('message', message);
 		return message;
 	};
+
+	this.sendSprintPacket = function() {
+		var message = {
+			type: 'sprint',
+			sprint: snake.sprintObj
+		};
+		socket.emit('message', message);
+		return message;
+	}
 
 	this.sendAddEnvironmentPacket = function(env) {
 		var message = {

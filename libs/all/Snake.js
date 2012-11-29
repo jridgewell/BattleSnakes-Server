@@ -37,6 +37,7 @@ function Snake(id) {
 		};
 	})(this);
 	this.update = function() {};
+	this.updateSprint = function() {};
 }
 
 Snake._extends(GameObject);
@@ -166,6 +167,7 @@ Snake.prototype.extend({
 			case 'use':
 				if (sprintObj.remaining <= 0) {
 					sprintObj.current = 'regen';
+					this.updateSprint();
 					this.velocity = this.velocity.divide(2);
 					return;
 				}
@@ -174,10 +176,14 @@ Snake.prototype.extend({
 				break;
 			case 'regen':
 				if (sprintObj.remaining >= 3) {
+					sprintObj.current = 'full';
+					this.updateSprint();
 					return;
 				}
 				// Regen at 1/3 unit per second
 				sprintObj.remaining += 1 / 3 * elapsedTime;
+				break;
+			case 'full':
 				break;
 		}
 	},
@@ -188,14 +194,16 @@ Snake.prototype.extend({
 		switch (startStop) {
 			case 'start':
 				if (sprintObj.current != 'use' && sprintObj.remaining >= 1) {
-					this.velocity = this.velocity.multiply(2);
 					sprintObj.current = 'use';
+					this.updateSprint();
+					this.velocity = this.velocity.multiply(2);
 				}
 				break;
 			case 'stop':
 				if (sprintObj.current != 'regen') {
-					this.velocity = this.velocity.divide(2);
 					sprintObj.current = 'regen';
+					this.updateSprint();
+					this.velocity = this.velocity.divide(2);
 				}
 				break;
 		}
