@@ -25,7 +25,7 @@ function Snake(id) {
 	this.eggs = [];
 	this.powerups = [];
 	this.sprintObj = {
-		current: 'regen'
+		current: 'regen',
 		remaining: 3,
 		intervalID: undefined
 	};
