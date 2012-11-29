@@ -272,7 +272,7 @@ function User(socket, playerevent, snakeID)
 	}
 
 	function handleChat(data) {
-		this.broadcast('chat', {
+		user.broadcast('chat', {
 			type: 'chat',
 			from: snake.name,
 			message: data.message
