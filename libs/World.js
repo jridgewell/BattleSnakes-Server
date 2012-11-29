@@ -225,7 +225,9 @@ function World()
 	this.update = function(users) {
 		var curTime = (new Date()).getTime();
 		var elapsedTime = (curTime - storedTime) / 1000;
-		storedTime = curTime;
+		// if (elapsedTime !== 0) {
+			storedTime = curTime;
+		// }
 
 		for (var u = 0, U = users.length; u < U; ++u) {
 			var user = users[u],
