@@ -293,12 +293,7 @@ function User(socket, playerevent, snakeID)
 		var powerup = powerups[0];
 		switch (powerup.powerupType) {
 			case 1:
-				snake.usePowerup(powerup);
-				var velocity = this.snake.velocity;
-				velocity.set(velocity.multiply(2));
-				user.sendUpdatePacket();
-				setTimeout.call(velocity, velocity.set, powerUpTime, velocity.divide(2));
-				setTimeout.call(user, user.sendUpdatePacket, powerUpTime);
+				//handleSprint instead?
 		}
 	}
 
