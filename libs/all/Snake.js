@@ -14,7 +14,7 @@ function Snake(id) {
 
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
-	this.velocity = new Vector(
+	this._velocity = new Vector(
 		new Point(0, 0)
 	);// float
 	this.numSegments = 1;
@@ -37,6 +37,7 @@ function Snake(id) {
 			return snake.velocity;
 		};
 	})(this);
+	this.update = function() {};
 }
 
 Snake._extends(GameObject);
@@ -166,9 +167,7 @@ Snake.prototype.extend({
 			case 'use':
 				if (snake.sprint.remaining <= 0) {
 					this.sprint.current = 'regen';
-					this.velocity.set(
-						this.velocity.divide(2);
-					);
+					this.velocity = this.velocity.divide(2);
 					return;
 				}
 				// Drain at 1 unit per second
@@ -181,6 +180,18 @@ Snake.prototype.extend({
 				// Regen at 1/3 unit per second
 				this.sprint.remaining += 1 / 3 * elapsedTime;
 				break;
+		}
+	},
+
+	get velocity() {
+		return this._velocity;
+	},
+
+	set velocity(vel) {
+		var oldVelocity = this._velocity;
+		this._velocity = new Vector(vel);
+		if (!oldVelocity.equals(this._velocity)) {
+			this.update();
 		}
 	}
 });

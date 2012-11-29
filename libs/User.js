@@ -84,6 +84,15 @@ function User(socket, playerevent, snakeID)
 			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(powerup));
 			return this;
 		}
+
+		snakeUpdate = snake.update;
+		snake.update = function() {
+			if (snakeUpdate) {
+				snakeUpdate();
+			}
+			user.sendUpdatePacket();
+			user.broadcastPlayerUpdate();
+		}
 	};
 
 	this.sendIntroPacket = function(env)
@@ -256,6 +265,7 @@ function User(socket, playerevent, snakeID)
 				}
 			};
 		}
+		// dVelocity = new Vector(dVelocity.to);
 
 		position = position.subtract(data.position);
 
@@ -302,17 +312,13 @@ function User(socket, playerevent, snakeID)
 		switch (data.sprint) {
 			case 'start':
 				if (sprintObj.current != 'use') {
-					snake.velocity.set(
-						snake.velocity.multiply(2)
-					);
+					snake.velocity = snake.velocity.multiply(2);
 				}
 				sprintObj.current = 'use';
 				break;
 			case 'stop':
 				if (sprintObj.current != 'regen') {
-					snake.velocity.set(
-						snake.velocity.divide(2)
-					);
+					snake.velocity = snake.velocity.divide(2);
 				}
 				snake.sprintObj.current = 'regen';
 				break;
