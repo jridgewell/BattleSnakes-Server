@@ -284,7 +284,7 @@ function User(socket, playerevent, snakeID)
 		var powerups = snake.powerups.filter(function(element) {
 			return element.id == data.id;
 		});
-		if (!Array.isArray(powerups)) {
+		if (!Array.isArray(powerups) || powerups.length === 0) {
 			return null;
 		}
 		var powerup = powerups[0];
