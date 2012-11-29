@@ -202,7 +202,7 @@ Snake.prototype.extend({
 				}
 				break;
 			case 'stop':
-				if (sprintObj.current != 'regen') {
+				if (sprintObj.current == 'use') {
 					sprintObj.current = 'regen';
 					this.updateSprint();
 					this.velocity = this.velocity.divide(2);
