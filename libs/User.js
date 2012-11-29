@@ -246,7 +246,7 @@ function User(socket, playerevent, snakeID)
 				handlePowerup(e);
 				break;
 			case 'sprint':
-				handleSprint(e);
+				snake.handleSprint(e.sprint);
 				break;
 		}
 	};
@@ -304,24 +304,6 @@ function User(socket, playerevent, snakeID)
 		switch (powerup.powerupType) {
 			case 1:
 				//handleSprint instead?
-		}
-	}
-
-	function handleSprint(data) {
-		var sprintObj = snake.sprintObj;
-		switch (data.sprint) {
-			case 'start':
-				if (sprintObj.current != 'use') {
-					snake.velocity = snake.velocity.multiply(2);
-				}
-				sprintObj.current = 'use';
-				break;
-			case 'stop':
-				if (sprintObj.current != 'regen') {
-					snake.velocity = snake.velocity.divide(2);
-				}
-				snake.sprintObj.current = 'regen';
-				break;
 		}
 	}
 

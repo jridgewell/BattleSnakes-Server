@@ -182,6 +182,25 @@ Snake.prototype.extend({
 		}
 	},
 
+	handleSprint: function(startStop) {
+		sprintObj = this.sprintObj;
+		console.log(sprintObj);
+		switch (startStop) {
+			case 'start':
+				if (sprintObj.current != 'use' && sprintObj.remaining >= 1) {
+					this.velocity = this.velocity.multiply(2);
+					sprintObj.current = 'use';
+				}
+				break;
+			case 'stop':
+				if (sprintObj.current != 'regen') {
+					this.velocity = this.velocity.divide(2);
+					sprintObj.current = 'regen';
+				}
+				break;
+		}
+	},
+
 	get velocity() {
 		return this._velocity;
 	},
