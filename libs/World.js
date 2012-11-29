@@ -240,7 +240,7 @@ function World()
 
 			snake.move(newX, newY);
 			snake.wiggle();
-			snake.sprint();
+			snake.sprint(elapsedTime);
 
 			var g = updateSnakeGrid(snake, velocity);
 			if (g) {

@@ -26,8 +26,7 @@ function Snake(id) {
 	this.powerups = [];
 	this.sprintObj = {
 		current: 'regen',
-		remaining: 3,
-		intervalID: undefined
+		remaining: 3
 	};
 	this.segments = new CubicBezierSpline();
 	this.addSegment();
@@ -162,23 +161,23 @@ Snake.prototype.extend({
 	},
 
 	sprint: function(elapsedTime) {
-		var snake = this;
-		switch (this.sprintObj.current) {
+		var sprintObj = this.sprintObj;
+		switch (sprintObj.current) {
 			case 'use':
-				if (snake.sprint.remaining <= 0) {
-					this.sprint.current = 'regen';
+				if (sprintObj.remaining <= 0) {
+					sprintObj.current = 'regen';
 					this.velocity = this.velocity.divide(2);
 					return;
 				}
 				// Drain at 1 unit per second
-				this.sprint.remaining -= 1 * elapsedTime;
+				sprintObj.remaining -= 1 * elapsedTime;
 				break;
 			case 'regen':
-				if (snake.sprint.remaining >= 3) {
+				if (sprintObj.remaining >= 3) {
 					return;
 				}
 				// Regen at 1/3 unit per second
-				this.sprint.remaining += 1 / 3 * elapsedTime;
+				sprintObj.remaining += 1 / 3 * elapsedTime;
 				break;
 		}
 	},
