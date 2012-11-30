@@ -16,7 +16,8 @@ function Snake(id) {
 	this.team = Teams.Red;
 	this._velocity = new Vector(
 		new Point(0, 0)
-	);// float
+	);
+	this.shouldMove = false;
 	this.numSegments = 1;
 	this.grid = null;
 	this.height = 20;
@@ -43,14 +44,22 @@ function Snake(id) {
 Snake._extends(GameObject);
 Snake.prototype.extend({
 	wiggle: function() {
+		if (!this.shouldMove) {
+			return;
+		}
 		this.segments.wiggle();
+		return this;
 	},
 	move: function(pointOrX, y) {
+		if (!this.shouldMove) {
+			return;
+		}
 		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
 			p  = this.position.clone(),
 			d = p.subtract(point);
 		this.position = point;
 		this.segments.move(d);
+		return this;
 	},
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
