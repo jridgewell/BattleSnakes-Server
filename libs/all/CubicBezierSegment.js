@@ -39,9 +39,6 @@ CubicBezierSegment.prototype.extend({
 		this.to.rotate(theta)
 		return this;
 	},
-	move: function(offset) {
-		return this.add(offset);
-	},
 	multiply: function(scalar) {
 		this.from.multiply(scalar)
 		this.control1.multiply(scalar);
