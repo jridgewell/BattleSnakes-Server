@@ -46,26 +46,22 @@ function Snake(id) {
 Snake._extends(GameObject);
 Snake.prototype.extend({
 	wiggle: function() {
-		if (!this.shouldMove) {
-			return;
+		if (this.shouldMove) {
+			this.segments.wiggle();
 		}
-		this.segments.wiggle();
 		return this;
 	},
 	move: function(pointOrX, y) {
-		if (!this.shouldMove) {
-			return;
+		if (this.shouldMove) {
+			var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
+				d = point.clone().subtract(this.position);
+			this.position = point;
+			this.segments.move(d);
 		}
-		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
-			p  = this.position.clone(),
-			d = p.subtract(point);
-		this.position = point;
-		this.segments.move(d);
 		return this;
 	},
 	relocate: function(pointOrX, y) {
-		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
-			p  = this.position.clone();
+		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y);
 		this.position = point;
 		this.segments.relocate(point);
 		return this;
@@ -81,7 +77,7 @@ Snake.prototype.extend({
 				velocity = gameObject.velocity,
 				angle = velocity.angle(),
 				magnitude = velocity.magnitude(),
-				segments = this.segments.clone().translate(offset).rotate(-1 * angle);
+				segments = this.segments.clone().subtract(offset).rotate(-1 * angle);
 			for (var i = 0; i < segments.length; ++i) {
 				var hit = segments[i].isZero(magnitude);
 				if (hit) {
@@ -134,7 +130,7 @@ Snake.prototype.extend({
 			lastFrom = (last) ? last.from : this.velocity.to,
 			lastPoint = (last) ? last.to : this.position,
 			v = new Vector(
-				lastFrom.clone().subtract(lastPoint)
+				lastPoint.clone().subtract(lastFrom)
 			),
 			angle = v.angleRadians();
 		if (!this.initialized) {
