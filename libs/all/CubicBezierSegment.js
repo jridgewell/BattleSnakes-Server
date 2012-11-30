@@ -47,10 +47,10 @@ CubicBezierSegment.prototype.extend({
 		return this;
 	},
 	divide: function(scalar) {
-		this.from.multiply(scalar)
-		this.control1.multiply(scalar);
-		this.control2.multiply(scalar);
-		this.to.multiply(scalar);
+		this.from.divide(scalar)
+		this.control1.divide(scalar);
+		this.control2.divide(scalar);
+		this.to.divide(scalar);
 		return this;
 	},
 	add: function(offset) {
