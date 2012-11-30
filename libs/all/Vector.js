@@ -87,7 +87,7 @@ Vector.prototype.extend({
 		return this.to.equals(other.to);
 	},
 	angleEquals: function(other) {
-		return (this.angle() === other.angle());
+		return (Math.abs(this.angle() - other.angle()) < 1);
 	}
 });
 
