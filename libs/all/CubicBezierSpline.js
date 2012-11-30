@@ -88,7 +88,7 @@ CubicBezierSpline.prototype.extend({
 					var bezierSegment = this.bezierSegments[i],
 						from = new Point(bezierSegment.from),
 						to = bezierSegment.to;
-						d = (new Vector(from)).subtract(to));
+						d = (new Vector(from)).subtract(to);
 					d.normalize().multiply(length);
 					to.set(from.subtract(d.to));
 				}
