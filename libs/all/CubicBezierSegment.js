@@ -33,28 +33,42 @@ CubicBezierSegment.prototype.extend({
 		return previousPts;
 	},
 	rotate: function(theta /*degrees*/) {
-		var c = new CubicBezierSegment(
-			this.from.rotate(theta),
-			this.control1.rotate(theta),
-			this.control2.rotate(theta),
-			this.to.rotate(theta)
-		);
-		return c;
+		this.from.rotate(theta),
+		this.control1.rotate(theta),
+		this.control2.rotate(theta),
+		this.to.rotate(theta)
+		return this;
 	},
 	move: function(offset) {
-		this.from.add(offset);
+		return this.add(offset);
+	},
+	multiply: function(scalar) {
+		this.from.multiply(scalar)
+		this.control1.multiply(scalar);
+		this.control2.multiply(scalar);
+		this.to.multiply(scalar);
+		return this;
+	},
+	divide: function(scalar) {
+		this.from.multiply(scalar)
+		this.control1.multiply(scalar);
+		this.control2.multiply(scalar);
+		this.to.multiply(scalar);
+		return this;
+	},
+	add: function(offset) {
+		this.from.add(offset)
 		this.control1.add(offset);
 		this.control2.add(offset);
 		this.to.add(offset);
+		return this;
 	},
-	translate: function(offset /*Point*/) {
-		var c = new CubicBezierSegment(
-			this.from.translate(offset),
-			this.control1.translate(offset),
-			this.control2.translate(offset),
-			this.to.translate(offset)
-		);
-		return c;
+	subtract: function(offset) {
+		this.from.subtract(offset)
+		this.control1.subtract(offset);
+		this.control2.subtract(offset);
+		this.to.subtract(offset);
+		return this;
 	},
 	isZero: function(x) {
 		var roots = this.roots();
@@ -196,19 +210,20 @@ CubicBezierSegment.prototype.extend({
 		};
 	},
 	set: function(from, control1, control2, to) {
-		this.from = (from instanceof Point) ? from : new Point(from);
-		this.control1 = (control1 instanceof Point) ? control1 : new Point(control1);
-		this.control2 = (control2 instanceof Point) ? control2 : new Point(control2);
-		this.to = (to instanceof Point) ? to : new Point(to);
+		if (from instanceof CubicBezierSegment) {
+			this.set(from.from, from.control1, from.control2, from.to);
+		} else if (Array.isArray(from)) {
+			this.set(from[0], from[1], from[2], from[3]);
+		} else {
+			this.from = (from instanceof Point) ? from.clone() : new Point(from);
+			this.control1 = (control1 instanceof Point) ? control1.clone() : new Point(control1);
+			this.control2 = (control2 instanceof Point) ? control2.clone() : new Point(control2);
+			this.to = (to instanceof Point) ? to.clone() : new Point(to);
+		}
+		return this;
 	},
 	clone: function() {
-		var c = new CubicBezierSegment(
-			this.from.clone(),
-			this.control1.clone(),
-			this.control2.clone(),
-			this.to.clone()
-		);
-		return c;
+		return new CubicBezierSegment(this);
 	},
 	toJSON: function() {
 		return this.get();
