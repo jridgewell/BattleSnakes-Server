@@ -7,7 +7,7 @@ var CubicBezierSegment = require('./CubicBezierSegment');
 function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 	this.bezierSegments = [];
 	this.set(bezierSegments);
-	this.vel = function() {};
+	this.vel = function() {return new Vector()};
 }
 
 CubicBezierSpline.prototype.extend({
