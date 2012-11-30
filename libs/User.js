@@ -269,8 +269,7 @@ function User(socket, playerevent, snakeID)
 	};
 
 	function handleUpdate(data) {
-		var position = snake.position,
-			velocity = snake.velocity,
+		var position = snake.position.clone(),
 			dVelocity = data.velocity;
 
 		if ('angle' in dVelocity && 'magnitude' in dVelocity) {

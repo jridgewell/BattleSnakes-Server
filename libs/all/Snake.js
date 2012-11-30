@@ -47,7 +47,8 @@ Snake.prototype.extend({
 	},
 	move: function(pointOrX, y) {
 		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
-			d = this.position.subtract(point);
+			p  = this.position.clone(),
+			d = p.subtract(point);
 		this.position = point;
 		this.segments.move(d);
 	},
@@ -62,11 +63,9 @@ Snake.prototype.extend({
 				velocity = gameObject.velocity,
 				angle = velocity.angle(),
 				magnitude = velocity.magnitude(),
-				segments = this.segments.translate(offset);
+				segments = this.segments.clone().translate(offset).rotate(-1 * angle);
 			for (var i = 0; i < segments.length; ++i) {
-				var s = segments[i];
-				s = s.rotate(-1 * angle);
-				var hit = s.isZero(magnitude);
+				var hit = segments[i].isZero(magnitude);
 				if (hit) {
 					this.segments.splice(i);
 					gameObject.score('bite', 1);
@@ -99,25 +98,26 @@ Snake.prototype.extend({
 	addSegment: function() {
 		var last = this.segments.last(),
 			lastFrom = (last) ? last.from : this.velocity.to,
-			lastPoint = (last) ? last.to : this.position,
-			v = new Vector(
+			lastPoint = (last) ? last.to : this.position;
+		lastFrom.clone();
+		var v = new Vector(
 				lastFrom.subtract(lastPoint)
 			),
 			angle = v.angleRadians(),
 			x = Math.cos(angle),
 			y = Math.sin(angle),
-			cp1 = lastPoint.add(new Point(
+			cp1 = (new Point(
 				x * 2,
 				y * 2
-			)),
-			cp2 = lastPoint.add(new Point(
+			)).add(lastPoint),
+			cp2 = (new Point(
 				x * 4,
 				y * 4
-			)),
-			to = lastPoint.add(new Point(
+			)).add(lastPoint),
+			to = (new Point(
 				x * 6,
 				y * 6
-			));
+			)).add(lastPoint);
 		var segment = new CubicBezierSegment(
 			lastPoint,
 			cp1,
