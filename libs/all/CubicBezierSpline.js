@@ -243,6 +243,7 @@ CubicBezierSpline.prototype.extend({
 	},
 	set: function(bezierSegments) {
 		if (bezierSegments instanceof CubicBezierSpline) {
+			bezierSegments = bezierSegments.bezierSegments;
 			for (var i = 0, l = bezierSegments.length; i < l; ++i) {
 				var c = bezierSegments[i].clone();
 				this.push(c);
