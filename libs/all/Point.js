@@ -97,7 +97,7 @@ Point.prototype.extend({
 				this.x + offset,
 				this.y + offset
 			);
-		} else if (scalar instanceof Object) {
+		} else if (offset instanceof Object) {
 			if ('to' in offset) {
 				offset = offset.to;
 			}
