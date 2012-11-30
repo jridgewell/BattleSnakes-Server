@@ -5,7 +5,7 @@ require('../misc');
  * https://github.com/WebKit/webkit/blob/master/Source/WebCore/platform/graphics/wince/PlatformPathWinCE.h#L32-55
  */
 var Point = function(x, y) {
-	return this.set(x, y);
+	this.set(x, y);
 };
 
 Point.prototype.extend({

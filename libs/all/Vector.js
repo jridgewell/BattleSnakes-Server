@@ -4,7 +4,7 @@ var Point = require('./Point');
  *
  */
 var Vector = function(to /*Point*/, y) {
-	return this.set(to, y);
+	this.set(to, y);
 };
 
 Vector.prototype.extend({
@@ -15,11 +15,9 @@ Vector.prototype.extend({
 	},
 	set: function(vec, y) {
 		if (vec instanceof Vector) {
-			return this.set(vec.to.x, vec.to.y);
-		} else if (vec instanceof Point) {
-			return this.set(vec.x, vec.y)
+			this.set(vec.to);
 		} else {
-			this.to = new Point(vec, y);;
+			this.to = (vec instanceof Point) ? vec.clone() : new Point(vec, y);;
 		}
 		return this;
 	},
