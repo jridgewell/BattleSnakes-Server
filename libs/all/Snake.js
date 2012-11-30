@@ -7,6 +7,7 @@ var CubicBezierSegment = require('./CubicBezierSegment');
 var Teams = require('./Teams');
 
 function Snake(id) {
+    this.initialized = false;
 	this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
@@ -14,9 +15,7 @@ function Snake(id) {
 
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
-	this._velocity = new Vector(
-		new Point(0, 0)
-	);
+	this._velocity = new Vector();
 	this.numSegments = 1;
 	this.grid = null;
 	this.height = 20;
@@ -38,6 +37,7 @@ function Snake(id) {
 	})(this);
 	this.update = function() {};
 	this.updateSprint = function() {};
+    this.initialized = true;
 }
 
 Snake._extends(GameObject);
@@ -117,7 +117,7 @@ Snake.prototype.extend({
 			lastPoint = (last) ? last.to : this.position,
 			v = (new Vector(lastPoint)).subtract(lastFrom),
 			angle = v.angleRadians();
-		if (angle == undefined) {
+		if (!this.initialized) {
 			angle = Math.PI;
 		}
 		var x = Math.cos(angle),
