@@ -16,7 +16,7 @@ CubicBezierSpline.prototype.extend({
 		var straight = true;
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var segment = this.bezierSegments[i],
-				v = (new Vector(from)).subtract(segment.to);
+				v = (new Vector(segment.from)).subtract(segment.to);
 			if (!lastVector.angleEquals(v)) {
 				straight = false;
 				break;
