@@ -77,7 +77,25 @@ CubicBezierSpline.prototype.extend({
 		return this;
 	},
 	move: function(offset) {
-		this.add(offset);
+		if (this.isStraight()) {
+			this.add(offset);
+		} else {
+			var l = this.bezierSegments.length;
+			if (l) {
+				var bS = this.bezierSegments[0],
+					length = (new Vector(bS.from.clone().subtract(bS.to))).magnitude();
+				bS.from.add(offset);
+				for (var i = 0; i < l; ++i) {
+					var bezierSegment = this.bezierSegments[i],
+						from = bezierSegment.from,
+						to = bezierSegment.to;
+						d = new Vector(from.clone().subtract(to));
+					d.normalize().multiply(length);
+					to.set(from.clone().subtract(d.to));
+				}
+				this.smooth();
+			}
+		}
 		return this;
 	},
 	relocate: function(point) {
