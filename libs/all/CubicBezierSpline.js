@@ -11,23 +11,23 @@ function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 }
 
 CubicBezierSpline.prototype.extend({
-	shouldWiggle: function() {
-		var lastVelocity = this.vel();
-		if (!this.bezierSegments.length || !lastVelocity.magnitude()) {
-			return false;
-		}
-		var wiggle = true;
+	isStraight: function() {
+		var lastVector = this.vel();
+		var straight = true;
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var segment = this.bezierSegments[i],
 				from = segment.from.clone(),
 				v = new Vector(from.subtract(segment.to));
-			if (!lastVelocity.angleEquals(v)) {
-				wiggle = false;
+			if (!lastVector.angleEquals(v)) {
+				straight = false;
 				break;
 			}
-			lastVelocity = v;
+			lastVector = v;
 		}
-		return wiggle;
+		return straight;
+	},
+	shouldWiggle: function() {
+		return (this.bezierSegments.length && this.vel().magnitude() && this.isStraight());
 	},
 	wiggle: function() {
 		if (this.shouldWiggle()) {
