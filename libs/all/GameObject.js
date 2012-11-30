@@ -13,6 +13,11 @@ GameObject.prototype.extend({
 	width: 24,
 	height: 24,
 
+	relocate: function(pointOrX, y) {
+		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y);
+		this.position = point;
+		return this;
+	},
 	collision: function(gameObject) {
 		if (gameObject.id == this.id) {
 			return false;
