@@ -262,17 +262,14 @@ CubicBezierSpline.prototype.extend({
 	set: function(bezierSegments) {
 		if (bezierSegments instanceof CubicBezierSpline) {
 			bezierSegments = bezierSegments.bezierSegments;
-			for (var i = 0, l = bezierSegments.length; i < l; ++i) {
-				var c = bezierSegments[i].clone();
-				this.push(c);
-			}
-		} else if (Array.isArray(bezierSegments)) {
+		}
+		if (Array.isArray(bezierSegments)) {
 			for (var i = 0, l = bezierSegments.length; i < l; ++i) {
 				var c = new CubicBezierSegment(bezierSegments[i]);
 				this.push(c);
 			}
 		} else if (bezierSegments) {
-			var c = (bezierSegments instanceof CubicBezierSegment) ? bezierSegments.clone() : new CubicBezierSegment(bezierSegments);
+			var c = new CubicBezierSegment(bezierSegments);
 			this.push(c);
 		}
 		return this;

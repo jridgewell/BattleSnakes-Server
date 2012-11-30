@@ -43,7 +43,7 @@ Vector.prototype.extend({
 		if (vec instanceof Vector) {
 			this.set(vec.to);
 		} else {
-			this.to = (vec instanceof Point) ? vec.clone() : new Point(vec, y);
+			this.to = new Point(vec, y);
 		}
 		return this;
 	},

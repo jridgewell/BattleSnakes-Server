@@ -212,10 +212,10 @@ CubicBezierSegment.prototype.extend({
 		} else if (Array.isArray(from)) {
 			this.set(from[0], from[1], from[2], from[3]);
 		} else {
-			this.from = (from instanceof Point) ? from.clone() : new Point(from);
-			this.control1 = (control1 instanceof Point) ? control1.clone() : new Point(control1);
-			this.control2 = (control2 instanceof Point) ? control2.clone() : new Point(control2);
-			this.to = (to instanceof Point) ? to.clone() : new Point(to);
+			this.from = new Point(from);
+			this.control1 = new Point(control1);
+			this.control2 = new Point(control2);
+			this.to = new Point(to);
 		}
 		return this;
 	},
