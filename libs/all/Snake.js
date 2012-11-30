@@ -7,7 +7,6 @@ var CubicBezierSegment = require('./CubicBezierSegment');
 var Teams = require('./Teams');
 
 function Snake(id) {
-	this.initialized = false;
 	this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
@@ -18,7 +17,6 @@ function Snake(id) {
 	this._velocity = new Vector(
 		new Point(0, 0)
 	);
-	this.shouldMove = false;
 	this.numSegments = 1;
 	this.grid = null;
 	this.height = 20;
@@ -40,24 +38,19 @@ function Snake(id) {
 	})(this);
 	this.update = function() {};
 	this.updateSprint = function() {};
-	this.initialized = true;
 }
 
 Snake._extends(GameObject);
 Snake.prototype.extend({
 	wiggle: function() {
-		if (this.shouldMove) {
-			this.segments.wiggle();
-		}
+		this.segments.wiggle();
 		return this;
 	},
 	move: function(pointOrX, y) {
-		if (this.shouldMove) {
-			var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
-				d = point.clone().subtract(this.position);
-			this.position = point;
-			this.segments.move(d);
-		}
+		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
+			d = point.clone().subtract(this.position);
+		this.position = point;
+		this.segments.move(d);
 		return this;
 	},
 	relocate: function(pointOrX, y) {
@@ -90,27 +83,19 @@ Snake.prototype.extend({
 	},
 
 	get: function() {
-		var v = this.velocity.toJSON();
-		if (!this.shouldMove) {
-			v.magnitude = 0;
-		}
 		return {
 			id: this.id,
 			position: this.position.toJSON(),
-			velocity: v,
+			velocity: this.velocity.toJSON(),
 			currentPowerup: null,
 			segments: this.segments.toJSON()
 		};
 	},
 
 	toJSON: function() {
-		var v = this.velocity.toJSON();
-		if (!this.shouldMove) {
-			v.magnitude = 0;
-		}
 		return {
 			position: this.position.toJSON(),
-			velocity: v,
+			velocity: this.velocity.toJSON(),
 			segments: this.segments.toJSON()
 		};
 	},
@@ -133,7 +118,7 @@ Snake.prototype.extend({
 				lastPoint.clone().subtract(lastFrom)
 			),
 			angle = v.angleRadians();
-		if (!this.initialized) {
+		if (this.angle == NaN) {
 			angle = Math.PI;
 		}
 		var x = Math.cos(angle),

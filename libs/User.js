@@ -273,13 +273,9 @@ function User(socket, playerevent, snakeID)
 			dVelocity = data.velocity;
 
 		if ('angle' in dVelocity && 'magnitude' in dVelocity) {
-			var angle = dVelocity.angle * Math.PI / 180;
-			if (!dVelocity.magnitude) {
-				snake.shouldMove = false;
-				dVelocity.magnitude = 1;
-			} else {
-				snake.shouldMove = true;
-			}
+			var angle = dVelocity.angle;
+			snake.velocity._angle = angle;
+			angle *=  Math.PI / 180
 			dVelocity = {
 				to: {
 					x: Math.cos(angle) * dVelocity.magnitude,
