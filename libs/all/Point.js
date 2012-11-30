@@ -80,6 +80,8 @@ Point.prototype.extend({
 			s.x = 1 / scalar.x;
 			s.y = 1 / scalar.y;
 			scalar = s;
+		} else {
+			scalar = 1 / scalar;
 		}
 		return this.multiply(scalar);
 	},
@@ -103,6 +105,8 @@ Point.prototype.extend({
 			o.x = -1 * offset.x;
 			o.y = -1 * offset.y;
 			offset = o;
+		} else {
+			offset *= -1;
 		}
 		return this.add(offset);
 	},
