@@ -164,11 +164,7 @@ function World()
 			var y = Math.floor(Math.random()*(gb.height - obj.height) + obj.height / 2);
 			x += gb.x;
 			y += gb.y;
-			if (obj.relocate) {
-				obj.relocate(x, y);
-			} else {
-				obj.position.set(x, y);
-			}
+			obj.relocate(x, y);
 
 			for(var i = 0, l = gridsObj.length; i < l; ++i) {
 				var c = gridsObj[i].collision(obj)
