@@ -3,8 +3,8 @@ var Point = require('./Point');
 /* Vector class
  *
  */
-var Vector = function(to /*Point*/) {
-	this.set(to);
+var Vector = function(to /*Point*/, y) {
+	return this.set(to, y);
 };
 
 Vector.prototype.extend({
@@ -13,23 +13,27 @@ Vector.prototype.extend({
 			to: this.to
 		};
 	},
-	set: function(to /*Point*/) {
-		this.to = (to instanceof Point) ? to : new Point(to);;
+	set: function(vec, y) {
+		if (vec instanceof Vector) {
+			return this.set(vec.to.x, vec.to.y);
+		} else if (vec instanceof Point) {
+			return this.set(vec.x, vec.y)
+		} else {
+			this.to = new Point(vec, y);;
+		}
 		return this;
 	},
 	rotate: function(theta /*degrees*/) {
-		var v = new Vector(
-			this.to.rotate(theta)
-		);
-		return v;
+		this.to.rotate(theta)
+		return this;
 	},
 	unRotate: function() {
-		var v = this.rotate(-1 * this.angle());
-		return v;
+		this.rotate(-1 * this.angle());
+		return this;
 	},
 	angleRadians: function() {
-		var dx = this.dx(),
-			dy = this.dy();
+		var dx = this.dx,
+			dy = this.dy;
 		if (dx === 0 && dy === 0) {
 			return 0;
 		}
@@ -44,54 +48,40 @@ Vector.prototype.extend({
 	angle: function() { /*degrees*/
 		return this.angleRadians() * 180 / Math.PI;
 	},
-	dx: function() {
+	get dx() {
 		return this.to.x;
 	},
-	dy: function() {
+	get dy() {
 		return this.to.y;
 	},
 	magnitude: function() {
-		var dy = this.dy(),
-			dx = this.dx();
+		var dy = this.dy,
+			dx = this.dx;
 		return Math.sqrt( (dy * dy) + (dx * dx) );
 	},
 	multiply: function(scalar) {
-		var v = new Vector(
-			this.to.multiply(scalar)
-		);
-		return v;
+		this.to.multiply(scalar)
+		return this;
 	},
 	divide: function(scalar) {
-		var v = new Vector(
-			this.to.divide(scalar)
-		);
-		return v;
+		this.to.divide(scalar)
+		return this;
 	},
 	add: function(offset) {
-		var v = new Vector(
-			this.to.add(offset)
-		);
-		return v;
+		this.to.add(offset)
+		return this;
 	},
 	subtract: function(offset) {
-		var v = new Vector(
-			this.to.subtract(offset)
-		);
-		return v;
+		this.to.subtract(offset)
+		return this;
 	},
 	normalize: function() {
-		var m = this.magnitude(),
-		v = new Vector(
-			this.to.x / m,
-			this.to.y / m
-		)
-		return v;
+		var m = this.magnitude();
+		this.to.divide(m);
+		return this;
 	},
 	clone: function() {
-		var v = new Vector(
-			this.to.clone()
-		);
-		return v;
+		return new Vector(this);
 	},
 	toJSON: function() {
 		return {
@@ -100,7 +90,7 @@ Vector.prototype.extend({
 		};
 	},
 	equals: function(other) {
-		return ((this.to.x === other.to.x) && (this.to.y === other.to.y));
+		return this.to.equals(other.to);
 	},
 	angleEquals: function(other) {
 		return (this.angle() === other.angle());
