@@ -20,10 +20,11 @@ Point.prototype.extend({
 	},
 	rotate: function(theta /*degrees*/) {
 		var m = this.rotationMatrix(theta);
-		return new Point(
+		this.set(
 			(m[0][0] * this.x + m[0][1] * this.y),
 			(m[1][0] * this.x + m[1][1] * this.y)
 		);
+		return this;
 	},
 	set: function(x /* Float or {x: x, y: y} */, y /* Float */) {
 		if (x instanceof Object) {
@@ -40,13 +41,6 @@ Point.prototype.extend({
 			y: this.y
 		};
 	},
-	translate: function(offset /*Point*/) {
-		var p = new Point(
-			this.x - offset.x,
-			this.y - offset.y
-		);
-		return p;
-	},
 	inside: function(topLeft, bottomRight) {
 		if (this.x >= topLeft.x && this.x <= bottomRight.x) {
 			if (this.y <= topLeft.y && this.y >= bottomRight.y) {
@@ -56,8 +50,7 @@ Point.prototype.extend({
 		return false;
 	},
 	clone: function() {
-		var p = new Point(this.x, this.y);
-		return p;
+		return new Point(this);
 	},
 	toJSON: function() {
 		return {
@@ -66,19 +59,18 @@ Point.prototype.extend({
 		};
 	},
 	multiply: function(scalar) {
-		var p = this.clone();
-		if (scalar instanceof Object) {
-			p.set(
-				p.x * scalar.x,
-				p.y * scalar.y
+		if (typeof scalar == 'number') {
+			this.set(
+				this.x * scalar,
+				this.y * scalar
 			);
 		} else {
-			p.set(
-				p.x * scalar,
-				p.y * scalar
+			this.set(
+				this.x * scalar.x,
+				this.y * scalar.y
 			);
 		}
-		return p;
+		return this;
 	},
 	divide: function(scalar) {
 		if (scalar instanceof Object) {
@@ -90,19 +82,18 @@ Point.prototype.extend({
 		return this.multiply(scalar);
 	},
 	add: function(offset) {
-		var p = this.clone();
-		if (offset instanceof Object) {
-			p.set(
-				p.x + offset.x,
-				p.y + offset.y
+		if (typeof offest == 'number') {
+			this.set(
+				this.x + offset,
+				this.y + offset
 			);
 		} else {
-			p.set(
-				p.x + offset,
-				p.y + offset
+			this.set(
+				this.x + offset.x,
+				this.y + offset.y
 			);
 		}
-		return p;
+		return this;
 	},
 	subtract: function(offset) {
 		if (offset instanceof Object) {
