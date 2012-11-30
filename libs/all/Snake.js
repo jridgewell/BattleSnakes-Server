@@ -169,7 +169,7 @@ Snake.prototype.extend({
 					sprintObj.remaining = 0;
 					sprintObj.current = 'regen';
 					this.updateSprint();
-					this.velocity = this.velocity.divide(2);
+					this.velocity = this.velocity.clone()divide(2);
 					return;
 				}
 				// Drain at 1 unit per second
@@ -198,14 +198,14 @@ Snake.prototype.extend({
 				if (sprintObj.current != 'use' && sprintObj.remaining >= 1) {
 					sprintObj.current = 'use';
 					this.updateSprint();
-					this.velocity = this.velocity.multiply(2);
+					this.velocity = this.velocity.clone().multiply(2);
 				}
 				break;
 			case 'stop':
 				if (sprintObj.current == 'use') {
 					sprintObj.current = 'regen';
 					this.updateSprint();
-					this.velocity = this.velocity.divide(2);
+					this.velocity = this.velocity.clone().divide(2);
 				}
 				break;
 		}
