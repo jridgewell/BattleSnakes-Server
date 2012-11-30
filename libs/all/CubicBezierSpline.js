@@ -19,8 +19,8 @@ CubicBezierSpline.prototype.extend({
 		var wiggle = true;
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var segment = this.bezierSegments[i],
-				to = segment.to.clone(),
-				v = new Vector(to.subtract(segment.from));
+				from = segment.from.clone(),
+				v = new Vector(from.subtract(segment.to));
 			if (!lastVelocity.angleEquals(v)) {
 				wiggle = false;
 				break;
