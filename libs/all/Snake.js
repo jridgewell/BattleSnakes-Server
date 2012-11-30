@@ -7,6 +7,7 @@ var CubicBezierSegment = require('./CubicBezierSegment');
 var Teams = require('./Teams');
 
 function Snake(id) {
+	this.initialized = false;
 	this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
@@ -39,6 +40,7 @@ function Snake(id) {
 	})(this);
 	this.update = function() {};
 	this.updateSprint = function() {};
+	this.initialized = true;
 }
 
 Snake._extends(GameObject);
@@ -59,6 +61,13 @@ Snake.prototype.extend({
 			d = p.subtract(point);
 		this.position = point;
 		this.segments.move(d);
+		return this;
+	},
+	relocate: function(pointOrX, y) {
+		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
+			p  = this.position.clone();
+		this.position = point;
+		this.segments.relocate(point);
 		return this;
 	},
 	collision: function(gameObject) {
@@ -84,12 +93,28 @@ Snake.prototype.extend({
 		}
 	},
 
-	toJSON: function() {
+	get: function() {
+		var v = this.velocity.toJSON();
+		if (!this.shouldMove) {
+			v.magnitude = 0;
+		}
 		return {
 			id: this.id,
 			position: this.position.toJSON(),
-			velocity: this.velocity.toJSON(),
+			velocity: v,
 			currentPowerup: null,
+			segments: this.segments.toJSON()
+		};
+	},
+
+	toJSON: function() {
+		var v = this.velocity.toJSON();
+		if (!this.shouldMove) {
+			v.magnitude = 0;
+		}
+		return {
+			position: this.position.toJSON(),
+			velocity: v,
 			segments: this.segments.toJSON()
 		};
 	},
@@ -107,13 +132,15 @@ Snake.prototype.extend({
 	addSegment: function() {
 		var last = this.segments.last(),
 			lastFrom = (last) ? last.from : this.velocity.to,
-			lastPoint = (last) ? last.to : this.position;
-		lastFrom.clone();
-		var v = new Vector(
-				lastFrom.subtract(lastPoint)
+			lastPoint = (last) ? last.to : this.position,
+			v = new Vector(
+				lastFrom.clone().subtract(lastPoint)
 			),
-			angle = v.angleRadians(),
-			x = Math.cos(angle),
+			angle = v.angleRadians();
+		if (!this.initialized) {
+			angle = Math.PI;
+		}
+		var x = Math.cos(angle),
 			y = Math.sin(angle),
 			cp1 = (new Point(
 				x * 2,
@@ -134,6 +161,7 @@ Snake.prototype.extend({
 			to
 		);
 		this.segments.push(segment);
+		return this;
 	},
 
 	//passes in a string "Red" or "Blue"
@@ -201,7 +229,6 @@ Snake.prototype.extend({
 
 	handleSprint: function(startStop) {
 		sprintObj = this.sprintObj;
-		console.log(sprintObj);
 		switch (startStop) {
 			case 'start':
 				if (sprintObj.current != 'use' && sprintObj.remaining >= 1) {

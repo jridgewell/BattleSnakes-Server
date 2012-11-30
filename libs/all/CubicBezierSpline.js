@@ -80,6 +80,15 @@ CubicBezierSpline.prototype.extend({
 		this.add(offset);
 		return this;
 	},
+	relocate: function(point) {
+		if (!this.bezierSegments.length) {
+			return;
+		}
+		var from = this.bezierSegments[0].from,
+			d = point.clone().subtract(from);
+		this.add(d);
+		return this;
+	},
 	add: function(offset) {
 		this.breakUp();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
@@ -99,15 +108,15 @@ CubicBezierSpline.prototype.extend({
 	breakUp: function() {
 		for (var i = 1, l = this.bezierSegments.length; i < l; ++i) {
 			var bezierSegment = this.bezierSegments[i];
-			bezierSegments.from = bezierSegments.from.clone();
+			bezierSegment.from = bezierSegment.from.clone();
 		}
 		return this;
 	},
-	join: function() {
+	rejoin: function() {
 		for (var i = 1, l = this.bezierSegments.length; i < l; ++i) {
 			var bezierSegment = this.bezierSegments[i],
 				prevSegment = this.bezierSegments[i - 1];
-			bezierSegments.from = prevSegment.to;
+			bezierSegment.from = prevSegment.to;
 		}
 		return this;
 	},
@@ -244,7 +253,7 @@ CubicBezierSpline.prototype.extend({
 				var c = new CubicBezierSegment(bezierSegments[i]);
 				this.push(c);
 			}
-		} else {
+		} else if (bezierSegments) {
 			var c = (bezierSegments instanceof CubicBezierSegment) ? bezierSegments.clone() : new CubicBezierSegment(bezierSegments);
 			this.push(c);
 		}

@@ -164,8 +164,8 @@ function World()
 			var y = Math.floor(Math.random()*(gb.height - obj.height) + obj.height / 2);
 			x += gb.x;
 			y += gb.y;
-			if (obj.move) {
-				obj.move(x, y);
+			if (obj.relocate) {
+				obj.relocate(x, y);
 			} else {
 				obj.position.set(x, y);
 			}

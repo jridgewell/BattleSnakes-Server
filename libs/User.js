@@ -233,7 +233,7 @@ function User(socket, playerevent, snakeID)
 		console.log('broadcastPlayerUpdate', user.userID);
 		this.broadcast(this.surroundingGridRooms(), {
 			type: 'playerUpdate',
-			snakes: [snake]
+			snakes: [snake.get()]
 		});
 	}
 
