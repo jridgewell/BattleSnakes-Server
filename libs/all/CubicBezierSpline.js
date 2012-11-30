@@ -6,29 +6,23 @@ var CubicBezierSegment = require('./CubicBezierSegment');
  */
 function CubicBezierSpline(bezierSegments /*Array[CubicBezierSegments]*/) {
 	this.bezierSegments = [];
-	if (bezierSegments) {
-		for (var i = 0, l = bezierSegments.length; i < l; ++i) {
-			this.push(bezierSegments[i]);
-		}
-	}
+	this.set(bezierSegments);
 	this.vel = function() {};
 }
 
 CubicBezierSpline.prototype.extend({
 	shouldWiggle: function() {
-		if (this.bezierSegments.length === 0 || this.vel().magnitude() === 0) {
+		var lastVelocity = this.vel();
+		if (!this.bezierSegments.length || !lastVelocity.magnitude()) {
 			return false;
 		}
 		var wiggle = true;
-		var lastVelocity = this.vel();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var segment = this.bezierSegments[i],
-				v = new Vector(segment.to.subtract(segment.from));
-			if (lastVelocity) {
-				if (!lastVelocity.angleEquals(v)) {
-					wiggle = false;
-					break;
-				}
+				v = new Vector(segment.to.clone().subtract(segment.from));
+			if (!lastVelocity.angleEquals(v)) {
+				wiggle = false;
+				break;
 			}
 			lastVelocity = v;
 		}
@@ -37,27 +31,25 @@ CubicBezierSpline.prototype.extend({
 	wiggle: function() {
 		if (this.shouldWiggle()) {
 			var now = Date.now() / 1000;
-			var height = 5,
+			var cp = 0,
+				height = 5,
 				vector = this.vel(),
 				angle = vector.angle(),
-				spline = this.rotate(angle * -1),
-				l = spline.bezierSegments.length;
-			if (l) {
-				var cp = 0;
-				for (var i = 0; i < l; ++i) {
-					//http://paperjs.org/tutorials/animation/creating-animations/
-					var seg = spline.bezierSegments[i],
-						sinus = Math.sin(now * 3.2 + cp);
-					seg.control1.y = sinus * height;
-					++cp;
-
+				spline = this.clone().rotate(angle * -1);
+			for (var i = 0, l = spline.bezierSegments.length; i < l; ++i) {
+				//http://paperjs.org/tutorials/animation/creating-animations/
+				var seg = spline.bezierSegments[i],
 					sinus = Math.sin(now * 3.2 + cp);
-					seg.control2.y = sinus * height;
-					++cp;
-				}
-				this.bezierSegments = spline.rotate(angle).bezierSegments;
+				seg.control1.y = sinus * height;
+				++cp;
+
+				sinus = Math.sin(now * 3.2 + cp);
+				seg.control2.y = sinus * height;
+				++cp;
 			}
+			this.bezierSegments = spline.rotate(angle).bezierSegments;
 		}
+		return this;
 	},
 	approximate: function(segments /*= 100 */) {
 		segments = (typeof segments == 'number') ? Math.round(segments) : 100;
@@ -76,28 +68,47 @@ CubicBezierSpline.prototype.extend({
 		return points;
 	},
 	rotate: function(theta /*degrees*/) {
-		var spline = new CubicBezierSpline();
+		this.breakUp();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
-			var c = this.bezierSegments[i].rotate(theta);
-			if (i > 0) {
-				c.from = spline.bezierSegments[i - 1].to;
-			}
-			spline.bezierSegments[i] = c;
+			this.bezierSegments[i].rotate(theta);
 		}
-		return spline;
+		this.rejoin();
+		return this;
 	},
 	move: function(offset) {
-		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
-			this.bezierSegments[i].move(offset);
-		}
+		this.add(offset);
+		return this;
 	},
-	translate: function(offset /*Point*/) {
-		var spline = new CubicBezierSpline();
+	add: function(offset) {
+		this.breakUp();
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
-			var c = this.bezierSegments[i].translate(offset);
-			spline.push(c);
+			this.bezierSegments[i].add(offset);
 		}
-		return spline;
+		this.rejoin();
+		return this;
+	},
+	subtract: function(offset) {
+		this.breakUp();
+		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
+			this.bezierSegments[i].subtract(offset);
+		}
+		this.rejoin();
+		return this;
+	},
+	breakUp: function() {
+		for (var i = 1, l = this.bezierSegments.length; i < l; ++i) {
+			var bezierSegment = this.bezierSegments[i];
+			bezierSegments.from = bezierSegments.from.clone();
+		}
+		return this;
+	},
+	join: function() {
+		for (var i = 1, l = this.bezierSegments.length; i < l; ++i) {
+			var bezierSegment = this.bezierSegments[i],
+				prevSegment = this.bezierSegments[i - 1];
+			bezierSegments.from = prevSegment.to;
+		}
+		return this;
 	},
 	x: function(t) {
 		return this.coordinate('x', t);
@@ -122,12 +133,7 @@ CubicBezierSpline.prototype.extend({
 		return segment ? segment.coordinatePrime(xOrY, t) : undefined;
 	},
 	clone: function() {
-		var spline = new CubicBezierSpline();
-		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
-			var c = this.bezierSegments[i].clone();
-			spline.push(c);
-		}
-		return spline;
+		return new CubicBezierSpline(this);
 	},
 	toJSON: function() {
 		var spline = [];
@@ -143,6 +149,7 @@ CubicBezierSpline.prototype.extend({
 			segment.from = this.bezierSegments[l - 1].to;
 		}
 		this.bezierSegments[l] = segment;
+		return this;
 	},
 	pop: function() {
 		return this.bezierSegments.pop();
@@ -157,7 +164,7 @@ CubicBezierSpline.prototype.extend({
 			return this.bezierSegments.splice(index);
 		}
 	},
-	smooth: function() { /*Destructive Function!*/
+	smooth: function() {
 		function getFirstControlPoints(rhs) {
 			var n = rhs.length,
 				x = [], // Solution vector.
@@ -224,6 +231,23 @@ CubicBezierSpline.prototype.extend({
 				}
 			}
 		}
+	},
+	set: function(bezierSegments) {
+		if (bezierSegments instanceof CubicBezierSpline) {
+			for (var i = 0, l = bezierSegments.length; i < l; ++i) {
+				var c = bezierSegments[i].clone();
+				this.push(c);
+			}
+		} else if (Array.isArray(bezierSegments)) {
+			for (var i = 0, l = bezierSegments.length; i < l; ++i) {
+				var c = new CubicBezierSegment(bezierSegments[i]);
+				this.push(c);
+			}
+		} else {
+			var c = (bezierSegments instanceof CubicBezierSegment) ? bezierSegments.clone() : new CubicBezierSegment(bezierSegments);
+			this.push(c);
+		}
+		return this;
 	}
 });
 
