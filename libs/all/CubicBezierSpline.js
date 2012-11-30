@@ -101,7 +101,6 @@ CubicBezierSpline.prototype.extend({
 		if (this.bezierSegments.length) {
 			var from = this.bezierSegments[0].from,
 				d = (new Point(point)).subtract(from);
-            console.log(point, d);
 			this.add(d);
 		}
 		return this;

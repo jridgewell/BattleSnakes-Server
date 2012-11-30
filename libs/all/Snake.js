@@ -117,12 +117,12 @@ Snake.prototype.extend({
 			lastPoint = (last) ? last.to : this.position,
 			v = (new Vector(lastPoint)).subtract(lastFrom),
 			angle = v.angleRadians();
-		if (this.angle == NaN) {
+		if (angle == undefined) {
 			angle = Math.PI;
 		}
 		var x = Math.cos(angle),
 			y = Math.sin(angle),
-			cp1 = (new Point(
+            cp1 = (new Point(
 				x * 2,
 				y * 2
 			)).add(lastPoint),
