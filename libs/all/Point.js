@@ -67,6 +67,9 @@ Point.prototype.extend({
 				this.y * scalar
 			);
 		} else {
+			if ('to' in scalar) {
+				scalar = scalar.to;
+			}
 			this.set(
 				this.x * scalar.x,
 				this.y * scalar.y
@@ -76,6 +79,9 @@ Point.prototype.extend({
 	},
 	divide: function(scalar) {
 		if (scalar instanceof Object) {
+			if ('to' in scalar) {
+				scalar = scalar.to;
+			}
 			s = {};
 			s.x = 1 / scalar.x;
 			s.y = 1 / scalar.y;
@@ -92,6 +98,9 @@ Point.prototype.extend({
 				this.y + offset
 			);
 		} else {
+			if ('to' in offset) {
+				offset = offset.to;
+			}
 			this.set(
 				this.x + offset.x,
 				this.y + offset.y
@@ -101,6 +110,9 @@ Point.prototype.extend({
 	},
 	subtract: function(offset) {
 		if (offset instanceof Object) {
+			if ('to' in offset) {
+				offset = offset.to;
+			}
 			o = {};
 			o.x = -1 * offset.x;
 			o.y = -1 * offset.y;
