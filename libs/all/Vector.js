@@ -25,10 +25,6 @@ Vector.prototype.extend({
 		this.to.rotate(theta)
 		return this;
 	},
-	unRotate: function() {
-		this.rotate(-1 * this.angle());
-		return this;
-	},
 	angleRadians: function() {
 		var dx = this.dx,
 			dy = this.dy;
