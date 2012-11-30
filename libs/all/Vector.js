@@ -21,16 +21,16 @@ Vector.prototype.extend({
 
 	computeAngle: function() {
 		var dx = this.dx,
-			dy = this.dy;
-		if (dx === 0 && dy === 0) {
-			return 0;
-		}
-		var angle = (Math.atan(dy / dx));
-		if (dx < 0) {
-			angle += Math.PI;
-		} else if (dx >= 0 && dy < 0) {
-			angle = 2 * Math.PI + angle;
-		}
+			dy = this.dy
+            angle = 0;
+		if (!(dx === 0 && dy === 0)) {
+            var angle = (Math.atan(dy / dx));
+            if (dx < 0) {
+                angle += Math.PI;
+            } else if (dx >= 0 && dy < 0) {
+                angle = 2 * Math.PI + angle;
+            }
+        }
 		this._angle = angle;
 	},
 
@@ -53,6 +53,9 @@ Vector.prototype.extend({
 		return this;
 	},
 	angleRadians: function() {
+        if (this._angle === undefined) {
+            this.computeAngle();
+        }
 		return this._angle;
 	},
 	angle: function() { /*degrees*/
