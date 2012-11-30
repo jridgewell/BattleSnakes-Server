@@ -16,8 +16,7 @@ CubicBezierSpline.prototype.extend({
 		var straight = true;
 		for (var i = 0, l = this.bezierSegments.length; i < l; ++i) {
 			var segment = this.bezierSegments[i],
-				from = segment.from.clone(),
-				v = new Vector(from.subtract(segment.to));
+				v = (new Vector(from)).subtract(segment.to);
 			if (!lastVector.angleEquals(v)) {
 				straight = false;
 				break;
@@ -36,7 +35,7 @@ CubicBezierSpline.prototype.extend({
 				height = 5,
 				vector = this.vel(),
 				angle = vector.angle(),
-				spline = this.clone().rotate(angle * -1);
+				spline = (new CubicBezierSpline(this)).rotate(angle * -1);
 			for (var i = 0, l = spline.bezierSegments.length; i < l; ++i) {
 				//http://paperjs.org/tutorials/animation/creating-animations/
 				var seg = spline.bezierSegments[i],
@@ -59,7 +58,7 @@ CubicBezierSpline.prototype.extend({
 
 		if (l) {
 			points.push(
-				this.bezierSegments[0].from.clone()
+				new Point(this.bezierSegments[0].from)
 			);
 			for (var i = 0; i < l; ++i) {
 				points = this.bezierSegments[i].approximate(points, segments);
@@ -83,15 +82,15 @@ CubicBezierSpline.prototype.extend({
 			var l = this.bezierSegments.length;
 			if (l) {
 				var bS = this.bezierSegments[0],
-					length = (new Vector(bS.from.clone().subtract(bS.to))).magnitude();
+					length = (new Vector(bS.from)).subtract(bS.to).magnitude();
 				bS.from.add(offset);
 				for (var i = 0; i < l; ++i) {
 					var bezierSegment = this.bezierSegments[i],
-						from = bezierSegment.from,
+						from = new Point(bezierSegment.from),
 						to = bezierSegment.to;
-						d = new Vector(from.clone().subtract(to));
+						d = (new Vector(from)).subtract(to));
 					d.normalize().multiply(length);
-					to.set(from.clone().subtract(d.to));
+					to.set(from.subtract(d.to));
 				}
 				this.smooth();
 			}
@@ -101,7 +100,7 @@ CubicBezierSpline.prototype.extend({
 	relocate: function(point) {
 		if (this.bezierSegments.length) {
 			var from = this.bezierSegments[0].from,
-				d = point.clone().subtract(from);
+				d = (new Point(point)).subtract(from);
 			this.add(d);
 		}
 		return this;
@@ -125,7 +124,7 @@ CubicBezierSpline.prototype.extend({
 	breakUp: function() {
 		for (var i = 1, l = this.bezierSegments.length; i < l; ++i) {
 			var bezierSegment = this.bezierSegments[i];
-			bezierSegment.from = bezierSegment.from.clone();
+			bezierSegment.from = new Point(bezierSegment.from);
 		}
 		return this;
 	},

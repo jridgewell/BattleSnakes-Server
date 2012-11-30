@@ -27,7 +27,7 @@ CubicBezierSegment.prototype.extend({
 				this.x(t),
 				this.y(t)
 			);
-			previousPts.push(pp.clone());
+			previousPts.push(new Point(pp));
 		}
 
 		return previousPts;

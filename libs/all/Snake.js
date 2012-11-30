@@ -48,7 +48,7 @@ Snake.prototype.extend({
 	},
 	move: function(pointOrX, y) {
 		var point = (pointOrX instanceof Point) ? pointOrX : new Point(pointOrX, y),
-			d = point.clone().subtract(this.position);
+			d = (new Point(point)).subtract(this.position);
 		this.position = point;
 		this.segments.move(d);
 		return this;
@@ -70,7 +70,8 @@ Snake.prototype.extend({
 				velocity = gameObject.velocity,
 				angle = velocity.angle(),
 				magnitude = velocity.magnitude(),
-				segments = this.segments.clone().subtract(offset).rotate(-1 * angle);
+				segments = (new CubicBezierSpline(this.segments))
+					.subtract(offset).rotate(-1 * angle);
 			for (var i = 0; i < segments.length; ++i) {
 				var hit = segments[i].isZero(magnitude);
 				if (hit) {
@@ -114,9 +115,7 @@ Snake.prototype.extend({
 		var last = this.segments.last(),
 			lastFrom = (last) ? last.from : this.velocity.to,
 			lastPoint = (last) ? last.to : this.position,
-			v = new Vector(
-				lastPoint.clone().subtract(lastFrom)
-			),
+			v = (new Vector(lastPoint)).subtract(lastFrom),
 			angle = v.angleRadians();
 		if (this.angle == NaN) {
 			angle = Math.PI;
@@ -187,7 +186,7 @@ Snake.prototype.extend({
 					sprintObj.remaining = 0;
 					sprintObj.current = 'regen';
 					this.updateSprint();
-					this.velocity = this.velocity.clone().divide(2);
+					this.velocity = (new Vector(this.velocity)).divide(2);
 					return;
 				}
 				// Drain at 1 unit per second
@@ -215,14 +214,14 @@ Snake.prototype.extend({
 				if (sprintObj.current != 'use' && sprintObj.remaining >= 1) {
 					sprintObj.current = 'use';
 					this.updateSprint();
-					this.velocity = this.velocity.clone().multiply(2);
+					this.velocity = (new Vector(this.velocity)).multiply(2);
 				}
 				break;
 			case 'stop':
 				if (sprintObj.current == 'use') {
 					sprintObj.current = 'regen';
 					this.updateSprint();
-					this.velocity = this.velocity.clone().divide(2);
+					this.velocity = (new Vector(this.velocity)).divide(2);
 				}
 				break;
 		}
