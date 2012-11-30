@@ -169,7 +169,7 @@ Snake.prototype.extend({
 					sprintObj.remaining = 0;
 					sprintObj.current = 'regen';
 					this.updateSprint();
-					this.velocity = this.velocity.clone()divide(2);
+					this.velocity = this.velocity.clone().divide(2);
 					return;
 				}
 				// Drain at 1 unit per second
