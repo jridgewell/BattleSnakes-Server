@@ -92,7 +92,7 @@ Point.prototype.extend({
 		return this.multiply(scalar);
 	},
 	add: function(offset) {
-		if (typeof offest == 'number') {
+		if (typeof offset == 'number') {
 			this.set(
 				this.x + offset,
 				this.y + offset
