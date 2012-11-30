@@ -81,12 +81,11 @@ CubicBezierSpline.prototype.extend({
 		return this;
 	},
 	relocate: function(point) {
-		if (!this.bezierSegments.length) {
-			return;
+		if (this.bezierSegments.length) {
+			var from = this.bezierSegments[0].from,
+				d = point.clone().subtract(from);
+			this.add(d);
 		}
-		var from = this.bezierSegments[0].from,
-			d = point.clone().subtract(from);
-		this.add(d);
 		return this;
 	},
 	add: function(offset) {
