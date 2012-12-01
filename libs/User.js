@@ -351,7 +351,7 @@ function User(socket, playerevent, snakeID)
 	};
 
     this.remove = function () {
-        this.sendRemoveSnakePacket([snake]);
+        this.broadcast(this.sendRemoveSnakePacket([snake]));
         snake.grid.removeGameObject(snake);
     }
 
