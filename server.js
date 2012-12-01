@@ -98,10 +98,7 @@ Server.PlayerEvent = function(event)
 			var blueTeamLength = BlueTeam.length,
 				redTeamLength = RedTeam.length,
 				team;
-			if (blueTeamLength > redTeamLength) {
-				team = 'Red';
-				RedTeam.push(user);
-			} else if (redTeamLength > blueTeamLength) {
+			if (redTeamLength > blueTeamLength) {
 				team = 'Blue';
 				BlueTeam.push(user);
 			} else {
