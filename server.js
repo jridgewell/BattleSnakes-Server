@@ -105,13 +105,8 @@ Server.PlayerEvent = function(event)
 				team = 'Blue';
 				BlueTeam.push(user);
 			} else {
-				if (Math.random() < .5) {
-					team = 'Red';
-					RedTeam.push(user);
-				} else {
-					team = 'Blue';
-					BlueTeam.push(user);
-				}
+				team = 'Red';
+				RedTeam.push(user);
 			}
 			snake.changeTeam(team);
 			break;
