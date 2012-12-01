@@ -152,16 +152,16 @@ Snake.prototype.extend({
 		var x = Math.cos(angle),
 			y = Math.sin(angle),
             cp1 = (new Point(
-				x * 2,
-				y * 2
-			)).add(lastPoint),
-			cp2 = (new Point(
 				x * 4,
 				y * 4
 			)).add(lastPoint),
+			cp2 = (new Point(
+				x * 8,
+				y * 8
+			)).add(lastPoint),
 			to = (new Point(
-				x * 6,
-				y * 6
+				x * 12,
+				y * 12
 			)).add(lastPoint);
 		var segment = new CubicBezierSegment(
 			lastPoint,
