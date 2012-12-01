@@ -20,14 +20,14 @@ Vector.prototype.extend({
 	},
 
 	computeAngle: function() {
-		var dx = this.dx,
-			dy = this.dy
+		var x = this.x,
+			y = this.y
             angle = 0;
-		if (!(dx === 0 && dy === 0)) {
-            var angle = (Math.atan(dy / dx));
-            if (dx < 0) {
+		if (!(x === 0 && y === 0)) {
+            var angle = (Math.atan(y / x));
+            if (x < 0) {
                 angle += Math.PI;
-            } else if (dx >= 0 && dy < 0) {
+            } else if (x >= 0 && y < 0) {
                 angle = 2 * Math.PI + angle;
             }
         }
@@ -61,16 +61,16 @@ Vector.prototype.extend({
 	angle: function() { /*degrees*/
 		return this.angleRadians() * 180 / Math.PI;
 	},
-	get dx() {
+	get x() {
 		return this.to.x;
 	},
-	get dy() {
+	get y() {
 		return this.to.y;
 	},
 	magnitude: function() {
-		var dy = this.dy,
-			dx = this.dx;
-		return Math.sqrt( (dy * dy) + (dx * dx) );
+		var y = this.y,
+			x = this.x;
+		return Math.sqrt( (y * y) + (x * x) );
 	},
 	multiply: function(scalar) {
 		this.to.multiply(scalar)
