@@ -33,6 +33,13 @@ function User(socket, playerevent, snakeID)
 			user: user
 		});
 
+        // Kick the kids who send too much data.
+        this.packetsThisSecond = 0;
+        this.packetKickingInterval = setInterval(function() {
+            //Reset the packetsThisSecond every second
+            user.packetsThisSecond = 0;
+        }, 1000);
+
 
 		// Snake functions that must be aware of the User object
 		snakeScore = snake.score;
@@ -249,6 +256,11 @@ function User(socket, playerevent, snakeID)
 		 * var data = JSON.parse(e);
 		 * if(data.type == 'init')
 		 */
+        ++this.packetsThisSecond;
+        if (this.packetsThisSecond > 10) {
+            // Kick this kid.
+            socket.disconnect();
+        }
 		if (!e || !e.type) {
 			return;
 		}
