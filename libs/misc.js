@@ -11,6 +11,14 @@ DONTENUMERATE(Array.prototype, 'clone', function() {
 	return Array.prototype.slice.call(this);
 });
 
+DONTENUMERATE(Array.prototype, 'remove', function(element) {
+    var index = this.indexOf(element);
+    if (index > -1) {
+        return this.splice(index, 1);
+    }
+    return undefined;
+});
+
 DONTENUMERATE(Array.prototype, 'complement', function(array) {
 	var elements = this.slice(0);
 	elements = elements.filter(function(element) {

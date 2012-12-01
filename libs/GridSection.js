@@ -20,11 +20,7 @@ GridSection.prototype.extend({
 	},
 
 	removeGameObject: function(gobj) {
-		var i = this.gameObjects.indexOf(gobj);
-		if (i > -1) {
-			return this.gameObjects.splice(i, 1);
-		}
-		return false;
+        return this.gameObjects.remove(gObj);
 	},
 
 	getGameObjects: function() {

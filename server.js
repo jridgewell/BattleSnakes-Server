@@ -132,14 +132,12 @@ Server.PlayerEvent = function(event)
             switch (snake.team) {
                 case 0:
                     var team = RedTeam;
-                    var index = team.indexOf(user);
                 case 1:
                     var team = BlueTeam;
-                    var index = team.indexOf(user);
             }
-            team.splice(index, 1);
-
-			--num_users;
+            team.remove(user);
+            users.remove(user);
+			//--num_users;
 		default:
 	}
 };
