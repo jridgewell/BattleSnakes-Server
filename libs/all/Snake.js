@@ -73,6 +73,9 @@ Snake.prototype.extend({
 		if (gameObject.isStationary) {
 			return gameObject.collision(this);
 		} else {
+            if (gameObject.team === this.team) {
+                return false;
+            }
 			var offset = gameObject.position,
 				velocity = gameObject.velocity
                 index = -1;
