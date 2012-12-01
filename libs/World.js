@@ -187,15 +187,26 @@ function World()
 		}
 	}
 
-	this.AddSnake = function(user) {
-		var snake = user.getSnake();
+	this.AddUser = function(user) {
+		var size = this.GetCurrentSize(),
+            snake = user.getSnake();
 		// User function that must be aware of the World
 		(function(world) {
 			user.surroundingGridRooms = function() {
 				return world.surroundingGridIds(snake);
-			}
+			};
+            user.reset = function (snake) {
+                snake.grid.removeGameObject(snake);
+                snake.grid = undefined;
+                world.AddSnake(snake);
+            };
 		})(this);
-		var size = this.GetCurrentSize();
+        this.AddSnake(snake);
+		user.joinGridRoom(snake.grid.id)
+
+		return size;
+	};
+    this.AddSnake = function (snake) {
 		var g;
 		switch(snake.team)
 		{
@@ -208,11 +219,8 @@ function World()
 		}
 		FindNewPosition(snake, g);
 		snake.grid = g;
-		user.joinGridRoom(g.id)
 		g.addGameObject(snake);
-
-		return size;
-	};
+    };
 
 	this.GetCurrentSize = function() {
 		return grid.getSize();

@@ -23,8 +23,7 @@ function Snake(id) {
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
 	this._velocity = new Vector();
-	this.numSegments = 1;
-	this.grid = null;
+	this.grid = undefined;
 	this.height = 20;
 	this.width = 20;
 	this.position = new Point();
@@ -262,6 +261,23 @@ Snake.prototype.extend({
 				break;
 		}
 	},
+
+    die: function () {
+        this.eggs = [];
+        this.powerups = [];
+        this.sprintObj = {
+            current: 'regen',
+            remaining: 3
+        };
+        this.segments = new CubicBezierSpline();
+        this.addSegment();
+
+        (function(snake) {
+            snake.segments.vel = function() {
+                return snake.velocity;
+            };
+        })(this);
+    },
 
 	get velocity() {
 		return this._velocity;

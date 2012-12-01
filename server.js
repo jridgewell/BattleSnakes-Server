@@ -108,7 +108,7 @@ Server.PlayerEvent = function(event)
 			snake.changeTeam(team);
 			break;
 		case 'intro':
-			user.sendIntroPacket(world.AddSnake(user));
+			user.sendIntroPacket(world.AddUser(user));
 			user.sendAddEnvironmentPacket(world.surroundingEnvironment(snake));
 			//Send other snakes to the user
 			var otherSnakes = world.surroundingSnakes(snake);

@@ -15,7 +15,7 @@ function User(socket, playerevent, snakeID)
 	var score = {};
 	this.socketID;
 	this.userID = snakeID;
-
+    this.reset = function () {};
 
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
@@ -109,6 +109,16 @@ function User(socket, playerevent, snakeID)
 			}
 			user.sendSprintPacket();
 		}
+
+        snakeDie = snake.die;
+        snake.die = function () {
+            this.leaveGridRoom(snake.grid.id);
+            this.reset(snake);
+            this.joinGridRoom(snake.grid.id);
+            if (snakeDie) {
+                snakeDie();
+            }
+        }
 	};
 
 	this.sendIntroPacket = function(env)
