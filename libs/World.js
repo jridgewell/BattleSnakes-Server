@@ -249,22 +249,24 @@ function World()
 				OoB = true;
 			}
 
+            var colObj = undefined;
 			if (!OoB) {
 				var gObjs = snake.grid.getGameObjects();
 				for (var i = 0, l = gObjs.length; i < l; ++i) {
 					var gObj = gObjs[i];
 					collision = snake.collision(gObj)
 					if (collision || collision === 0) {
+                        colObj = gObj;
 						break;
 					}
 				}
 			}
 			if (typeof collision == 'number') {
 				console.log('collision == number')
-				user.sendUpdatePacket();
+				user.sendCollisionPacket(colObj);
 				user.broadcastPlayerUpdate();
 			}
-			if (OoB || collision) {
+			if (OoB || collision === true) {
 				console.log('OoB or collision')
 				console.log('OoB ' + OoB);
 				console.log('Collision ' + collision)

@@ -135,6 +135,14 @@ function User(socket, playerevent, snakeID)
 		return message;
 	}
 
+	this.sendCollisionPacket = function(obj) {
+		var message = snake.toJSON();
+		message.type = 'update';
+        message.collision = true;
+        message.collidedWith = obj;
+		socket.emit('message', message);
+		return message;
+	};
 	this.sendUpdatePacket = function() {
 		var message = snake.toJSON();
 		message.type = 'update';
