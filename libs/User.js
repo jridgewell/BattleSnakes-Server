@@ -112,6 +112,7 @@ function User(socket, playerevent, snakeID)
 
         snakeDie = snake.die;
         snake.die = function () {
+			this.score('death', 1);
             this.leaveGridRoom(snake.grid.id);
             this.reset(snake);
             this.joinGridRoom(snake.grid.id);
