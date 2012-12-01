@@ -6,6 +6,13 @@ var CubicBezierSpline = require('./CubicBezierSpline');
 var CubicBezierSegment = require('./CubicBezierSegment');
 var Teams = require('./Teams');
 
+var fs = require('fs');
+if (fs.existsSync('../../nodemod/')) {
+    var Collision = require('../../nodemod/src/source/build/Release/collision');
+}
+
+
+
 function Snake(id) {
     this.initialized = false;
 	this.id = id;
@@ -67,19 +74,40 @@ Snake.prototype.extend({
 			return gameObject.collision(this);
 		} else {
 			var offset = gameObject.position,
-				velocity = gameObject.velocity,
-				angle = velocity.angle(),
-				magnitude = velocity.magnitude(),
-				segments = (new CubicBezierSpline(this.segments))
-					.subtract(offset).rotate(-1 * angle);
-			for (var i = 0; i < segments.length; ++i) {
-				var hit = segments[i].isZero(magnitude);
-				if (hit) {
-					this.segments.splice(i);
-					gameObject.score('bite', 1);
-					return i;
-				}
-			}
+				velocity = gameObject.velocity
+                index = -1;
+            if (Collision) {
+                var off = new Collision.Point(offset.x, offset.y)
+                    vector = new Collision.Vector(new Collision.Point(velocity.x, velocity.y)),
+                    segs = [];
+                for (var i = 0; i < segments.length; ++i) {
+                    var seg = segments[i];
+                    segs.push(new Collision.CubicBezierSegment(
+                        new Collision.Point(seg.from.x, seg.from.y),
+                        new Collision.Point(seg.control1.x, seg.control1.y),
+                        new Collision.Point(seg.control2.x, seg.control2.y),
+                        new Collision.Point(seg.to.x, seg.to.y)
+                    ));
+                }
+                index = Collision.collide(off, vector, segs);
+            } else {
+                var angle = velocity.angle(),
+                    magnitude = velocity.magnitude(),
+                    segments = (new CubicBezierSpline(this.segments))
+                        .subtract(offset).rotate(-1 * angle);
+                for (var i = 0; i < segments.length; ++i) {
+                    var hit = segments[i].isZero(magnitude);
+                    if (hit) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            if (index > -1) {
+                this.segments.splice(index);
+                gameObject.score('bite', 1);
+                return index;
+            }
 		}
 	},
 
