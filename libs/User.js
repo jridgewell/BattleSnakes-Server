@@ -350,6 +350,11 @@ function User(socket, playerevent, snakeID)
 		return snake;
 	};
 
+    this.remove = function () {
+        this.removeSnake([snake]);
+        snake.grid.removeGameObject(snake);
+    }
+
 	init();
 }
 

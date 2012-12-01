@@ -128,6 +128,17 @@ Server.PlayerEvent = function(event)
 			break;
 		case 'disconnect':
 			d.log(1,'User '+event.user+' has disconnected!');
+            event.user.remove();
+            switch (snake.team) {
+                case 0:
+                    var team = RedTeam;
+                    var index = team.indexOf(user);
+                case 1:
+                    var team = BlueTeam;
+                    var index = team.indexOf(user);
+            }
+            team.splice(index, 1);
+
 			--num_users;
 		default:
 	}
