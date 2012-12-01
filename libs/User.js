@@ -64,7 +64,6 @@ function User(socket, playerevent, snakeID)
 			}
 			this.score('pickUpEgg', 1);
 			user.sendUpdatePacket();
-			console.log('pickupEgg');
 			user.broadcastPlayerUpdate();
 			user.sendEggPacket();
 			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(egg));
@@ -78,6 +77,8 @@ function User(socket, playerevent, snakeID)
 			}
 			var eggs = this.eggs.splice(0);
 			this.score('dropOffEggs', eggs.length);
+            user.sendUpdatePacket();
+            user.broadcastPlayerUpdate();
 			user.sendEggPacket();
 			return eggs;
 		}

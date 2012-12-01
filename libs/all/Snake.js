@@ -105,6 +105,7 @@ Snake.prototype.extend({
             }
             if (index > -1) {
                 this.segments.splice(index);
+                this.eggs.splice(index);
                 gameObject.score('bite', 1);
                 return index;
             }
@@ -194,6 +195,10 @@ Snake.prototype.extend({
 		this.eggs.push(egg);
 		this.addSegment();
 	},
+
+    dropOffEggs: function (hatchery) {
+        this.segments.splice(1);
+    },
 
 	pickUpPowerup: function(powerup) {
 		this.powerups.push(powerup);
