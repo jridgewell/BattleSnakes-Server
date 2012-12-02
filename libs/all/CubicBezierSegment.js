@@ -207,7 +207,7 @@ CubicBezierSegment.prototype.extend({
 		};
 	},
 	set: function(from, control1, control2, to) {
-		if (from instanceof CubicBezierSegment) {
+		if (from instanceof Object && 'from' in from) {
 			this.set(from.from, from.control1, from.control2, from.to);
 		} else if (Array.isArray(from)) {
 			this.set(from[0], from[1], from[2], from[3]);
