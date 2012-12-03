@@ -304,12 +304,13 @@ function World()
 			return g;
 		}
 		// console.log(g.id);
-        g = grid.getGrid(g.row + row, g.column + column);
-        if (!g) {
-            return null;
-        }
-        if (grid.positionInsideGrid(snake.position, g)) {
-            return g;
+        for (var r = -1; r < 2; ++r) {
+            for (var c = -1; c < 2; ++c) {
+                g = grid.getGrid(g.row + r, g.column + c);
+                if (g && grid.positionInsideGrid(snake.position, g)) {
+                    return g;
+                }
+            }
         }
 		return null;
 	}
