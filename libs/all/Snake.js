@@ -148,7 +148,7 @@ Snake.prototype.extend({
 		var last = this.segments.last(),
 			lastFrom = (last) ? last.from : this.velocity.to,
 			lastPoint = (last) ? last.to : this.position,
-			v = (new Vector(lastPoint)).subtract(lastFrom),
+			v = (new Vector(lastFrom)).subtract(lastPoint),
 			angle = v.angleRadians();
 		if (!this.initialized) {
 			angle = Math.PI;
