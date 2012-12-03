@@ -197,8 +197,10 @@ function World()
 			};
             user.reset = function (snake) {
                 snake.grid.removeGameObject(snake);
-                snake.grid = undefined;
                 world.AddSnake(snake);
+            };
+            user.removeGameObject = function(gObj) {
+                gObj.grid.removeGameObject(gObj);
             };
 		})(this);
         this.AddSnake(snake);
@@ -218,7 +220,6 @@ function World()
 				break;
 		}
 		FindNewPosition(snake, g);
-		snake.grid = g;
 		g.addGameObject(snake);
     };
 

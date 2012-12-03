@@ -63,10 +63,11 @@ function User(socket, playerevent, snakeID)
 				snakePickUpEgg.call(snake, egg);
 			}
 			this.score('pickUpEgg', 1);
+			this.removeGameObject(egg);
+			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket([egg]));
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
 			user.sendEggPacket();
-			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket([egg]));
 			return this;
 		},
 
@@ -81,16 +82,6 @@ function User(socket, playerevent, snakeID)
             user.broadcastPlayerUpdate();
 			user.sendEggPacket();
 			return eggs;
-		}
-
-		snakePickUpPowerup = snake.pickUpPowerup;
-		snake.pickUpPowerup = function(powerup) {
-			if (snakePickUpPowerup) {
-				snakePickUpPowerup.call(snake, powerup);
-			}
-			user.sendUpdatePacket();
-			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(powerup));
-			return this;
 		}
 
 		snakeUpdate = snake.update;
