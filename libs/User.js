@@ -45,7 +45,7 @@ function User(socket, playerevent, snakeID)
 		snakeScore = snake.score;
 		snake.score = function(type, increment) {
 			if (snakeScore) {
-				snakeScore(type, increment);
+				snakeScore.call(snake, type, increment);
 			}
 			var get = (increment == undefined),
 				scoreSet = (type in score),
@@ -60,7 +60,7 @@ function User(socket, playerevent, snakeID)
 		snakePickUpEgg = snake.pickUpEgg;
 		snake.pickUpEgg = function(egg) {
 			if (snakePickUpEgg) {
-				snakePickUpEgg(egg);
+				snakePickUpEgg.call(snake, egg);
 			}
 			this.score('pickUpEgg', 1);
 			user.sendUpdatePacket();
@@ -73,7 +73,7 @@ function User(socket, playerevent, snakeID)
 		snakeDropOffEggs = snake.dropOffEggs;
 		snake.dropOffEggs = function(hatchery) {
 			if (snakeDropOffEggs) {
-				snakeDropOffEggs(hatchery);
+				snakeDropOffEggs.call(snake, hatchery);
 			}
 			var eggs = this.eggs.splice(0);
 			this.score('dropOffEggs', eggs.length);
@@ -86,7 +86,7 @@ function User(socket, playerevent, snakeID)
 		snakePickUpPowerup = snake.pickUpPowerup;
 		snake.pickUpPowerup = function(powerup) {
 			if (snakePickUpPowerup) {
-				snakePickUpPowerup(powerup);
+				snakePickUpPowerup.call(snake, powerup);
 			}
 			user.sendUpdatePacket();
 			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(powerup));
@@ -96,7 +96,7 @@ function User(socket, playerevent, snakeID)
 		snakeUpdate = snake.update;
 		snake.update = function() {
 			if (snakeUpdate) {
-				snakeUpdate();
+				snakeUpdate.call(snake);
 			}
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
@@ -105,7 +105,7 @@ function User(socket, playerevent, snakeID)
 		snakeUpdateSprint = snake.updateSprint;
 		snake.updateSprint = function() {
 			if (snakeUpdateSprint) {
-				snakeUpdateSprint();
+				snakeUpdateSprint.call(snake);
 			}
 			user.sendSprintPacket();
 		}
@@ -117,7 +117,7 @@ function User(socket, playerevent, snakeID)
             this.reset(snake);
             this.joinGridRoom(snake.grid.id);
             if (snakeDie) {
-                snakeDie();
+                snakeDie.call(snake);
             }
         }
 	};
