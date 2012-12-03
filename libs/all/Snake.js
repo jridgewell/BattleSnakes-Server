@@ -35,6 +35,7 @@ function Snake(id) {
 	};
 	this.segments = new CubicBezierSpline();
 	this.addSegment();
+	this.addSegment();
 
 	(function(snake) {
 		snake.segments.vel = function() {
@@ -57,6 +58,7 @@ Snake.prototype.extend({
 			d = (new Point(point)).subtract(this.position);
 		this.position = point;
 		this.segments.move(d);
+        console.log(this.segments.bezierSegments);
 		return this;
 	},
 	relocate: function(pointOrX, y) {
