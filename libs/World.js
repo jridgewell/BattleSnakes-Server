@@ -263,6 +263,7 @@ function World()
 				var gObjs = snake.grid.getGameObjects();
 				for (var i = 0, l = gObjs.length; i < l; ++i) {
 					var gObj = gObjs[i];
+                    if (!gObj) {continue;}
 					collision = snake.collision(gObj)
 					if (collision || collision === 0) {
                         colObj = gObj;
