@@ -316,6 +316,11 @@ function World()
 		var oldGrids = surroundingGrids(snake),
 			newGrids = surroundingGrids(newGrid);
 
+        snake.grid.removeGameObject(snake);
+        newGrid.addGameObject(snake);
+		user.leaveGridRoom(snake.grid.id);
+		user.joinGridRoom(newGrid.id);
+
 		var remove = oldGrids.complement(newGrids),
 			add = newGrids.complement(oldGrids),
 			removeEnvironment = world.surroundingEnvironment(remove),
@@ -327,10 +332,6 @@ function World()
 		user.sendAddEnvironmentPacket(addEnvironment);
 		user.sendRemoveSnakePacket(removeSnake);
 		user.sendAddSnakePacket(addSnake);
-
-		user.leaveGridRoom(snake.grid.id);
-		snake.grid = newGrid;
-		user.joinGridRoom(newGrid.id);
 	}
 
 	function environment(gridsOrGameObject) {
