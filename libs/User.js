@@ -66,7 +66,7 @@ function User(socket, playerevent, snakeID)
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
 			user.sendEggPacket();
-			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket(egg));
+			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket([egg]));
 			return this;
 		},
 
