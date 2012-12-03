@@ -304,24 +304,13 @@ function World()
 			return g;
 		}
 		// console.log(g.id);
-		if (up || down) {
-			g = grid.getGrid(g.row + row, g.column);
-			if (!g) {
-				return null;
-			}
-			if (grid.positionInsideGrid(snake.position, g)) {
-				return g;
-			}
-		}
-		if (left || right) {
-			g = grid.getGrid(g.row, g.column + column);
-			if (!g) {
-				return null;
-			}
-			if (grid.positionInsideGrid(snake.position, g)) {
-				return g;
-			}
-		}
+        g = grid.getGrid(g.row + row, g.column + column);
+        if (!g) {
+            return null;
+        }
+        if (grid.positionInsideGrid(snake.position, g)) {
+            return g;
+        }
 		return null;
 	}
 
