@@ -63,7 +63,7 @@ function User(socket, playerevent, snakeID)
 				snakePickUpEgg.call(snake, egg);
 			}
 			this.score('pickUpEgg', 1);
-			this.removeGameObject(egg);
+			user.removeGameObject(egg);
 			user.broadcast(user.surroundingGridRooms(), user.sendRemoveEnvironmentPacket([egg]));
 			user.sendUpdatePacket();
 			user.broadcastPlayerUpdate();
