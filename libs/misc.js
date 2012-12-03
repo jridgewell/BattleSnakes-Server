@@ -14,7 +14,11 @@ DONTENUMERATE(Array.prototype, 'clone', function() {
 DONTENUMERATE(Array.prototype, 'remove', function(element) {
     var index = this.indexOf(element);
     if (index > -1) {
+        console.log(index);
         return this.splice(index, 1);
+    }
+    else {
+    console.log('not found')
     }
     return undefined;
 });
