@@ -293,12 +293,8 @@ function World()
 
 	function updateSnakeGrid(snake, vector) {
 		var g = snake.grid,
-			up = (vector.y > 0),
-			down = (vector.y < 0),
-			right = (vector.x > 0),
-			left = (vector.x < 0),
-			row = (up) ? 1 : (down) ? -1 : 0,
-			column = (right) ? 1 : (left) ? -1 : 0;
+			row = g.row,
+			column = g.column;
 
 		if (grid.positionInsideGrid(snake.position, g)) {
 			return g;
@@ -306,7 +302,7 @@ function World()
 		// console.log(g.id);
         for (var r = -1; r < 2; ++r) {
             for (var c = -1; c < 2; ++c) {
-                g = grid.getGrid(g.row + r, g.column + c);
+                g = grid.getGrid(row + r, column + c);
                 if (g && grid.positionInsideGrid(snake.position, g)) {
                     return g;
                 }
