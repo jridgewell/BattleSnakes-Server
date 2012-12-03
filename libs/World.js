@@ -228,10 +228,6 @@ function World()
 	};
 
 	this.update = function(users) {
-        var num = (users.length) ? 750 : 0;
-        for (var i = 0; i < num * num * num; ++i) {
-        ;
-        }
 		var curTime = (new Date()).getTime();
 		var elapsedTime = (curTime - storedTime) / 1000;
 		// if (elapsedTime !== 0) {
