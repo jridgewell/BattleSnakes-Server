@@ -356,6 +356,7 @@ function World()
 		} else {
 			var g = gridOrGameObject;
 		}
+        if (!g) {return;} // JUST BECAUSE I DON'T CARE ANYMORE
 		var grids = g.surrounding.slice(0);
 		grids.push(g);
 		return grids;
