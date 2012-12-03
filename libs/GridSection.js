@@ -16,10 +16,12 @@ function GridSection(row, column, width, height) {
 
 GridSection.prototype.extend({
 	addGameObject: function(gobj) {
+        gobj.grid = this;
 		this.gameObjects.push(gobj);
 	},
 
 	removeGameObject: function(gobj) {
+        gobj.grid = undefined;
         return this.gameObjects.remove(gobj);
 	},
 
