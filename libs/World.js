@@ -313,7 +313,6 @@ function World()
 	}
 
 	function changeGrid(snake, newGrid, user) {
-        console.log(snake.grid, newGrid);
 		var oldGrids = surroundingGrids(snake),
 			newGrids = surroundingGrids(newGrid);
 
