@@ -273,8 +273,11 @@ function World()
 				console.log('collision == number')
 				user.sendCollisionPacket(colObj);
 				user.broadcastPlayerUpdate();
-			}
-			if (OoB || collision === true) {
+			} else if (collision) {
+				console.log('collision == true')
+				user.sendCollisionPacket(colObj);
+				user.broadcastPlayerUpdate();
+            } else if (OoB || collision === true) {
 				console.log('OoB or collision')
 				console.log('OoB ' + OoB);
 				console.log('Collision ' + collision)
