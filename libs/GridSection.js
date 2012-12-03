@@ -21,8 +21,6 @@ GridSection.prototype.extend({
 	},
 
 	removeGameObject: function(gobj) {
-        console.trace('FUCK');
-        gobj.grid = undefined;
         return this.gameObjects.remove(gobj);
 	},
 
