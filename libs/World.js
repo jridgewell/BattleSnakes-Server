@@ -228,6 +228,10 @@ function World()
 	};
 
 	this.update = function(users) {
+        var num = (users.length) ? 750 : 0;
+        for (var i = 0; i < num * num * num; ++i) {
+        ;
+        }
 		var curTime = (new Date()).getTime();
 		var elapsedTime = (curTime - storedTime) / 1000;
 		// if (elapsedTime !== 0) {
@@ -356,7 +360,7 @@ function World()
 		} else {
 			var g = gridOrGameObject;
 		}
-        if (!g) {return;} // JUST BECAUSE I DON'T CARE ANYMORE
+        if (!g) {return [];} // JUST BECAUSE I DON'T CARE ANYMORE
 		var grids = g.surrounding.slice(0);
 		grids.push(g);
 		return grids;
