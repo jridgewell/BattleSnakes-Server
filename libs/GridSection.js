@@ -3,7 +3,6 @@ var d = new Debug();
 
 
 function GridSection(row, column, width, height) {
-    this.grid = this;
 	this.gameObjects = [];
 	this.hasHatchery = -1; // 0 for red 1 for blue -1 for no
 	this.width = width || 96;
@@ -17,7 +16,7 @@ function GridSection(row, column, width, height) {
 
 GridSection.prototype.extend({
 	addGameObject: function(gobj) {
-        gobj.grid = this.grid;
+        gobj.grid = this;
 		this.gameObjects.push(gobj);
 	},
 

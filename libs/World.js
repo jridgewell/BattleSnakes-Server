@@ -132,8 +132,8 @@ function World()
 			 */
 			var type = Math.floor((Math.random() * num)),
 				obj = new objects[type];
-			FindNewPosition(obj, grid)
 			grid.addGameObject(obj);
+			FindNewPosition(obj, grid)
 		}
 	};
 
@@ -219,8 +219,8 @@ function World()
 				g = GetHatcheryGrid(Teams.Blue);
 				break;
 		}
-		FindNewPosition(snake, g);
 		g.addGameObject(snake);
+		FindNewPosition(snake, g);
     };
 
 	this.GetCurrentSize = function() {
@@ -313,6 +313,7 @@ function World()
 	}
 
 	function changeGrid(snake, newGrid, user) {
+        console.log(snake.grid, newGrid);
 		var oldGrids = surroundingGrids(snake),
 			newGrids = surroundingGrids(newGrid);
 
