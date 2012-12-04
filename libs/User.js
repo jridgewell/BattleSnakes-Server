@@ -312,10 +312,6 @@ function User(socket, playerevent, snakeID)
 		snake.velocity.set(dVelocity.to);
 		if (Math.abs(position.x) < 1 &&
 			Math.abs(position.y) < 1) {
-			snake.move(
-				data.position.x,
-				data.position.y
-			);
 		} else {
 			user.sendUpdatePacket();
 		}
