@@ -277,6 +277,8 @@ function World()
 				user.broadcastPlayerUpdate();
 			} else if (collision) {
 				console.log('collision == true')
+				snake.move(oldX, oldY);
+				snake.velocity.set(0, 0);
 				user.sendCollisionPacket(colObj);
 				user.broadcastPlayerUpdate();
             } else if (OoB || collision === true) {
