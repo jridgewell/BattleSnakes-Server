@@ -281,11 +281,8 @@ function World()
 				snake.velocity.set(0, 0);
 				user.sendCollisionPacket(colObj);
 				user.broadcastPlayerUpdate();
-            } else if (OoB || collision === true) {
-				console.log('OoB or collision')
+            } else if (OoB) {
 				console.log('OoB ' + OoB);
-				console.log('Collision ' + collision)
-				console.log(snake.position);
 				snake.move(oldX, oldY);
 				snake.velocity.set(0, 0);
 				user.sendUpdatePacket();
