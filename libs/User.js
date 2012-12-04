@@ -268,7 +268,7 @@ function User(socket, playerevent, snakeID)
 		 * if(data.type == 'init')
 		 */
         ++this.packetsThisSecond;
-        if (this.packetsThisSecond > 180) {
+        if (this.packetsThisSecond > 360) {
             // Kick this kid.
             socket.disconnect();
         }
