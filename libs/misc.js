@@ -22,7 +22,7 @@ DONTENUMERATE(Array.prototype, 'remove', function(element) {
 DONTENUMERATE(Array.prototype, 'complement', function(array) {
 	var elements = this.slice(0);
 	elements = elements.filter(function(element) {
-		return (array.indexOf(element) != -1);
+		return (array.indexOf(element) == -1);
 	});
 	return elements;
 });
