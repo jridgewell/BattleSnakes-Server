@@ -7,7 +7,7 @@ function Bush() {
 
 Bush._extends(Environment);
 Bush.prototype.extend({
-	isCollidable: true,
+	isCollidable: false,
 	type: 5 // Type: 0: powerup, 1: hatchery, 2: egg, 3: tree, 4: Rock , 5: bush
 });
 
