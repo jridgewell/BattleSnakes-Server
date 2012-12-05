@@ -251,6 +251,8 @@ function User(socket, playerevent, snakeID)
 
 	this.broadcastRemoveSnake = function(grids) {
         var to = (grids) ? grids : this.surroundingGridRooms();
+        console.log(to);
+        console.log(snake.id);
 		this.broadcast(to, {
 			type: 'removeSnake',
 			snakes: [snake.id]
