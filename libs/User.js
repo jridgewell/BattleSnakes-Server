@@ -38,7 +38,7 @@ function User(socket, playerevent, snakeID)
         this.packetKickingInterval = setInterval(function() {
             //Reset the packetsThisSecond every second
             user.packetsThisSecond = 0;
-        }, 1000);
+        }, 5000);
 
 
 		// Snake functions that must be aware of the User object
@@ -287,7 +287,7 @@ function User(socket, playerevent, snakeID)
 		 * if(data.type == 'init')
 		 */
         ++this.packetsThisSecond;
-        if (this.packetsThisSecond > 360) {
+        if (this.packetsThisSecond > 1000) {
             // Kick this kid.
             socket.disconnect();
         }
@@ -389,6 +389,7 @@ function User(socket, playerevent, snakeID)
 	};
 
     this.remove = function () {
+		clearInterval(this.packetKickingInterval);
         this.broadcastRemoveSnake();
         this.removeGameObject(snake);
     }
