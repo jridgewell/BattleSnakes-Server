@@ -230,26 +230,42 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.broadcast = function(to, message) {
-		if (Array.isArray(to)) {
-			for (var i = 0, l = to.length; i < l; ++i) {
-				socket.broadcast.to(to[i]).emit('message', message);
-			}
-		} else {
-			socket.broadcast.to(to).emit('message', message);
-		}
+        if (!Array.isArray(to)) {
+            to = [to]
+        }
+        to = to.map(function(element) {
+            if (element instanceof Object) {
+                return element.id;
+            } else {
+                return element;
+            }
+        });
+        for (var i = 0, l = to.length; i < l; ++i) {
+            socket.broadcast.to(to[i]).emit('message', message);
+        }
 	}
 
 
-	this.broadcastAddSnake = function() {
-		this.broadcast(this.surroundingGridRooms(), {
+	this.broadcastRemoveSnake = function(grids) {
+        var to = (grids) ? grids : this.surroundingGridRooms();
+		this.broadcast(to, {
+			type: 'removeSnake',
+			snakes: [snake.id]
+		});
+    }
+
+	this.broadcastAddSnake = function(grids) {
+        var to = (grids) ? grids : this.surroundingGridRooms();
+		this.broadcast(to, {
 			type: 'addSnake',
 			snakes: [snake.addSnakePacket()]
 		});
 	}
 
-	this.broadcastPlayerUpdate = function() {
+	this.broadcastPlayerUpdate = function(grids) {
+        var to = (grids) ? grids : this.surroundingGridRooms();
 		console.log('broadcastPlayerUpdate', user.userID);
-		this.broadcast(this.surroundingGridRooms(), {
+		this.broadcast(to, {
 			type: 'playerUpdate',
 			snakes: [snake.get()]
 		});
