@@ -36,17 +36,20 @@ function World()
 		// set up Hatcherys
 
 		var g = grid.getGrid(0, 1);
-		g.addGameObject(new Hatchery(0));
+        var h = new Hatchery(0);
+		g.addGameObject(h);
 		g.hasHatchery = Teams.Red;
 		bounds = grid.getBoundsOfGrid(g);
-		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+		h.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+        h.id = a++;
 
-
+        var h2 = new Hatchery(1);
 		g = grid.getGrid(2, 1);
-		g.addGameObject(new Hatchery(1));
+		g.addGameObject(h2);
 		g.hasHatchery = Teams.Blue;
 		bounds = grid.getBoundsOfGrid(g);
-		g.gameObjects[0].position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+		h2.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+        h2.id = a++;
 
 		// Surround the world with rocks
 		console.log("Surrounding world with rocks ...");
