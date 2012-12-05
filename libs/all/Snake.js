@@ -289,16 +289,8 @@ Snake.prototype.extend({
 		if (!oldVelocity.equals(this._velocity)) {
 			this.update();
 		}
-	},
+	}
 
-    get grid() {
-        return this._grid;
-    },
-    set grid(g) {
-        var caller = arguments.callee.caller.toString();
-        console.log(caller);
-        this._grid = g;
-    }
 });
 
 module.exports = Snake;
