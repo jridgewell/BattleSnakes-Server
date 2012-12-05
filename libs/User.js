@@ -230,6 +230,9 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.broadcast = function(to, message) {
+        if (!message || !to.length) {
+            console.trace('here');
+        }
         if (!Array.isArray(to)) {
             to = [to]
         }
