@@ -244,6 +244,7 @@ CubicBezierSpline.prototype.extend({
 			var segment = segments[i];
 			if (i < size) {
 				segment.control1 = new Point (controlPoints.x[i], controlPoints.y[i]);
+				segment.control1.add(segment.from);
 				if (i < size - 1) {
 					segment.control2 = new Point(
 						2 * knots[i + 1].x - controlPoints.x[i + 1],
@@ -254,6 +255,7 @@ CubicBezierSpline.prototype.extend({
 						(knots[size].x - controlPoints.x[size - 1]) / 2,
 						(knots[size].y - controlPoints.y[size - 1]) / 2
 					);
+					segment.control2.add(segment.to);
 				}
 			}
 		}
