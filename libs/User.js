@@ -258,7 +258,7 @@ function User(socket, playerevent, snakeID)
     }
 
 	this.broadcastAddSnake = function(grids) {
-        var to = (grids && grids.length)) ? grids : this.surroundingGridRooms();
+        var to = (grids && grids.length) ? grids : this.surroundingGridRooms();
 		this.broadcast(to, {
 			type: 'addSnake',
 			snakes: [snake.addSnakePacket()]
@@ -266,7 +266,7 @@ function User(socket, playerevent, snakeID)
 	}
 
 	this.broadcastPlayerUpdate = function(grids) {
-        var to = (grids && grids.length)) ? grids : this.surroundingGridRooms();
+        var to = (grids && grids.length) ? grids : this.surroundingGridRooms();
 		console.log('broadcastPlayerUpdate', user.userID);
 		this.broadcast(to, {
 			type: 'playerUpdate',
