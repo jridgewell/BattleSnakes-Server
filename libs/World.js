@@ -32,38 +32,27 @@ function World()
 
 	function InitEnvironment()
 	{
-		var bounds;
-		// set up Hatcherys
-
-		var g = grid.getGrid(0, 1);
-        var h = new Hatchery(0);
-		g.addGameObject(h);
-		g.hasHatchery = Teams.Red;
-		bounds = grid.getBoundsOfGrid(g);
-		h.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
-        h.id = a++;
-
-        var h2 = new Hatchery(1);
-		g = grid.getGrid(2, 1);
-		g.addGameObject(h2);
-		g.hasHatchery = Teams.Blue;
-		bounds = grid.getBoundsOfGrid(g);
-		h2.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
-        h2.id = a++;
-
 		// Surround the world with rocks
 		console.log("Surrounding world with rocks ...");
 		SurroundWorld();
 
 		// populate random environment
 		console.log("Populating world with environment ...");
-		PopulateEnvironment(grid.getGrid(0, 0));
-		PopulateEnvironment(grid.getGrid(0, 2));
-		PopulateEnvironment(grid.getGrid(1, 0));
-		PopulateEnvironment(grid.getGrid(1, 1));
-		PopulateEnvironment(grid.getGrid(1, 2));
-		PopulateEnvironment(grid.getGrid(2, 0));
-		PopulateEnvironment(grid.getGrid(2, 2));
+		for (var i = 0; i < grid.rows; ++i) {
+			for (var j = 0; j < grid.columns; ++j) {
+				if (!((i == 0 || i == grid.rows - 1) && j = Math.floor(grid.columns / 2))) {
+					PopulateEnvironment(grid.getGrid(i,j));
+				} else {
+					var color = (i) ? 1 : 0,
+						h = new Hatchery(color),
+						g = grid.getGrid(i, j),
+						bounds = grid.getBoundsOfGrid(g);
+					g.hasHatchery = color;
+					h.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+					h.id = a++;
+				}
+			}
+		}
 	};
 
 	function SurroundWorld() {
@@ -333,6 +322,7 @@ function World()
 
 		user.sendRemoveEnvironmentPacket(removeEnvironment);
 		user.sendAddEnvironmentPacket(addEnvironment);
+
 		user.sendRemoveSnakePacket(removeSnake);
 		user.sendAddSnakePacket(addSnake);
 
