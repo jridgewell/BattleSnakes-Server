@@ -40,7 +40,7 @@ function World()
 		console.log("Populating world with environment ...");
 		for (var i = 0; i < grid.rows; ++i) {
 			for (var j = 0; j < grid.columns; ++j) {
-				if (!((i == 0 || i == grid.rows - 1) && j = Math.floor(grid.columns / 2))) {
+				if (!((i == 0 || i == grid.rows - 1) && j == Math.floor(grid.columns / 2))) {
 					PopulateEnvironment(grid.getGrid(i,j));
 				} else {
 					var color = (i) ? 1 : 0,
