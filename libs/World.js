@@ -161,7 +161,9 @@ function World()
 			obj.relocate(x, y);
 
 			for(var i = 0, l = gridsObj.length; i < l; ++i) {
-				var c = gridsObj[i].collision(obj)
+				var gobj = gridsObj[i];
+				if (!gobj) {return;}
+				var c = gobj.collision(obj)
 				if(c || c === 0) {
 					found = false;
 					++attempt;
