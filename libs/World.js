@@ -388,10 +388,11 @@ function World()
 	};
 
 	this.respawnEggs = function(number) {
-		eggSpawnInterval = setInterval(spawnEgg, 5000, (--num > 0));
+		eggSpawnInterval = setInterval(spawnEgg, 5000, (--number > 0));
 	}
 
 	var spawnEgg = function(stop) {
+		console.log('Don\' Stop Spawning');
 		if (stop) {
 			clearInterval(eggSpawnInterval);
 		}
