@@ -81,6 +81,7 @@ function User(socket, playerevent, snakeID)
             user.sendUpdatePacket();
             user.broadcastPlayerUpdate();
 			user.sendEggPacket();
+			world.respawnEggs(eggs.length);
 			return eggs;
 		}
 

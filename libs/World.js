@@ -21,6 +21,7 @@ function World()
 	var storedTime = (new Date()).getTime();
 	var scale = 25;
 	var world = this;
+	var eggSpawnInterval = undefined;
 
 	function init()
 	{
@@ -195,6 +196,9 @@ function World()
             user.removeGameObject = function(gObj) {
                 gObj.grid.removeGameObject(gObj);
             };
+			user.respawnEggs = function(number) {
+				world.respawnEggs(number);
+			};
 		})(this);
         this.AddSnake(snake);
 		user.joinGridRoom(snake.grid.id)
@@ -382,6 +386,22 @@ function World()
 
 		return env;
 	};
+
+	var respawnEggs = function(number) {
+		eggSpawnInterval = setInterval(spawnEgg, 5000, (--num > 0));
+	}
+
+	var spawnEgg = function(stop) {
+		if (stop) {
+			clearInterval(eggSpawnInterval);
+		}
+		var row = (Math.random() * grid.rows),
+			column = (Math.random() * grid.columns),
+			g = grid.getGrid(row, column),
+			egg = new Egg();
+		grid.addGameObject(egg);
+		FindNewPosition(egg, grid)
+	}
 
 	init();
 }
