@@ -47,6 +47,7 @@ function World()
 						h = new Hatchery(color),
 						g = grid.getGrid(i, j),
 						bounds = grid.getBoundsOfGrid(g);
+					g.addGameObject(h);
 					g.hasHatchery = color;
 					h.position.set(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 					h.id = a++;
