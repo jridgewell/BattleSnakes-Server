@@ -33,7 +33,7 @@ Hatchery.prototype.extend({
 				&& gameObject.position.y <= this.position.y + this.height;
 		} else {
 			var col = gameObject.position.inside(topLeft, bottomRight);
-			if (col && gameObject.hasEggs()) {
+			if (col &&  gameObject.team == this.color && gameObject.hasEggs()) {
 				gameObject.dropOffEggs(this);
 			}
 			return col;
