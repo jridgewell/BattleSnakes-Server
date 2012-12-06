@@ -22,6 +22,8 @@ function World()
 	var scale = 25;
 	var world = this;
 	var eggSpawnInterval = undefined;
+    var maxEggs = 25;
+    var eggsSpawned = 0;
 
 	function init()
 	{
@@ -55,6 +57,7 @@ function World()
 				}
 			}
 		}
+        eggSpawnInterval = setInterval(spawnEgg, 100);
 	};
 
 	function SurroundWorld() {
@@ -126,6 +129,9 @@ function World()
 			 */
 			var type = Math.floor((Math.random() * num)),
 				obj = new objects[type];
+            if (obj instanceof Egg) {
+                ++eggsSpawned;
+            }
 			grid.addGameObject(obj);
 			FindNewPosition(obj, grid)
 		}
@@ -149,6 +155,9 @@ function World()
 				// Couldn't find a spot in this grid.
 				// Drop it.
 				g.removeGameObject(obj);
+                if (obj instanceof Egg) {
+                    --eggsSpawned;
+                }
 				// Reset, and exit out of the loop;
 				found = false;
 				break;
@@ -390,21 +399,22 @@ function World()
 	};
 
 	this.respawnEggs = function(number) {
-		eggSpawnInterval = setInterval(function() {
-            spawnEgg((--number > 0));
-        }, 5000);
+        eggsSpawned -= number;
+		eggSpawnInterval = setInterval(spawnEgg, 5000);
 	}
 
 	var spawnEgg = function(stop) {
 		console.log('Don\' Stop Spawning');
-		if (stop) {
+		if (eggsSpawned >= maxEggs) {
 			clearInterval(eggSpawnInterval);
+            return;
 		}
 		var row = Math.floor((Math.random() * grid.rows)),
 			column = Math.floor((Math.random() * grid.columns)),
 			g = grid.getGrid(row, column),
 			egg = new Egg();
 		g.addGameObject(egg);
+        ++eggsSpawned;
 		FindNewPosition(egg, g)
 	}
 
