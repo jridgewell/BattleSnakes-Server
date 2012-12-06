@@ -387,7 +387,7 @@ function World()
 		return env;
 	};
 
-	var respawnEggs = function(number) {
+	this.respawnEggs = function(number) {
 		eggSpawnInterval = setInterval(spawnEgg, 5000, (--num > 0));
 	}
 
