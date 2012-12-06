@@ -400,8 +400,8 @@ function World()
 			column = (Math.random() * grid.columns),
 			g = grid.getGrid(row, column),
 			egg = new Egg();
-		grid.addGameObject(egg);
-		FindNewPosition(egg, grid)
+		g.addGameObject(egg);
+		FindNewPosition(egg, g)
 	}
 
 	init();
