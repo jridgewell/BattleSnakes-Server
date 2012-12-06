@@ -396,11 +396,10 @@ function World()
 		if (stop) {
 			clearInterval(eggSpawnInterval);
 		}
-		var row = (Math.random() * grid.rows),
-			column = (Math.random() * grid.columns),
+		var row = Math.floor((Math.random() * grid.rows)),
+			column = Math.floor((Math.random() * grid.columns)),
 			g = grid.getGrid(row, column),
 			egg = new Egg();
-		console.log(row, column, grid[row])
 		g.addGameObject(egg);
 		FindNewPosition(egg, g)
 	}
