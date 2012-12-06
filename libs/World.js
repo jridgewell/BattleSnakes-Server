@@ -400,6 +400,7 @@ function World()
 			column = (Math.random() * grid.columns),
 			g = grid.getGrid(row, column),
 			egg = new Egg();
+		console.log(row, column, grid[row])
 		g.addGameObject(egg);
 		FindNewPosition(egg, g)
 	}
