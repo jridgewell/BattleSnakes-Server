@@ -78,7 +78,11 @@ Snake.prototype.extend({
 			var offset = gameObject.position,
 				velocity = gameObject.velocity
                 index = -1;
+			if (!velocity.magnitude()) {
+				return false;
+			}
             if (Collision) {
+				console.log('Collision Addon')
                 var off = new Collision.Point(offset.x, offset.y)
                     vector = new Collision.Vector(new Collision.Point(velocity.x, velocity.y)),
                     segs = [];
@@ -93,13 +97,14 @@ Snake.prototype.extend({
                 }
                 index = Collision.collide(off, vector, segs);
             } else {
+				console.log('No Collision Addon')
                 var angle = velocity.angle(),
                     magnitude = velocity.magnitude(),
                     segments = (new CubicBezierSpline(this.segments))
                         .subtract(offset).rotate(-1 * angle);
-                for (var i = 0; i < segments.length; ++i) {
-                    var hit = segments[i].isZero(magnitude);
-                    if (hit) {
+                for (var i = 0; i < segments.bezierSegments.length; ++i) {
+                    var hit = segments.bezierSegments[i].isZero(magnitude);
+                    if (hit || hit === 0) {
                         index = i;
                         break;
                     }
