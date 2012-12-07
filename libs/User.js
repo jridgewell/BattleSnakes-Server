@@ -111,6 +111,11 @@ function User(socket, playerevent, snakeID)
                 snakeDie.call(snake);
             }
         }
+
+        snakeLostEggs = snake.lostEggs;
+        snake.lostEggs = function(number) {
+            world.respawnEggs(number);
+        }
 	};
 
     this.inti2 = function() {
@@ -379,6 +384,7 @@ function User(socket, playerevent, snakeID)
 			user: user
 		};
 
+		world.respawnEggs(snake.eggs.length);
 		playerevent(msg);
 	};
 

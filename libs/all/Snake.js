@@ -42,6 +42,7 @@ function Snake(id) {
 		};
 	})(this);
 	this.update = function() {};
+	this.lostEggs = function() {};
 	this.updateSprint = function() {};
     this.initialized = true;
 }
@@ -112,6 +113,7 @@ Snake.prototype.extend({
             }
             if (index > -1) {
                 this.segments.splice(index);
+                this.lostEggs(this.eggs.length - index);
                 this.eggs.splice(index);
                 gameObject.score('bite', 1);
                 return index;
