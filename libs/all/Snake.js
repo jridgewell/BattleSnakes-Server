@@ -69,7 +69,7 @@ Snake.prototype.extend({
 		if (gameObject.id == this.id) {
 			return false;
 		}
-		if (gameObject.isStationary) {
+		if (gameObject.boundingBox) {
 			return gameObject.collision(this);
 		} else {
             if (gameObject.team === this.team) {
