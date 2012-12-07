@@ -65,7 +65,7 @@ io.sockets.on('connection', function (socket) {
 	++num_users;
 	var user = new User(socket, Server.PlayerEvent, user_ids++);
     user.gameScore = function (increment) {
-        Server.updateGameScore(snake.team, increment);
+        Server.updateGameScore(user.getSnake().team, increment);
     }
 	d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
 	users.push(user);
