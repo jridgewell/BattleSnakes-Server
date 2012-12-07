@@ -151,7 +151,7 @@ Server.PlayerEvent = function(event)
 	}
 };
 
-Server.updateGameScore(team, increment) {
+Server.updateGameScore = function(team, increment) {
     switch(team) {
         case 0:
             RedTeamScore += increment;
