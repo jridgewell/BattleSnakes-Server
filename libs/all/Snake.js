@@ -49,7 +49,7 @@ function Snake(id) {
 Snake._extends(GameObject);
 Snake.prototype.extend({
 	wiggle: function() {
-		this.segments.wiggle();
+		//this.segments.wiggle();
 		return this;
 	},
 	move: function(pointOrX, y) {
