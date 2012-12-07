@@ -284,6 +284,7 @@ Snake.prototype.extend({
                 return snake.velocity;
             };
         })(this);
+        this.update();
     },
 
 	get velocity() {
