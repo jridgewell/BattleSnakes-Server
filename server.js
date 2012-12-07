@@ -64,6 +64,9 @@ io.set('log level', Settings.DEBUGLEVEl);
 io.sockets.on('connection', function (socket) {
 	++num_users;
 	var user = new User(socket, Server.PlayerEvent, user_ids++);
+    user.gameScore = function (increment) {
+        Server.updateGameScore(snake.team, increment);
+    }
 	d.log(1,'User '+user.userID+' at ('+socket.handshake.address.address+') connected!');
 	users.push(user);
 });
@@ -79,10 +82,24 @@ Server.CreateWorld = function()
 
 Server.EndGame = function()
 {
+    world.resetWorld();
+    var old = BlueTeam;
+    old = old.concat(RedTeam);
+    BlueTeam = [];
+    RedTeam = [];
+    old.sort(function(a, b) {
+        return a.score('dropOffEggs') - b.score('dropOffEggs');
+    });
+    for (var i = 0; i < old.length; ++i) {
+        var user = old[i];
+        user.inti2();
+    }
 };
 
 Server.StartGame = function()
 {
+    BlueTeamScore = 0;
+    RedTeamScore = 0;
 };
 
 Server.UpdateTimer = function()
@@ -134,6 +151,19 @@ Server.PlayerEvent = function(event)
 	}
 };
 
+Server.updateGameScore(team, increment) {
+    switch(team) {
+        case 0:
+            RedTeamScore += increment;
+        case 1:
+            BlueTeamScore += increment;
+    }
+    if (Math.abs(RedTeamScore - BlueTeamScore) > 20) {
+        Server.EndGame();
+        Server.StartGame();
+    }
+}
+
 
 /*
  * Init functions
@@ -141,7 +171,7 @@ Server.PlayerEvent = function(event)
 console.log("Creating World ...");
 this.CreateWorld();
 console.log("Starting Game ...");
-this.StartGame();
+//this.StartGame();
 
 
 function update() {

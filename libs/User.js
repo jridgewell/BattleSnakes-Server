@@ -16,6 +16,7 @@ function User(socket, playerevent, snakeID)
 	this.socketID;
 	this.userID = snakeID;
     this.reset = function () {};
+    this.gameScore = function () {};
 
 	socket.on('message', function (msg){handleMessage(socket,msg);});
 	socket.on('disconnect', function (msg) {handleDisconnect(msg);});
@@ -26,12 +27,7 @@ function User(socket, playerevent, snakeID)
 		socketID = socket.id;
 		socket.join('chat');
 
-		playerevent({type: 'team', user: user})
-		playerevent({
-			type: 'intro',
-			socketID: socketID,
-			user: user
-		});
+        user.inti2();
 
         // Kick the kids who send too much data.
         this.packetsThisSecond = 0;
@@ -55,6 +51,9 @@ function User(socket, playerevent, snakeID)
 			}
 			scoreOfType += increment;
 			score[type] = scoreOfType;
+            if (type == 'dropOffEggs') {
+                this.gameScore(increment);
+            }
 		};
 
 		snakePickUpEgg = snake.pickUpEgg;
@@ -113,6 +112,16 @@ function User(socket, playerevent, snakeID)
             }
         }
 	};
+
+    this.inti2 = function() {
+        score = {};
+		playerevent({type: 'team', user: user})
+		playerevent({
+			type: 'intro',
+			socketID: socketID,
+			user: user
+		});
+    }
 
 	this.sendIntroPacket = function(env)
 	{
