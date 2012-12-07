@@ -273,6 +273,9 @@ function World()
 					var gObj = gObjs[i];
                     if (!gObj) {continue;}
 					collision = snake.collision(gObj)
+                    if (collision && !gObj.isCollidable) {
+                        collision = false;
+                    }
 					if (collision || collision === 0) {
                         colObj = gObj;
 						break;
