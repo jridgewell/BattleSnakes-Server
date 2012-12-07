@@ -84,7 +84,6 @@ Server.CreateWorld = function()
 
 Server.EndGame = function()
 {
-    world.resetWorld();
     var old = BlueTeam;
     old = old.concat(RedTeam);
     BlueTeam = [];
@@ -92,6 +91,10 @@ Server.EndGame = function()
     old.sort(function(a, b) {
         return a.scored() - b.scored();
     });
+    for (var i = 0; i < old.length; ++i) {
+        old[i].reset();
+    }
+    world.resetWorld();
     for (var i = 0; i < old.length; ++i) {
         var user = old[i];
         user.inti2();
