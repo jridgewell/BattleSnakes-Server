@@ -203,6 +203,9 @@ function World()
 				return world.surroundingGridIds(snake);
 			};
             user.reset = function (snake) {
+                var grids = surroundingGrids(snake);
+                user.sendRemoveEnvironmentPacket(world.surroundingEnvironment(grids));
+                user.sendRemoveSnakePacket(world.surroundingSnakes(grids));
                 snake.grid.removeGameObject(snake);
                 world.AddSnake(snake);
             };
