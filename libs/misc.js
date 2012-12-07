@@ -31,6 +31,7 @@ DONTENUMERATE(Object.prototype, '_extends', function(source) {
 	if (this instanceof Function && source instanceof Function) {
 		this.prototype = Object.create(source.prototype);
 		DONTENUMERATE(this.prototype, 'constructor', this);
+		DONTENUMERATE(this.prototype, '$super', source.prototype);
 	}
 });
 

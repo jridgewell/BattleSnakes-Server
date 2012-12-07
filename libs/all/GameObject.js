@@ -9,7 +9,7 @@ function GameObject() {
 GameObject.prototype.extend({
 	type: -1,
 	isCollidable: false,
-	isStationary: true,
+	boundingBox: true,
 	width: 24,
 	height: 24,
 
@@ -30,13 +30,36 @@ GameObject.prototype.extend({
 				this.position.x + this.width/2,
 				this.position.y - this.height/2
 			);
-		if (gameObject.isStationary) {
-			return gameObject.position.x + gameObject.width >= this.position.x
-				&& gameObject.position.y + gameObject.height >= this.position.y
-				&& gameObject.position.x <= this.position.x + this.width
-				&& gameObject.position.y <= this.position.y + this.height;
+		if (gameObject.boundingBox) {
+            console.log('boundingbox')
+            var left = topLeft.x,
+                top = topLeft.y,
+                right = bottomRight.x,
+                bottom = bottomRight.y,
+                gLeft = gameObject.position.x - gameObject.width/2,
+                gTop = gameObject.position.y + gameObject.height/2
+                gRight = gameObject.position.x + gameObject.width/2,
+                gBottom = gameObject.position.y - gameObject.height/2;
+
+
+            console.log('I hit GameObject:' + (left < gRight && top < gBottom && gLeft < right && gTop < bottom));
+            console.log(left < gRight , top < gBottom , gLeft < right , gTop < bottom);
+
+            console.log('I contain GameObject:' + (left < gLeft && right > gRight && top > gTop && bottom < gBottom));
+            console.log(left < gLeft, right > gRight, top > gTop, bottom < gBottom);
+
+            console.log('GameObject contains me:' + (left > gLeft && right < gRight && top < gTop && bottom > gBottom))
+            console.log(left > gLeft, right < gRight, top < gTop, bottom > gBottom);
+
+            console.log('Returning:' + ((left < gRight && top < gBottom && gLeft < right && gTop < bottom) ||
+                   (left < gLeft && right > gRight && top > gTop && bottom < gBottom) ||
+                   (left > gLeft && right < gRight && top < gTop && bottom > gBottom)))
+
+            return ((left < gRight && top < gBottom && gLeft < right && gTop < bottom) ||
+                   (left < gLeft && right > gRight && top > gTop && bottom < gBottom) ||
+                   (left > gLeft && right < gRight && top < gTop && bottom > gBottom));
 		} else {
-			return (this.isCollidable) ? gameObject.position.inside(topLeft, bottomRight) : false;
+			return gameObject.position.inside(topLeft, bottomRight);
 		}
 	}
 });

@@ -18,7 +18,7 @@ function Snake(id) {
 	this.id = id;
 	this.type = this.constructor.name
 	this.isCollidable = true;
-	this.isStationary = false;
+	this.boundingBox = false;
 
 	this.name = 'Guest' + id;
 	this.team = Teams.Red;
