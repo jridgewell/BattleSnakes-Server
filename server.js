@@ -39,6 +39,8 @@ var gameScore = 0;
 var currentGameTime = 0;
 var RedTeam = [];
 var BlueTeam = [];
+var RedTeamScore = 0;
+var BlueTeamScore = 0;
 var d = new Debug();
 
 
