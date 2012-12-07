@@ -52,7 +52,7 @@ function User(socket, playerevent, snakeID)
 			scoreOfType += increment;
 			score[type] = scoreOfType;
             if (type == 'dropOffEggs') {
-                this.gameScore(increment);
+                user.gameScore(increment);
             }
 		};
 
