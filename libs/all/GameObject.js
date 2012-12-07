@@ -41,21 +41,7 @@ GameObject.prototype.extend({
                 gRight = gameObject.position.x + gameObject.width/2,
                 gBottom = gameObject.position.y - gameObject.height/2;
 
-
-            console.log('I hit GameObject:' + (left < gRight && top < gBottom && gLeft < right && gTop < bottom));
-            console.log(left < gRight , top < gBottom , gLeft < right , gTop < bottom);
-
-            console.log('I contain GameObject:' + (left < gLeft && right > gRight && top > gTop && bottom < gBottom));
-            console.log(left < gLeft, right > gRight, top > gTop, bottom < gBottom);
-
-            console.log('GameObject contains me:' + (left > gLeft && right < gRight && top < gTop && bottom > gBottom))
-            console.log(left > gLeft, right < gRight, top < gTop, bottom > gBottom);
-
-            console.log('Returning:' + ((left < gRight && top < gBottom && gLeft < right && gTop < bottom) ||
-                   (left < gLeft && right > gRight && top > gTop && bottom < gBottom) ||
-                   (left > gLeft && right < gRight && top < gTop && bottom > gBottom)))
-
-            return ((left < gRight && top < gBottom && gLeft < right && gTop < bottom) ||
+            return ((!(left > gRight || right < gLeft || top < gBottom || bottom > gTop)) ||
                    (left < gLeft && right > gRight && top > gTop && bottom < gBottom) ||
                    (left > gLeft && right < gRight && top < gTop && bottom > gBottom));
 		} else {
