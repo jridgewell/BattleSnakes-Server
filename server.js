@@ -90,7 +90,7 @@ Server.EndGame = function()
     BlueTeam = [];
     RedTeam = [];
     old.sort(function(a, b) {
-        return a.score('dropOffEggs') - b.score('dropOffEggs');
+        return a.scored() - b.scored();
     });
     for (var i = 0; i < old.length; ++i) {
         var user = old[i];
@@ -164,6 +164,10 @@ Server.updateGameScore = function(team, increment) {
         Server.EndGame();
         Server.StartGame();
     }
+    io.sockets.emit('message', {
+        type: 'updateGameState',
+        divider: (50 + (RedTeamScore - BlueTeamScore) * 5 / 2)
+    });
 }
 
 

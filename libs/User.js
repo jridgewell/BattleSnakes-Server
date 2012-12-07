@@ -410,6 +410,10 @@ function User(socket, playerevent, snakeID)
         this.removeGameObject(snake);
     }
 
+    this.scored = function(argument) {
+        return score['dropOffEggs'] || 0;
+    }
+
 	init();
 }
 
