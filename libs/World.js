@@ -27,6 +27,8 @@ function World()
 
 	function init()
 	{
+        a = 0;
+        eggsSpawned = 0;
 		grid = new Grid();
 		grid.init();
 
@@ -420,6 +422,10 @@ function World()
         ++eggsSpawned;
 		FindNewPosition(egg, g)
 	}
+
+    this.resetWorld = function() {
+        init();
+    }
 
 	init();
 }
