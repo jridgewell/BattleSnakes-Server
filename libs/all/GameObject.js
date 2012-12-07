@@ -31,7 +31,6 @@ GameObject.prototype.extend({
 				this.position.y - this.height/2
 			);
 		if (gameObject.boundingBox) {
-            console.log('boundingbox')
             var left = topLeft.x,
                 top = topLeft.y,
                 right = bottomRight.x,
